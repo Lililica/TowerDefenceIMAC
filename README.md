@@ -1,1 +1,1 @@
-# TowerDefenceIMAC
+# OpenGLTemplate
