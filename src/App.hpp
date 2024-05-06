@@ -2,7 +2,8 @@
 
 #include <glad/glad.h>
 #include <simpletext.h>
-#include "game/levels/level.hpp"
+#include "game/screens/screen.hpp"
+#include "game/entities/entity.hpp"
 
 
 

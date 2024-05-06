@@ -1,5 +1,6 @@
 
-#include "../App.hpp"
+#include "../../App.hpp"
+#include "../utilitaires/shape.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -27,12 +28,7 @@ void App::draw_all_content(){
         print_screen_state = "LEVEL";
 
         glColor3f(1.0f, 0.0f, 0.0f);
-        glBegin(GL_QUADS);
-            glVertex2f(-1.f, -1.f);
-            glVertex2f(1.f, -1.f);
-            glVertex2f(1.f, 1.f);
-            glVertex2f(-1.f, 1.f);
-        glEnd();
+        drawRect(-1,-1,2,2);
 
         glColor3f(1.0f, 1.0f, 1.0f);
         glBegin(GL_LINES);
@@ -58,12 +54,13 @@ void App::draw_all_content(){
 
             glPushMatrix();
                 glColor3f(0.0f, 0.0f, 1.0f);
-                glBegin(GL_QUADS);
-                    glVertex2f(pos_tile_mouse_x, pos_tile_mouse_y);
-                    glVertex2f(pos_tile_mouse_x - 2/float(_numberOfTiles), pos_tile_mouse_y);
-                    glVertex2f(pos_tile_mouse_x - 2/float(_numberOfTiles), pos_tile_mouse_y + 2/float(_numberOfTiles));
-                    glVertex2f(pos_tile_mouse_x, pos_tile_mouse_y + 2/float(_numberOfTiles));
-                glEnd();
+                drawRect(pos_tile_mouse_x, pos_tile_mouse_y, -2/float(_numberOfTiles), 2/float(_numberOfTiles));
+                // glBegin(GL_QUADS);
+                //     glVertex2f(pos_tile_mouse_x, pos_tile_mouse_y);
+                //     glVertex2f(pos_tile_mouse_x - 2/float(_numberOfTiles), pos_tile_mouse_y);
+                //     glVertex2f(pos_tile_mouse_x - 2/float(_numberOfTiles), pos_tile_mouse_y + 2/float(_numberOfTiles));
+                //     glVertex2f(pos_tile_mouse_x, pos_tile_mouse_y + 2/float(_numberOfTiles));
+                // glEnd();
             glPopMatrix();
 
 

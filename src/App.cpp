@@ -1,5 +1,5 @@
 #include "App.hpp"
-#include "draws/draw.hpp"
+#include "game/draws/draw.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
