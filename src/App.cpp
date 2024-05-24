@@ -7,6 +7,7 @@
 
 #include <utility>
 #include <sstream>
+#include <iostream>
 
 #include "simpletext.h"
 #include "utils.hpp"
@@ -43,9 +44,6 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
 }
 
 
-
-
-
 void App::setup() {
     // Set the clear color to a nice blue
     glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
@@ -57,6 +55,16 @@ void App::setup() {
     TextRenderer.SetColor(SimpleText::TEXT_COLOR, SimpleText::Color::WHITE);
     TextRenderer.SetColorf(SimpleText::BACKGROUND_COLOR, 0.f, 0.f, 0.f, 0.f);
     TextRenderer.EnableBlending(true);
+
+    std::vector<int> listTypeCase {};
+    for (size_t i = 0; i < 20*20; i++){listTypeCase.push_back(i);}
+    myScreen.create_list_of_case(listTypeCase);
+
+    for (auto &&tile : myScreen.listCase)
+    {
+        std::cout << tile.index << " : " << tile.pos.first << ',' <<   tile.pos.second << std::endl;
+    }
+    
 }
 
 void App::update() {

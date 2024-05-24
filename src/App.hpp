@@ -39,7 +39,7 @@ private:
     void render();
     void draw_all_content();
 
-    screen myScreen {};
+    Screen myScreen {};
 
     int _width {};
     int _height {};
