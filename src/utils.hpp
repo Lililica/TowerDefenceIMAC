@@ -1,8 +1,6 @@
 #pragma once
 #include <filesystem>
 #include <glm/glm.hpp>
-#include <iostream>
-#include <string>
 
 std::filesystem::path make_absolute_path(std::filesystem::path const& path, bool check_path_exists = true);
 
@@ -32,8 +30,4 @@ std::ostream& operator<<(std::ostream& os, std::vector<T> const& vec)
         os << vec[i] << ", ";
     }
     return os << vec.back() << ']';
-}
-
-void couter (std::string phrase) {
-    std::cout << phrase << std::endl;
 }
