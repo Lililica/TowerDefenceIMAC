@@ -92,8 +92,8 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
 
         glfwGetCursorPos(window, &mouse_xpos, &mouse_ypos);
-        app.mouse_xpos = mouse_xpos;
-        app.mouse_ypos = mouse_ypos;
+        app.mouse_pos.first = mouse_xpos;
+        app.mouse_pos.second = mouse_ypos;
 
 		double startTime { glfwGetTime() };
 

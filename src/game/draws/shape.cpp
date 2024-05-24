@@ -8,7 +8,6 @@
 #include <sstream>
 
 #include "simpletext.h"
-#include "utils.hpp"
 #include "GLHelpers.hpp"
 #include <iostream>
 

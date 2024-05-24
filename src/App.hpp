@@ -4,7 +4,7 @@
 #include <simpletext.h>
 #include "game/screens/screen.hpp"
 #include "game/entities/entity.hpp"
-
+#include <utility>
 
 
 class App {
@@ -14,15 +14,20 @@ public:
     void setup();
     void update();
 
-    double mouse_xpos;
-    double mouse_ypos;
-
-    double pos_mouse_x_abs;
-    double pos_mouse_y_abs;
-
-    double pos_tile_mouse_x;
-    double pos_tile_mouse_y;
+    std::pair<double, double> mouse_pos;
     
+    std::pair<double, double> pos_mouse_abs;
+
+    std::pair<double, double> pos_tile_mouse;
+
+    
+    // Convert coordonnées
+
+    std::pair<double, double> screen_px_to_squareScreen_px(std::pair<double, double> pos);
+    std::pair<double, double> squareScreen_px_to_squareScreen_abs(std::pair<double, double> pos);
+    std::pair<double, double> squareScreen_abs_to_SquareScreen_tiles(std::pair<double, double> pos);
+    
+
     // GLFW callbacks binding
     void key_callback(int key, int scancode, int action, int mods);
     void mouse_button_callback(int button, int action, int mods);

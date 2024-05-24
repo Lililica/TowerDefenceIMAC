@@ -1,6 +1,6 @@
 
 #include "../../App.hpp"
-#include "../utilitaires/shape.hpp"
+#include "shape.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -30,6 +30,29 @@ void App::draw_all_content(){
         glColor3f(1.0f, 0.0f, 0.0f);
         drawRect(-1,-1,2,2);
 
+
+
+
+
+        // Draw debug
+
+        std::string debug_tiles_pos_text {};
+        std::stringstream stream {};
+        stream << std::fixed << "Tile MouseX: " << std::setprecision(2) << pos_tile_mouse.first << " et Tile MouseY: " << std::setprecision(2) << pos_tile_mouse.second;
+        debug_tiles_pos_text = stream.str();
+        TextRenderer.Label(debug_tiles_pos_text.c_str(), _width / 2, _height - 4, SimpleText::CENTER);
+
+        if(pos_tile_mouse.first > -1. && pos_tile_mouse.first <= 1.01 && pos_tile_mouse.second >= -1.01 && pos_tile_mouse.second < 1.){
+
+            glPushMatrix();
+                glColor3f(0.0f, 0.0f, 1.0f);
+                drawRect(pos_tile_mouse.first, pos_tile_mouse.second, -2/float(_numberOfTiles), 2/float(_numberOfTiles));
+            glPopMatrix();
+        }
+
+
+        // Draw Lines
+
         glColor3f(1.0f, 1.0f, 1.0f);
         glBegin(GL_LINES);
         for(int i{0}; i < _numberOfTiles + 1; i++){
@@ -39,33 +62,6 @@ void App::draw_all_content(){
             glVertex2f(1.f, (2*i/float(_numberOfTiles)-1.));
         }   
         glEnd();
-
-
-
-
-
-        std::string debug_tiles_pos_text {};
-        std::stringstream stream {};
-        stream << std::fixed << "Tile MouseX: " << std::setprecision(2) << pos_tile_mouse_x << " et Tile MouseY: " << std::setprecision(2) << pos_tile_mouse_y;
-        debug_tiles_pos_text = stream.str();
-        TextRenderer.Label(debug_tiles_pos_text.c_str(), _width / 2, _height - 4, SimpleText::CENTER);
-
-        if(pos_tile_mouse_x > -1. && pos_tile_mouse_x <= 1.01 && pos_tile_mouse_y >= -1.01 && pos_tile_mouse_y < 1.){
-
-            glPushMatrix();
-                glColor3f(0.0f, 0.0f, 1.0f);
-                drawRect(pos_tile_mouse_x, pos_tile_mouse_y, -2/float(_numberOfTiles), 2/float(_numberOfTiles));
-                // glBegin(GL_QUADS);
-                //     glVertex2f(pos_tile_mouse_x, pos_tile_mouse_y);
-                //     glVertex2f(pos_tile_mouse_x - 2/float(_numberOfTiles), pos_tile_mouse_y);
-                //     glVertex2f(pos_tile_mouse_x - 2/float(_numberOfTiles), pos_tile_mouse_y + 2/float(_numberOfTiles));
-                //     glVertex2f(pos_tile_mouse_x, pos_tile_mouse_y + 2/float(_numberOfTiles));
-                // glEnd();
-            glPopMatrix();
-
-
-
-        }
     }
 
     

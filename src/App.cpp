@@ -5,11 +5,34 @@
 #include <GLFW/glfw3.h>
 #include <img/img.hpp>
 
+#include <utility>
 #include <sstream>
 
 #include "simpletext.h"
 #include "utils.hpp"
 #include "GLHelpers.hpp"
+
+
+std::pair<double, double> App::screen_px_to_squareScreen_px(std::pair<double, double> pos){
+    pos.first = (pos.first - (_width - _height)/2)*size - (_height -(_height*size))/2;
+    pos.second = pos.second*size - (_height -(_height*size))/2;
+    return pos;
+}
+
+std::pair<double, double> App::squareScreen_px_to_squareScreen_abs(std::pair<double, double> pos){
+    pos.first = (pos.first*2)/(((_height - (_height -(_height*size))/2))*size - (_height -(_height*size))/2) - 1.f;
+    pos.second =  -(pos.second*2)/(((_height - (_height -(_height*size))/2))*size - (_height -(_height*size))/2) + 1.f;
+    return pos;
+}
+
+
+std::pair<double, double> App::squareScreen_abs_to_SquareScreen_tiles(std::pair<double, double> pos){
+    pos.first = (int((pos.first + 1)*_numberOfTiles/2))*(2/float(_numberOfTiles)) - 1. + 2/float(_numberOfTiles);
+    pos.second = -(_numberOfTiles - int((pos.second + 1)*_numberOfTiles/2) - 1)*(2/float(_numberOfTiles)) + 1. - 2/float(_numberOfTiles);
+    return pos;
+}
+
+
 
 App::App() : _previousTime(0.0), _viewSize(2.0) {
    // load what needs to be loaded here (for example textures)
@@ -18,6 +41,10 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
     
     _texture = loadTexture(test);
 }
+
+
+
+
 
 void App::setup() {
     // Set the clear color to a nice blue
@@ -38,18 +65,13 @@ void App::update() {
     const double elapsedTime { currentTime - _previousTime};
     _previousTime = currentTime;
 
-    _angle += 10.0f * elapsedTime;
 
+    mouse_pos = screen_px_to_squareScreen_px(mouse_pos);
+
+    pos_mouse_abs = squareScreen_px_to_squareScreen_abs(mouse_pos);
     
-
-    mouse_xpos = (mouse_xpos - (_width - _height)/2)*size - (_height -(_height*size))/2;
-    mouse_ypos = mouse_ypos*size - (_height -(_height*size))/2;
-
-    pos_mouse_x_abs = (mouse_xpos*2)/(((_height - (_height -(_height*size))/2))*size - (_height -(_height*size))/2) - 1.f;
-    pos_mouse_y_abs =  -(mouse_ypos*2)/(((_height - (_height -(_height*size))/2))*size - (_height -(_height*size))/2) + 1.f;
-
-    pos_tile_mouse_x = (int((pos_mouse_x_abs + 1)*_numberOfTiles/2))*(2/float(_numberOfTiles)) - 1. + 2/float(_numberOfTiles);
-    pos_tile_mouse_y = -(_numberOfTiles - int((pos_mouse_y_abs + 1)*_numberOfTiles/2) - 1)*(2/float(_numberOfTiles)) + 1. - 2/float(_numberOfTiles);
+    pos_tile_mouse = squareScreen_abs_to_SquareScreen_tiles(pos_mouse_abs);
+   
 
     render();
 }
@@ -100,4 +122,5 @@ void App::size_callback(int width, int height) {
         glOrtho(-_viewSize / 2.0f, _viewSize / 2.0f, -_viewSize / 2.0f / aspectRatio, _viewSize / 2.0f / aspectRatio, -1.0f, 1.0f);
     }
 }
+
 
