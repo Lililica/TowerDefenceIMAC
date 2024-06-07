@@ -41,6 +41,8 @@ private:
 
     screen myScreen {};
 
+    int test;
+
     int _width {};
     int _height {};
     double _previousTime {};
