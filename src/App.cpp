@@ -39,8 +39,12 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
    // load what needs to be loaded here (for example textures)
 
     img::Image test {img::load(make_absolute_path("images/level.png", true), 3, true)};
+
+    img::Image playButton {img::load(make_absolute_path("images/playbutton.png", true), 3, true)};
     
-    _texture = loadTexture(test);
+    _texture = loadTexture(playButton);
+    
+    // _texture = loadTexture(test);
 }
 
 
@@ -65,6 +69,9 @@ void App::setup() {
         std::cout << tile.index << " : " << tile.pos.first << ',' <<   tile.pos.second << std::endl;
     }
     
+    listOfButton.push_back(
+        Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1,}, std::pair<double,double>{0.2, 0.2}, false, _texture}
+    );
 }
 
 void App::update() {
@@ -104,6 +111,18 @@ void App::key_callback(int /*key*/, int /*scancode*/, int /*action*/, int /*mods
 }
 
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
+    for(Button currentButton : listOfButton){
+        std::cout << "mouseX : " <<pos_mouse_abs.first << " " << "mouseY : " <<pos_mouse_abs.second << std::endl;
+        std::cout << "abscisse entre : [" << currentButton.pos.first << ", " << currentButton.pos.first + currentButton.size.first << "]" << std::endl;
+        std::cout << "ordonné entre : [" << -currentButton.pos.second << ", " << -(currentButton.pos.second - currentButton.size.second) << "]" << std::endl;
+
+        if(pos_mouse_abs.first > currentButton.pos.first && pos_mouse_abs.first < currentButton.pos.first + currentButton.size.first
+        && pos_mouse_abs.second > -currentButton.pos.second && pos_mouse_abs.second < -(currentButton.pos.second - currentButton.size.second))
+        {
+            myScreen._state = screen_state::LEVEL;
+        }
+        
+    }
 }
 
 void App::scroll_callback(double /*xoffset*/, double /*yoffset*/) {

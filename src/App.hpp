@@ -4,6 +4,7 @@
 #include <simpletext.h>
 #include "game/screens/screen.hpp"
 #include "game/entities/entity.hpp"
+#include "game/screens/button.hpp"
 #include <utility>
 
 
@@ -54,4 +55,8 @@ private:
     float _angle {};
 
     SimpleText TextRenderer {};
+
+    std::vector<Button> listOfButton;
+
+    // std::vector<Ennemy> listOfEnnemy;
 };

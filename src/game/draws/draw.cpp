@@ -20,11 +20,15 @@ void setup_drawing(){
 void App::draw_all_content(){
     std::string print_screen_state {};
 
-    if(myScreen._state == state::MAIN_MENU){
+    if(myScreen._state == screen_state::MAIN_MENU){
         print_screen_state = "MAIN MENU";
+
+        for(Button myCurrentButton : listOfButton){
+            myCurrentButton.draw_me();
+        }
     }
 
-    if(myScreen._state == state::LEVEL){
+    if(myScreen._state == screen_state::LEVEL){
         print_screen_state = "LEVEL";
 
         glColor3f(1.0f, 0.0f, 0.0f);
