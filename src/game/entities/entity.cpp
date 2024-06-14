@@ -24,7 +24,7 @@ void Ennemy::is_walking(){
         direction = Direction::TOP;
     }
 
-    if(pos.first == case2.pos.first && pos.second == case2.pos.second){
+    if(pos.first == case2.pos.first && pos.second == case2.pos.second){   //A MODIFIER
         listOfNodes.pop();
     }else{
         if(direction == Direction::RIGHT){
