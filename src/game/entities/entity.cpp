@@ -4,9 +4,9 @@
 #include <vector>
 #include <queue>
 
-void Tower::remove_bullet(Bullet bullet){
-    std::remove(listOfBullet.begin(), listOfBullet.end(), bullet);
-}
+// void Tower::remove_bullet(Bullet bullet){
+//     std::remove(listOfBullet.begin(), listOfBullet.end(), bullet);
+// }
 
 void Ennemy::is_walking(){
 
