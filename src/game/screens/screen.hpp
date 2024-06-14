@@ -15,3 +15,4 @@ struct Screen{
 
     void create_list_of_case(std::vector<int> listTypeCase);
 };
+
