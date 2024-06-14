@@ -41,6 +41,8 @@ void Ennemy::is_walking(){
 
 void Ennemy::draw_me(){
     glPushMatrix();
-
-
+        glTranslatef(pos.first, -pos.second,0);
+        glScalef(width,-height,1);
+        draw_quad_with_texture(texture);
+    glPushMatrix();
 }

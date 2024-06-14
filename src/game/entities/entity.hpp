@@ -64,5 +64,7 @@ struct Ennemy {
 
     std::queue<Case> listOfNodes {};
 
+    GLuint texture;
+    
     void draw_me();
 };
