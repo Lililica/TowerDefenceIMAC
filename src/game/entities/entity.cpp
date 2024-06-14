@@ -13,9 +13,8 @@ void Ennemy::is_walking(){
     Case case1 {listOfNodes.front()};       
     Case case2 {listOfNodes.front()};
 
-    if(lifePoint == 0 || ){
-        isDead = true;
-    }else if(case1.pos.first == case2.pos.first && case1.pos.second < case2.pos.second){
+
+    if(case1.pos.first == case2.pos.first && case1.pos.second < case2.pos.second){
         direction = Direction::RIGHT;
     }else if(case1.pos.first == case2.pos.first && case1.pos.second > case2.pos.second){
         direction = Direction::LEFT;
@@ -38,4 +37,10 @@ void Ennemy::is_walking(){
             pos.second += speed;
         }   
     }
+}
+
+void Ennemy::draw_me(){
+    glPushMatrix();
+
+
 }

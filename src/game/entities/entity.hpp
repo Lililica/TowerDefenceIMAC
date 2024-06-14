@@ -5,6 +5,16 @@
 #include <vector>
 #include <iostream>
 #include <queue>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <img/img.hpp>
+
+#include <utility>
+#include <sstream>
+
+#include "simpletext.h"
+#include "utils.hpp"
+#include "GLHelpers.hpp"
 
 enum typeTower {TOWER1, TOWER2, TOWER3};
 enum typeEnnemy {ENNEMY1, ENNEMY2, ENNEMY3};
@@ -45,7 +55,7 @@ struct Ennemy {
 
     Direction direction {RIGHT};
     void is_walking();
-    
+
     int lifePoint {0};
     double speed {0.};
     size_t width {};
