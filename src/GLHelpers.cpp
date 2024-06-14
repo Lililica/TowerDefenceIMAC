@@ -29,16 +29,16 @@ void draw_quad_with_texture(GLuint textureId) {
     glColor3ub(255, 255, 255);
     glBegin(GL_QUADS);
         glTexCoord2d(0,0);
-        glVertex2f(-0.5f, -0.5f);
+        glVertex2f(-0.f, -0.f);
 
         glTexCoord2d(1,0);
-        glVertex2f(0.5f, -0.5f);
+        glVertex2f(1.f, -0.f);
 
         glTexCoord2d(1,1);
-        glVertex2f(0.5f, 0.5f);
+        glVertex2f(1.f, -1.f);
 
         glTexCoord2d(0,1);
-        glVertex2f(-0.5f, 0.5f);
+        glVertex2f(-0.f, -1.f);
     glEnd();
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);

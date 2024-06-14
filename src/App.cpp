@@ -38,8 +38,10 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
    // load what needs to be loaded here (for example textures)
 
     img::Image test {img::load(make_absolute_path("images/level.png", true), 3, true)};
+
+    img::Image playButton {img::load(make_absolute_path("images/button/playbutton.png", true), 3, true)};
     
-    _texture = loadTexture(test);
+    _texture = loadTexture(playButton);
 }
 
 
@@ -57,6 +59,10 @@ void App::setup() {
     TextRenderer.SetColor(SimpleText::TEXT_COLOR, SimpleText::Color::WHITE);
     TextRenderer.SetColorf(SimpleText::BACKGROUND_COLOR, 0.f, 0.f, 0.f, 0.f);
     TextRenderer.EnableBlending(true);
+
+    listOfButton.push_back(
+        Button{-0.1, 0.1, 0.2, 0.2, _texture, false}
+    );
 }
 
 void App::update() {
@@ -71,6 +77,9 @@ void App::update() {
     pos_mouse_abs = squareScreen_px_to_squareScreen_abs(mouse_pos);
     
     pos_tile_mouse = squareScreen_abs_to_SquareScreen_tiles(pos_mouse_abs);
+
+
+    update_all_myButton();
    
     // UwU 
     render();
@@ -96,6 +105,20 @@ void App::key_callback(int /*key*/, int /*scancode*/, int /*action*/, int /*mods
 }
 
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
+
+    for(Button currentButton : listOfButton){
+        std::cout << "mouseX : " <<pos_mouse_abs.first << " " << "mouseY : " <<pos_mouse_abs.second << std::endl;
+        std::cout << "abscisse entre : [" << currentButton.posX << ", " << currentButton.posX + currentButton.width << "]" << std::endl;
+        std::cout << "ordonné entre : [" << -currentButton.posY << ", " << -(currentButton.posY - currentButton.height) << "]" << std::endl;
+
+        if(pos_mouse_abs.first > currentButton.posX && pos_mouse_abs.first < currentButton.posX + currentButton.width
+        && pos_mouse_abs.second > -currentButton.posY && pos_mouse_abs.second < -(currentButton.posY - currentButton.height))
+        {
+            myScreen._state = screen_state::LEVEL;
+        }
+        
+    }
+    
 }
 
 void App::scroll_callback(double /*xoffset*/, double /*yoffset*/) {
