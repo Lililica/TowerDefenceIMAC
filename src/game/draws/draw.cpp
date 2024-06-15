@@ -43,7 +43,7 @@ void App::draw_all_content(){
             tower.draw_me(tileSize);
         }
 
-        
+
 
         // Draw debug
 
@@ -60,7 +60,7 @@ void App::draw_all_content(){
         //         drawRect(pos_tile_mouse.first, pos_tile_mouse.second, -tileSize, tileSize);
         //     glPopMatrix();
         // }
-        if (collision_pos_box({pos_tile_mouse.first,pos_tile_mouse.second},{-1,-1},{1.9,1.9})) {
+        if (collision_pos_box({pos_tile_mouse.first,pos_tile_mouse.second},{-1,-1},{1.999,1.999})) {
             glPushMatrix();
                 glColor3f(0.0f, 0.0f, 1.0f);
                 drawRect(pos_tile_mouse.first, pos_tile_mouse.second, tileSize, tileSize);
