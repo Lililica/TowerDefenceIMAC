@@ -46,8 +46,12 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
 
     img::Image playButton {img::load(make_absolute_path("images/playbutton.png", true), 3, true)};
     
+    img::Image ennemyImg {img::load(make_absolute_path("images/ennemyTest.png", true), 3, true)};
+
+
     _texture = loadTexture(playButton);
     
+    _ennemyTextureTest = loadTexture(ennemyImg);
     // _texture = loadTexture(test);
 }
 
@@ -77,6 +81,7 @@ void App::setup() {
         Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1,}, std::pair<double,double>{0.2, 0.2}, false, _texture}
     );
 
+
     listOfTower.push_back(
         Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}}
     );
@@ -91,6 +96,11 @@ void App::setup() {
     );
     for (auto &&tower : listOfTower) {tower.set_stats_from_type();}
     
+
+    listOfEnnemy.push_back(
+        Ennemy{typeEnnemy::ENNEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, _ennemyTextureTest}
+    );
+
 }
 
 void App::update() {
@@ -105,6 +115,11 @@ void App::update() {
     pos_mouse_abs = squareScreen_px_to_squareScreen_abs(mouse_pos);
     
     pos_tile_mouse = squareScreen_abs_to_SquareScreen_tiles(pos_mouse_abs);
+
+    if(myScreen._state == screen_state::LEVEL){
+        listOfEnnemy[0].is_walking();
+    }
+    
    
     // UwU 
     render();

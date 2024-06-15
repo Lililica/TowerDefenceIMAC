@@ -38,8 +38,11 @@ namespace Graph {
         std::vector<int> list_BFS(int const start);
     };
 
+<<<<<<< HEAD
     WeightedGraph build_from_adjacency_matrix(std::vector<std::vector<float>> const& adjacency_matrix);
 
+=======
+>>>>>>> Ennnemy-affichage
 } // namespace
 
 std::vector<int> dijkstra_search(Graph::WeightedGraph & graph);

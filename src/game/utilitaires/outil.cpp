@@ -20,7 +20,6 @@ bool collision_pos_box(std::pair<double, double> pos, std::pair<double, double> 
 //     else return false;
 // }
 bool collision_box_box(std::pair<double, double> pos_box1, std::pair<double, double> size_box1, std::pair<double, double> pos_box2, std::pair<double, double> size_box2) {
-    
     if (
         pos_box1.first + size_box1.first < pos_box2.first || // Boîte 1 à gauche de la boîte 2
         pos_box1.first > pos_box2.first + size_box2.first || // Boîte 1 à droite de la boîte 2

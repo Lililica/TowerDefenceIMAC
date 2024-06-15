@@ -36,11 +36,16 @@ void App::draw_all_content(){
         glColor3f(1.0f, 0.0f, 0.0f);
         drawRect(-1,-1,2,2);
 
+
         for(Tower tower : listOfTower){
             tower.draw_range(tileSize);
         }
         for(Tower tower : listOfTower){
             tower.draw_me(tileSize);
+        }
+
+        for(Ennemy ennemy : listOfEnnemy){
+            ennemy.draw_me();
         }
 
 
