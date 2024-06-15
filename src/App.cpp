@@ -72,6 +72,21 @@ void App::setup() {
     listOfButton.push_back(
         Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1,}, std::pair<double,double>{0.2, 0.2}, false, _texture}
     );
+
+    listOfTower.push_back(
+        Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}}
+    );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}}
+    );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}}
+    );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.6,}}
+    );
+    for (auto &&tower : listOfTower) {tower.set_stats_from_type();}
+    
 }
 
 void App::update() {

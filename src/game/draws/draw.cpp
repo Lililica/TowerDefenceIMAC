@@ -66,6 +66,13 @@ void App::draw_all_content(){
             glVertex2f(1.f, (2*i/float(_numberOfTiles)-1.));
         }   
         glEnd();
+
+        for(Tower tower : listOfTower){
+            tower.draw_range();
+        }
+        for(Tower tower : listOfTower){
+            tower.draw_me();
+        }
     }
 
     
