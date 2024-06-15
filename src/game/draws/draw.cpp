@@ -35,7 +35,9 @@ void App::draw_all_content(){
         drawRect(-1,-1,2,2);
 
 
-
+        for(Ennemy ennemy : listOfEnnemy){
+            ennemy.draw_me();
+        }
 
 
         // Draw debug

@@ -123,10 +123,3 @@ std::vector<int> dijkstra_search(Graph::WeightedGraph & graph){
     return weightList;
 }
 
-int main(){
-    std::ifstream fichierItd("./itd/test.itd"); //on ouvre le fichier
-    if(fichierItd){  //si on peut acceder au fichier
-        
-    }
-    fichierItd.close(); // ferme le fichier
-}

@@ -10,13 +10,12 @@ bool collision_pos_box(std::pair<double, double> pos, std::pair<double, double> 
 }
 bool collision_box_box(std::pair<double, double> pos_box1, std::pair<double, double> size_box1, std::pair<double, double> pos_box2, std::pair<double, double> size_box2) {
     
-    if(
+    return (
         pos_box1.first+size_box1.first >= pos_box2.first && 
-            (pos_box1.second+size_box1.second <= pos_box2.second 
+        (pos_box1.second+size_box1.second <= pos_box2.second 
             || pos_box1.second >= pos_box2.second+size_box2.second)
         || pos_box1.first <= pos_box2.first+size_box2.first &&
             (pos_box1.second+size_box1.second <= pos_box2.second 
             || pos_box1.second >= pos_box2.second+size_box2.second) 
-    ) return true;
-    else return false;
+    );
 }

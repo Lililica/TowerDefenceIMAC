@@ -53,18 +53,34 @@ struct Ennemy {
 
     std::pair<double,double> pos {};
 
-    Direction direction {RIGHT};
-    void is_walking();
-
-    int lifePoint {0};
-    double speed {0.};
-    size_t width {};
-    size_t height {};
-    int reward {0}; //combien rapporte l'ennemi a sa mort
-
-    std::queue<Case> listOfNodes {};
+    double width {};
+    double height {};
 
     GLuint texture;
+
+    int nbrTileSide{20};
+
+    std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{0,0}}, 
+                                Case{0, PATH, false, std::pair<double,double>{1 - (2/nbrTileSide),0}},
+                                Case{0, PATH, false, std::pair<double,double>{1 - (2/nbrTileSide),1 - (2/nbrTileSide)}}
+                                };
+
+    Direction direction {RIGHT};
+
+    int itTKT {0};
+
+    void is_walking();
+
+    int lifePoint {100};
+    double speed {0.02/10};
+
+    int reward {0}; //combien rapporte l'ennemi a sa mort
+
+    
+
+    
+
+    
     
     void draw_me();
 };
