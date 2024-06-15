@@ -52,11 +52,12 @@ private:
 
     // Add your variables here
     GLuint _texture {};
+    GLuint _ennemyTextureTest {};
     float _angle {};
 
     SimpleText TextRenderer {};
 
     std::vector<Button> listOfButton;
 
-    // std::vector<Ennemy> listOfEnnemy;
+    std::vector<Ennemy> listOfEnnemy;
 };
