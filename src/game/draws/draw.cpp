@@ -12,6 +12,7 @@
 #include "utils.hpp"
 #include "GLHelpers.hpp"
 #include "game/utilitaires/outil.hpp"
+#include "game/entities/entity.hpp"
 #include <iostream>
 
 void setup_drawing(){

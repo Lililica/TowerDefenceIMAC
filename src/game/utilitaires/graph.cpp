@@ -9,11 +9,8 @@
 #include <stack>
 #include <queue>
 
-<<<<<<< HEAD
-=======
 #include <fstream>
 
->>>>>>> Ennnemy-affichage
 void Graph::WeightedGraph::add_vertex(int const id){
     auto it = adjacency_list.find(id);
     if(it == adjacency_list.end()){
@@ -41,23 +38,6 @@ void Graph::WeightedGraph::add_undirected_edge(int const from, int const to, flo
     add_directed_edge(to,from,weight);
 }
 
-<<<<<<< HEAD
-Graph::WeightedGraph Graph::build_from_adjacency_matrix(std::vector<std::vector<float>> const& adjacency_matrix){
-    Graph::WeightedGraph result;
-    for(int x{0}; x < adjacency_matrix.size(); x++){
-        result.add_vertex(x);
-        for(int y{0}; y < adjacency_matrix[x].size(); y++){
-            if(adjacency_matrix[x][y] != 0){
-                result.add_directed_edge(x, y, adjacency_matrix[x][y]);
-            }
-        }
-    }
-    return result;
-}
-
-
-=======
->>>>>>> Ennnemy-affichage
 
 std::vector<int> Graph::WeightedGraph::list_DFS(int const start){
     std::vector<int> order_visit {};
@@ -141,9 +121,5 @@ std::vector<int> dijkstra_search(Graph::WeightedGraph & graph){
     }
 
     return weightList;
-<<<<<<< HEAD
-}
-=======
 }
 
->>>>>>> Ennnemy-affichage

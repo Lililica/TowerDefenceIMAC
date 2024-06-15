@@ -6,7 +6,7 @@
 #include "game/entities/entity.hpp"
 #include "game/screens/button.hpp"
 #include <utility>
-#include "game/entities/tower.hpp"
+#include "game/entities/entity.hpp"
 
 
 class App {

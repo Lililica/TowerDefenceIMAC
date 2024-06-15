@@ -14,9 +14,10 @@
 
 #include "simpletext.h"
 #include "utils.hpp"
+#include "../utilitaires/outil.hpp"
 #include "GLHelpers.hpp"
 
-enum typeTower {TOWER1, TOWER2, TOWER3};
+enum typeTower { TYPE1, TYPE2, TYPE3, TYPE4 };
 enum typeEnnemy {ENNEMY1, ENNEMY2, ENNEMY3};
 enum Direction {TOP, RIGHT,BOTTOM, LEFT};
 
@@ -32,14 +33,21 @@ struct Bullet {
 
 struct Tower {
 
-    typeTower _type {};
+    typeTower _type {TYPE1};
     int id {0};
 
-    std::pair<double,double> pos {};
+    std::pair<double,double> pos {0,0};
 
-    int power {0};
-    double attackSpeed {0.};  //intervalle entre 2 tirs
+    GLuint _texture;
     int lifePoint {0};
+    int power {0};
+    int range {0};
+    double attackSpeed {0.1}; //intervalle entre 2 tirs
+
+    void set_stats_from_type();
+    void draw_me(double tileSize);
+    void draw_range(double tileSize);
+
     std::vector<Bullet> listOfBullet {};
 
     void remove_bullet(Bullet bullet);
