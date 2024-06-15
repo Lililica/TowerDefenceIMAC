@@ -6,6 +6,7 @@
 #include "game/entities/entity.hpp"
 #include "game/screens/button.hpp"
 #include <utility>
+#include "game/entities/tower.hpp"
 
 
 class App {
@@ -59,5 +60,9 @@ private:
 
     std::vector<Button> listOfButton;
 
+
+    std::vector<Tower> listOfTower;
+
     std::vector<Ennemy> listOfEnnemy;
+
 };

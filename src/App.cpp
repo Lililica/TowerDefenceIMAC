@@ -28,10 +28,14 @@ std::pair<double, double> App::squareScreen_px_to_squareScreen_abs(std::pair<dou
 
 
 std::pair<double, double> App::squareScreen_abs_to_SquareScreen_tiles(std::pair<double, double> pos){
-    pos.first = (int((pos.first + 1)*_numberOfTiles/2))*(2/float(_numberOfTiles)) - 1. + 2/float(_numberOfTiles);
-    pos.second = -(_numberOfTiles - int((pos.second + 1)*_numberOfTiles/2) - 1)*(2/float(_numberOfTiles)) + 1. - 2/float(_numberOfTiles);
+    // std::cout << "First prev : " << pos.first << std::endl;
+    // pos.first = (int((pos.first + 1)*_numberOfTiles/2))*(2/float(_numberOfTiles)) - 1. + 2/float(_numberOfTiles);
+    pos.first = std::floor(pos.first * _numberOfTiles / 2.0) * (2.0 / _numberOfTiles);
+    // pos.second = -(_numberOfTiles - int((pos.second + 1)*_numberOfTiles/2) - 1)*(2/float(_numberOfTiles)) + 1. - 2/float(_numberOfTiles);
+    pos.second = std::floor(pos.second * _numberOfTiles / 2.0) * (2.0 / _numberOfTiles);
     return pos;
 }
+
 
 
 
@@ -77,9 +81,26 @@ void App::setup() {
         Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1,}, std::pair<double,double>{0.2, 0.2}, false, _texture}
     );
 
+
+    listOfTower.push_back(
+        Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}}
+    );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}}
+    );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}}
+    );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.8,}}
+    );
+    for (auto &&tower : listOfTower) {tower.set_stats_from_type();}
+    
+
     listOfEnnemy.push_back(
         Ennemy{typeEnnemy::ENNEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, _ennemyTextureTest}
     );
+
 }
 
 void App::update() {
