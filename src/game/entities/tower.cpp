@@ -57,86 +57,39 @@ void Tower::set_stats_from_type() {
 }
 
 
-void Tower::draw_me(){
+void Tower::draw_me(double tileSize){
     glPushMatrix();
         glTranslatef(pos.first, pos.second, 0);
-        // glScalef(0.1,-0.1,1);
+        glScalef(tileSize,-tileSize,1);
         draw_quad_with_texture(_texture);
     glPopMatrix();
 }
-void Tower::draw_range(){
+void Tower::draw_range(double tileSize){
     glPushMatrix();
         glColor3f(1.0,1.0,0.5);
 
         // glTranslatef(pos.first, -pos.second, 0);
         // glScalef(0.1*range,0.1*range,1);
 
-        double rangeSideSize {range*0.1};
+        double rangeSideSize {range*tileSize};
         double rectLeft = pos.first-rangeSideSize;
         double rectRight = pos.first+rangeSideSize;
         double rectBottom = pos.second-rangeSideSize;
         double rectTop = pos.second+rangeSideSize;
 
-        if (rectLeft < -0.9) rectLeft = -0.9;
-        if (rectRight > 1) rectRight = 1;
+        if (rectLeft < -1) rectLeft = -1;
+        if (rectRight > 0.9) rectRight = 0.9;
         if (rectBottom < -1) rectBottom = -1;
         if (rectTop > 0.9) rectTop = 0.9;
 
         drawRect(
             rectLeft, rectBottom,
-            0.1,0.1
+            rectRight - rectLeft + tileSize,
+            rectTop - rectBottom + tileSize
         );
-        // for (int i = 0; i < range*2+1; i++){
-        //     for (int j = 0; j < range*2+1; j++){
-        //         double x {pos.first-(range*0.1)+(i*0.1)};
-        //         double y {pos.second-(range*0.1+0.1)+(j*0.1)};
-        //         double s {0.1};
-        //         if(collision_box_box({x,y}, {s,s}, {-0.9,-0.9}, {1.9,1.9})) {drawRect(x, y, s, s);}
-        //     }
-        // }
         
     glPopMatrix();
 }
-// void Tower::draw_range() {
-//     // Taille d'une case de la grille
-//     const double cellSize = 0.1;
-
-//     // Calcul de la position ajustée pour centrer sur une case de la grille
-//     double centerX = pos.first;
-//     double centerY = pos.second;
-
-//     // Calcul du demi-taille du rectangle en termes de nombre de cases
-//     double halfRange = range * cellSize;
-    
-//     // Coordonnées du rectangle
-//     double rectLeft = centerX - halfRange;
-//     double rectBottom = centerY - halfRange;
-//     double rectRight = centerX + halfRange + cellSize;
-//     double rectTop = centerY + halfRange + cellSize;
-
-//     // Vérification des limites du rectangle par rapport au canva global
-//     double globalLeft = -0.9;
-//     double globalRight = 1.0;
-//     double globalBottom = -0.9;
-//     double globalTop = 1.0;
-
-//     if (rectLeft < globalLeft) rectLeft = globalLeft;
-//     if (rectRight > globalRight) rectRight = globalRight;
-//     if (rectBottom < globalBottom) rectBottom = globalBottom;
-//     if (rectTop > globalTop) rectTop = globalTop;
-
-//     double rectWidth = rectRight - rectLeft;
-//     double rectHeight = rectTop - rectBottom;
-
-//     glPushMatrix();
-//         glColor3f(1.0, 0.5, 0.75);
-//         drawRect(rectLeft, rectBottom, rectWidth, rectHeight);
-//     glPopMatrix();
-// }
-
-
-
-
 
 
 

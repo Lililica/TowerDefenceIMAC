@@ -11,6 +11,7 @@
 #include "simpletext.h"
 #include "utils.hpp"
 #include "GLHelpers.hpp"
+#include "game/utilitaires/outil.hpp"
 #include <iostream>
 
 void setup_drawing(){
@@ -18,6 +19,7 @@ void setup_drawing(){
 }
 
 void App::draw_all_content(){
+    double tileSize {2/float(_numberOfTiles)};
     std::string print_screen_state {};
 
     if(myScreen._state == screen_state::MAIN_MENU){
@@ -34,9 +36,14 @@ void App::draw_all_content(){
         glColor3f(1.0f, 0.0f, 0.0f);
         drawRect(-1,-1,2,2);
 
+        for(Tower tower : listOfTower){
+            tower.draw_range(tileSize);
+        }
+        for(Tower tower : listOfTower){
+            tower.draw_me(tileSize);
+        }
 
-
-
+        
 
         // Draw debug
 
@@ -46,11 +53,17 @@ void App::draw_all_content(){
         debug_tiles_pos_text = stream.str();
         TextRenderer.Label(debug_tiles_pos_text.c_str(), _width / 2, _height - 4, SimpleText::CENTER);
 
-        if(pos_tile_mouse.first > -1. && pos_tile_mouse.first <= 1.01 && pos_tile_mouse.second >= -1.01 && pos_tile_mouse.second < 1.){
+        // if(pos_tile_mouse.first > -1. && pos_tile_mouse.first <= 1.01 && pos_tile_mouse.second >= -1.01 && pos_tile_mouse.second < 1.){
 
+        //     glPushMatrix();
+        //         glColor3f(0.0f, 0.0f, 1.0f);
+        //         drawRect(pos_tile_mouse.first, pos_tile_mouse.second, -tileSize, tileSize);
+        //     glPopMatrix();
+        // }
+        if (collision_pos_box({pos_tile_mouse.first,pos_tile_mouse.second},{-1,-1},{1.9,1.9})) {
             glPushMatrix();
                 glColor3f(0.0f, 0.0f, 1.0f);
-                drawRect(pos_tile_mouse.first, pos_tile_mouse.second, -2/float(_numberOfTiles), 2/float(_numberOfTiles));
+                drawRect(pos_tile_mouse.first, pos_tile_mouse.second, tileSize, tileSize);
             glPopMatrix();
         }
 
@@ -66,13 +79,6 @@ void App::draw_all_content(){
             glVertex2f(1.f, (2*i/float(_numberOfTiles)-1.));
         }   
         glEnd();
-
-        for(Tower tower : listOfTower){
-            tower.draw_range();
-        }
-        for(Tower tower : listOfTower){
-            tower.draw_me();
-        }
     }
 
     

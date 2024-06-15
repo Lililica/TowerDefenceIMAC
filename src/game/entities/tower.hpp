@@ -28,7 +28,7 @@ struct Tower{
     int attackSpeed {0};
 
     void set_stats_from_type();
-    void draw_me();
-    void draw_range();
+    void draw_me(double tileSize);
+    void draw_range(double tileSize);
     
 };

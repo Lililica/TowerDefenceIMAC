@@ -28,10 +28,14 @@ std::pair<double, double> App::squareScreen_px_to_squareScreen_abs(std::pair<dou
 
 
 std::pair<double, double> App::squareScreen_abs_to_SquareScreen_tiles(std::pair<double, double> pos){
-    pos.first = (int((pos.first + 1)*_numberOfTiles/2))*(2/float(_numberOfTiles)) - 1. + 2/float(_numberOfTiles);
-    pos.second = -(_numberOfTiles - int((pos.second + 1)*_numberOfTiles/2) - 1)*(2/float(_numberOfTiles)) + 1. - 2/float(_numberOfTiles);
+    // std::cout << "First prev : " << pos.first << std::endl;
+    // pos.first = (int((pos.first + 1)*_numberOfTiles/2))*(2/float(_numberOfTiles)) - 1. + 2/float(_numberOfTiles);
+    pos.first = std::floor(pos.first * _numberOfTiles / 2.0) * (2.0 / _numberOfTiles);
+    // pos.second = -(_numberOfTiles - int((pos.second + 1)*_numberOfTiles/2) - 1)*(2/float(_numberOfTiles)) + 1. - 2/float(_numberOfTiles);
+    pos.second = std::floor(pos.second * _numberOfTiles / 2.0) * (2.0 / _numberOfTiles);
     return pos;
 }
+
 
 
 
@@ -83,7 +87,7 @@ void App::setup() {
         Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}}
     );
     listOfTower.push_back(
-        Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.6,}}
+        Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.8,}}
     );
     for (auto &&tower : listOfTower) {tower.set_stats_from_type();}
     
