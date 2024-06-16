@@ -10,35 +10,49 @@
 // --------------------------------------------------------------
 
 void Enemy::is_walking(){
+        
+    if(itTKT < listOfNodes.size()-1){
+        Case case1 {listOfNodes[itTKT]};       
+        Case case2 {listOfNodes[itTKT + 1]};
 
-    Case case1 {listOfNodes[itTKT]};       
-    Case case2 {listOfNodes[itTKT + 1]};
 
+        if(case1.pos.first == case2.pos.first && case1.pos.second < case2.pos.second){
+            direction = Direction::BOTTOM;
+        }else if(case1.pos.first == case2.pos.first && case1.pos.second > case2.pos.second){
+            direction = Direction::TOP;
+        }else if(case1.pos.second == case2.pos.second && case1.pos.first < case2.pos.first){
+            direction = Direction::RIGHT;
+        }else if(case1.pos.second == case2.pos.second && case1.pos.first < case2.pos.first){
+            direction = Direction::LEFT;
+        }
 
-    if(case1.pos.first == case2.pos.first && case1.pos.second < case2.pos.second){
-        direction = Direction::BOTTOM;
-    }else if(case1.pos.first == case2.pos.first && case1.pos.second > case2.pos.second){
-        direction = Direction::TOP;
-    }else if(case1.pos.second == case2.pos.second && case1.pos.first < case2.pos.first){
-        direction = Direction::RIGHT;
-    }else if(case1.pos.second == case2.pos.second && case1.pos.first < case2.pos.first){
-        direction = Direction::LEFT;
+        // std::cout << pos.first << "entre : [" << case2.pos.first << ", " << case2.pos.first + 2./nbrTileSide << std::endl;
+        // std::cout << pos.second << "entre : [" << case2.pos.second << ", " << (case2.pos.second + 2./nbrTileSide) << std::endl;
+    
+        if(pos.first >= case2.pos.first && pos.first <= case2.pos.first + 2./nbrTileSide &&
+            pos.second >= case2.pos.second && pos.second <= (case2.pos.second + 2./nbrTileSide)){   //A MODIFIER
+            itTKT = itTKT+1;
+            // std::cout << "J'y suis !" << std::endl;
+        }else if(pos.first < 1.5 && pos.second < 1.5){
+            if(direction == Direction::RIGHT){
+                pos.first += speed;
+            }else if(direction == Direction::BOTTOM){
+                pos.second += speed;
+            }else if(direction == Direction::LEFT){
+                pos.first -= speed;
+            }else{
+                pos.second -= speed;
+            }   
+        }
     }
+}
 
-    if(pos.first >= case2.pos.first && pos.first <= case2.pos.first + 1./nbrTileSide &&
-        pos.second >= -case2.pos.second && pos.second <= -(case2.pos.second - 1./nbrTileSide)){   //A MODIFIER
-        itTKT = (itTKT+1)%3;
-    }else{
-        if(direction == Direction::RIGHT){
-            pos.first += speed;
-        }else if(direction == Direction::BOTTOM){
-            pos.second -= speed;
-        }else if(direction == Direction::LEFT){
-            pos.first -= speed;
-        }else{
-            pos.second += speed;
-        }   
-    }
+void Enemy::draw_my_lp(){
+    glPushMatrix();
+        glColor3f(0,1,0);
+        drawRect(pos.first - 0.01, pos.second + 0.005, width + 0.02, 0.01 );
+        glColor3f(1,0,0);
+    glPopMatrix();
 }
 
 void Enemy::draw_me(){
