@@ -1,4 +1,5 @@
 #include "graph.hpp"
+#include "case.hpp"
 
 #define INFINITY ((float)(1e+300 * 1e+300))
 
@@ -124,9 +125,24 @@ std::vector<int> dijkstra_search(Graph::WeightedGraph & graph){
 }
 
 int main(){
+
+    std::vector<Case> listOfNodes{};
+
     std::ifstream fichierItd("./itd/test.itd"); //on ouvre le fichier
-    if(fichierItd){  //si on peut acceder au fichier
-        
+    if(fichierItd.is_open()){  //si on peut acceder au fichier
+
+        std::string ligne; // pour stocker les lignes lues
+        getline(fichierItd,ligne);
+
+        while(getline(fichierItd, ligne)){ // tant qu'on est pas a la fin du fichier
+            // std::cout << ligne << std::endl;
+            size_t debutMot = ligne.find_first_not_of(" \n");
+            if (debutMot != std::string::npos) {
+                // Extraire le premier mot
+                std::string premierMot = ligne.substr(debutMot);
+            }
+        }
+        fichierItd.close();
     }
     fichierItd.close(); // ferme le fichier
 }
