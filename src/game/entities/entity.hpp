@@ -18,44 +18,12 @@
 #include "GLHelpers.hpp"
 
 enum typeTower { TYPE1, TYPE2, TYPE3, TYPE4 };
-enum typeEnnemy {ENNEMY1, ENNEMY2, ENNEMY3};
+enum typeEnemy {ENEMY1, ENEMY2, ENEMY3};
 enum Direction {TOP, RIGHT,BOTTOM, LEFT};
 
-struct Bullet {
+struct Enemy {
 
-    std::pair<double,double> pos {};
-    
-    size_t width {};
-    size_t height {};
-    double speed {};
-
-};
-
-struct Tower {
-
-    typeTower _type {TYPE1};
-    int id {0};
-
-    std::pair<double,double> pos {0,0};
-
-    GLuint _texture;
-    int lifePoint {0};
-    int power {0};
-    int range {0};
-    double attackSpeed {0.1}; //intervalle entre 2 tirs
-
-    void set_stats_from_type();
-    void draw_me(double tileSize);
-    void draw_range(double tileSize);
-
-    std::vector<Bullet> listOfBullet {};
-
-    void remove_bullet(Bullet bullet);
-};
-
-struct Ennemy {
-
-    typeEnnemy type {};
+    typeEnemy type {};
     int id {0};
     bool isDead {false};
 
@@ -80,7 +48,7 @@ struct Ennemy {
     void is_walking();
 
     int lifePoint {100};
-    double speed {0.02/10};
+    double speed {0.05/10};
 
     int reward {0}; //combien rapporte l'ennemi a sa mort
 
@@ -91,4 +59,39 @@ struct Ennemy {
     
     
     void draw_me();
+};
+
+
+struct Bullet {
+
+    std::pair<double,double> pos {};
+    
+    double width {};
+    double height {};
+    double speed {};
+
+};
+
+struct Tower {
+
+    typeTower _type {TYPE1};
+    int id {0};
+
+    std::pair<double,double> pos {0,0};
+
+    GLuint _texture;
+    int lifePoint {0};
+    int power {0};
+    int range {0};
+    std::pair<std::pair<double,double>,std::pair<double,double>> rangeBox {pos, {0,0}};
+    double attackSpeed {0.1}; //intervalle entre 2 tirs
+
+    void set_stats_from_type();
+    void set_range_box(double tileSize);
+    void draw_me(double tileSize);
+    void draw_range_box();
+
+    std::vector<Bullet> listOfBullet {};
+
+    // void remove_bullet(Bullet bullet);
 };

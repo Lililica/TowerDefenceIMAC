@@ -39,15 +39,18 @@ void App::draw_all_content(){
 
 
         for(Tower tower : listOfTower){
-            tower.draw_range(tileSize);
+            tower.draw_range_box();
         }
         for(Tower tower : listOfTower){
             tower.draw_me(tileSize);
         }
 
-        for(Ennemy ennemy : listOfEnnemy){
-            ennemy.draw_me();
+        if(listOfEnemy.size() != 0) {
+            for(Enemy enemy : listOfEnemy){
+                enemy.draw_me();
+            }
         }
+        
 
 
 
@@ -83,7 +86,7 @@ void App::draw_all_content(){
             glVertex2f((2*i/float(_numberOfTiles)-1.), 1.f);
             glVertex2f(-1.f, (2*i/float(_numberOfTiles)-1.));
             glVertex2f(1.f, (2*i/float(_numberOfTiles)-1.));
-        }   
+        }
         glEnd();
     }
 

@@ -9,7 +9,7 @@
 // Enemy
 // --------------------------------------------------------------
 
-void Ennemy::is_walking(){
+void Enemy::is_walking(){
 
     Case case1 {listOfNodes[itTKT]};       
     Case case2 {listOfNodes[itTKT + 1]};
@@ -41,7 +41,7 @@ void Ennemy::is_walking(){
     }
 }
 
-void Ennemy::draw_me(){
+void Enemy::draw_me(){
     glPushMatrix();
         glTranslatef(pos.first, pos.second - height,0);
         glScalef(width,-height,1);
@@ -106,33 +106,34 @@ void Tower::draw_me(double tileSize){
         draw_quad_with_texture(_texture);
     glPopMatrix();
 }
-void Tower::draw_range(double tileSize){
+void Tower::set_range_box(double tileSize) {
+    double rangeSideSize {range*tileSize};
+    double rectLeft = pos.first-rangeSideSize;
+    double rectRight = pos.first+rangeSideSize;
+    double rectBottom = pos.second-rangeSideSize;
+    double rectTop = pos.second+rangeSideSize;
+
+    if (rectLeft < -1) rectLeft = -1;
+    if (rectRight > 0.9) rectRight = 0.9;
+    if (rectBottom < -1) rectBottom = -1;
+    if (rectTop > 0.9) rectTop = 0.9;
+
+    rangeBox = {{rectLeft, rectBottom}, {rectRight - rectLeft + tileSize, rectTop - rectBottom + tileSize}};
+}
+void Tower::draw_range_box(){
     glPushMatrix();
         glColor3f(1.0,1.0,0.5);
-
         // glTranslatef(pos.first, -pos.second, 0);
         // glScalef(0.1*range,0.1*range,1);
 
-        double rangeSideSize {range*tileSize};
-        double rectLeft = pos.first-rangeSideSize;
-        double rectRight = pos.first+rangeSideSize;
-        double rectBottom = pos.second-rangeSideSize;
-        double rectTop = pos.second+rangeSideSize;
-
-        if (rectLeft < -1) rectLeft = -1;
-        if (rectRight > 0.9) rectRight = 0.9;
-        if (rectBottom < -1) rectBottom = -1;
-        if (rectTop > 0.9) rectTop = 0.9;
-
         drawRect(
-            rectLeft, rectBottom,
-            rectRight - rectLeft + tileSize,
-            rectTop - rectBottom + tileSize
+            rangeBox.first.first, rangeBox.first.second,
+            rangeBox.second.first,
+            rangeBox.second.second
         );
-        
     glPopMatrix();
 }
 
-void Tower::remove_bullet(Bullet bullet){
-    std::remove(listOfBullet.begin(), listOfBullet.end(), bullet);
-}
+// void Tower::remove_bullet(Bullet bullet){
+//     std::remove(listOfBullet.begin(), listOfBullet.end(), bullet);
+// }

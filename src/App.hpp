@@ -53,7 +53,7 @@ private:
 
     // Add your variables here
     GLuint _texture {};
-    GLuint _ennemyTextureTest {};
+    GLuint _enemyTextureTest {};
     float _angle {};
 
     SimpleText TextRenderer {};
@@ -63,6 +63,7 @@ private:
 
     std::vector<Tower> listOfTower;
 
-    std::vector<Ennemy> listOfEnnemy;
+    std::vector<Enemy> listOfEnemy;
+    void removeDeadEnemies();
 
 };
