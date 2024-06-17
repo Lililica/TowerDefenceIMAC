@@ -5,6 +5,8 @@
 #include <vector>
 #include <unordered_map>
 #include <utility>
+#include <vector>
+#include <string>
 
 namespace Graph {
     struct WeightedGraphEdge {
@@ -41,3 +43,5 @@ namespace Graph {
 } // namespace
 
 std::vector<int> dijkstra_search(Graph::WeightedGraph & graph);
+std::vector<std::string> split_string(std::string const& str);
+std::vector<std::vector<std::string>> splitItd ();

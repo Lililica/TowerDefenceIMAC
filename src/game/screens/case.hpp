@@ -8,4 +8,5 @@ struct Case{
     typeCase _type {DECOR};
     bool occupied {false};
     std::pair<double,double> pos {0,0};
+    
 };

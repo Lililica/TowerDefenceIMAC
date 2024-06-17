@@ -1,4 +1,5 @@
 #include "graph.hpp"
+#include "../screens/case.hpp"
 
 
 #define INFINITY ((float)(1e+300 * 1e+300))
@@ -9,6 +10,7 @@
 #include <utility>
 #include <stack>
 #include <queue>
+#include <string>
 
 #include <fstream>
 
@@ -124,25 +126,60 @@ std::vector<int> dijkstra_search(Graph::WeightedGraph & graph){
     return weightList;
 }
 
-// int main(){
+std::vector<std::string> split_string(std::string const& str){
 
-//     std::vector<Case> listOfNodes{};
+    // Permet de savoir si un element est un espace
+    auto const is_space = [](char letter){ return letter == ' '; };
 
-//     std::ifstream fichierItd("./itd/test.itd"); //on ouvre le fichier
-//     if(fichierItd.is_open()){  //si on peut acceder au fichier
+    std::vector<std::string> tab {};
+    auto it_begin {str.begin()};
+    auto it_end {std::find_if(str.begin(),str.end(), is_space)};
+    while(it_begin != str.end()){
+        std::string mot {};
+        std::copy(it_begin, it_end, std::back_inserter(mot));
+        tab.push_back(mot);
+        if(it_end == str.end()){
+            break;
+        }
+        it_begin = it_end + 1;
+        it_end = std::find_if(it_begin,str.end(), is_space);
+    }
+    return tab;
+}
 
-//         std::string ligne; // pour stocker les lignes lues
-//         getline(fichierItd,ligne);
+//permet de découper le fichier .itd en ligne puis chaque ligne en mot
+std::vector<std::vector<std::string>> splitItd (){
+    std::vector<std::vector<std::string>> splitItdWord {};
 
-//         while(getline(fichierItd, ligne)){ // tant qu'on est pas a la fin du fichier
-//             // std::cout << ligne << std::endl;
-//             size_t debutMot = ligne.find_first_not_of(" \n");
-//             if (debutMot != std::string::npos) {
-//                 // Extraire le premier mot
-//                 std::string premierMot = ligne.substr(debutMot);
-//             }
-//         }
-//         fichierItd.close();
-//     }
-//     fichierItd.close(); // ferme le fichier
-// }
+    std::ifstream fichierItd("../itd/test.itd"); //on ouvre le fichier
+
+    if(fichierItd.is_open()){  //si on peut acceder au fichier
+        std::string line; // pour stocker les lignes lues
+
+        while(getline(fichierItd, line)){ // tant qu'on est pas a la fin du fichier 
+            std::vector<std::string> splitItdLine {split_string(line)};  //on separe les lignes en vector de mot
+            splitItdWord.push_back(splitItdLine);      
+        }
+
+    }else{
+        std::cout << "Impossible d'ouvirer le fichier .itd" << std::endl;
+    }
+    fichierItd.close(); // ferme le fichier
+    return splitItdWord;
+    
+}
+
+//permet en fonction du premier mot de la ligne d'associer le type de la case
+std::vector<Case> associateRGBToTypeCase(std::vector<std::vector<std::string>> splitItdWord){
+    // for(std::vector<std::string> splitItdLine : splitItdWord){
+    for(int i{0}; i<splitItdWord.size(); i++){
+        if(splitItdWord[i][0]== "path"){
+            Case node {i, typeCase::PATH, false, {std::stof(splitItdWord[i][2]),std::stof(splitItdWord[i][3])}};
+        }else if(splitItdWord[i][0]== "in"){
+            Case node {i, typeCase::START, false, {std::stof(splitItdWord[i][2]),std::stof(splitItdWord[i][3])}};
+        }else if(splitItdWord[i][0]== "out"){
+            Case node {i, typeCase::END, false, {std::stof(splitItdWord[i][2]),std::stof(splitItdWord[i][3])}};
+        }
+    }
+}
+
