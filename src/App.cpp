@@ -144,9 +144,6 @@ void App::update() {
 
     if(myScreen._state == screen_state::LEVEL){
         if(listOfEnemy.size() != 0) listOfEnemy[0].is_walking();
-        
-
-
     }
     
     if(listOfEnemy.size() != 0) {
