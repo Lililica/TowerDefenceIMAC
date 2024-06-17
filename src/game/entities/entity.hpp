@@ -17,7 +17,7 @@
 #include "../utilitaires/outil.hpp"
 #include "GLHelpers.hpp"
 
-enum typeTower { TYPE1, TYPE2, TYPE3, TYPE4 };
+enum typeTower { TYPE1 = 1, TYPE2 = 2, TYPE3 = 3, TYPE4 = 4};
 enum typeEnemy {ENEMY1, ENEMY2, ENEMY3};
 enum Direction {TOP, RIGHT,BOTTOM, LEFT};
 

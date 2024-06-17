@@ -244,6 +244,7 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
             switch (currentButton._type){
             case TOWER_1:
                 myScreen.showCaseDispo = true;
+                myScreen.currentTowerToDraw = typeTower::TYPE1;
                 delayForTowerPlacement = currentTime;
                 break;
             case ANNULER_TOWER:
@@ -254,6 +255,11 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                 myScreen.currentTowerToDraw = typeTower::TYPE2;
                 delayForTowerPlacement = currentTime;
                 break;
+            case TOWER_3:
+                myScreen.showCaseDispo = true;
+                myScreen.currentTowerToDraw = typeTower::TYPE3;
+                delayForTowerPlacement = currentTime;
+                break;
             default:
                 break;
             }
@@ -261,7 +267,17 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
         
     }
     if(myScreen.showCaseDispo && currentTime-delayForTowerPlacement > 0.2 && isFreeToBuild()){
-        listOfTower.push_back(Tower{typeTower::TYPE1, idTower, pos_tile_mouse});
+        switch (myScreen.currentTowerToDraw){
+            case 1:
+                listOfTower.push_back(Tower{typeTower::TYPE1, idTower, pos_tile_mouse});
+                break;
+            case 2:
+                listOfTower.push_back(Tower{typeTower::TYPE2, idTower, pos_tile_mouse});
+                break;
+            case 3:
+                listOfTower.push_back(Tower{typeTower::TYPE3, idTower, pos_tile_mouse});
+                break;
+        }
         idTower++;
         for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(2./_numberOfTiles);}
         myScreen.showCaseDispo = false;
