@@ -49,8 +49,9 @@ struct Enemy {
     void is_walking();
     void draw_my_lp();
 
+    int initLP {100};
     int lifePoint {100};
-    double speed {0.05/10};
+    double speed {0.05/15};
 
     int reward {0}; //combien rapporte l'ennemi a sa mort
 

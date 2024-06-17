@@ -88,15 +88,15 @@ void App::setup() {
     listOfTower.push_back(
         Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}}
     );
-    // listOfTower.push_back(
-    //     Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}}
-    // );
-    // listOfTower.push_back(
-    //     Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}}
-    // );
-    // listOfTower.push_back(
-    //     Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.8,}}
-    // );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}}
+    );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}}
+    );
+    listOfTower.push_back(
+        Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.8,}}
+    );
     for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(tileSize);}
     
 

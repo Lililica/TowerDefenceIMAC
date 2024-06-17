@@ -52,6 +52,7 @@ void Enemy::draw_my_lp(){
         glColor3f(0,1,0);
         drawRect(pos.first - 0.01, pos.second + 0.005, width + 0.02, 0.01 );
         glColor3f(1,0,0);
+        drawRect(pos.first + width + 0.01, pos.second + 0.005 + 0.01, -(width + 0.02)*(float(initLP - lifePoint)/initLP), -0.01);
     glPopMatrix();
 }
 
