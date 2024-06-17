@@ -14,7 +14,7 @@
 #include "utils.hpp"
 #include "GLHelpers.hpp"
 
-enum typeButton { PAUSE, PLAY };
+enum typeButton { BEGIN, PAUSE, PLAY, RESTART, QUIT, CREDIT };
 
 struct Button{
 
@@ -24,6 +24,7 @@ struct Button{
     bool pressed {false};
     GLuint _texture;
 
+    void set_stats_from_type();
     void draw_me();
     
 };

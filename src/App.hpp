@@ -7,6 +7,8 @@
 #include "game/screens/button.hpp"
 #include <utility>
 #include "game/entities/entity.hpp"
+#include "game/draws/draw.hpp"
+#include <img/img.hpp>
 
 
 class App {
@@ -40,6 +42,7 @@ public:
 private:
     void render();
     void draw_all_content();
+    void draw_background(screen_state const& Screen);
 
     Screen myScreen {};
 
@@ -58,6 +61,8 @@ private:
 
     SimpleText TextRenderer {};
 
+    std::vector<std::pair<screen_state,img::Image>> listOfBackgroundTextures;
+    
     std::vector<Button> listOfButton;
 
 
