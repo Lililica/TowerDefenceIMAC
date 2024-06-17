@@ -146,6 +146,8 @@ void App::render() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    glClearColor(0.5,0.5,0.5,1);
+
     glPushMatrix();
         glScalef(size, size, 1);
         draw_all_content();

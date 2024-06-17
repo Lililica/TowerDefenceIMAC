@@ -36,9 +36,10 @@ struct Enemy {
 
     int nbrTileSide{20};
 
-    std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{0,0}}, 
-                                Case{0, PATH, false, std::pair<double,double>{1 - (2/nbrTileSide),0}},
-                                Case{0, PATH, false, std::pair<double,double>{1 - (2/nbrTileSide),1 - (2/nbrTileSide)}}
+    std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{0,1 - (2./nbrTileSide)}}, 
+                                Case{0, PATH, false, std::pair<double,double>{1 - 10*(2./nbrTileSide),1 - (2./nbrTileSide)}},
+                                Case{0, PATH, false, std::pair<double,double>{1 - 10*(2./nbrTileSide),- 1}},
+                                Case{0, PATH, false, std::pair<double,double>{1 - (2./nbrTileSide), - 1}}
                                 };
 
     Direction direction {RIGHT};
@@ -46,9 +47,11 @@ struct Enemy {
     int itTKT {0};
 
     void is_walking();
+    void draw_my_lp();
 
+    int initLP {100};
     int lifePoint {100};
-    double speed {0.05/10};
+    double speed {0.05/15};
 
     int reward {0}; //combien rapporte l'ennemi a sa mort
 

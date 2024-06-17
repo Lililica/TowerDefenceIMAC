@@ -110,6 +110,7 @@ void App::draw_all_content(){
         if(listOfEnemy.size() != 0) {
             for(Enemy enemy : listOfEnemy){
                 enemy.draw_me();
+                enemy.draw_my_lp();
             }
         }
 
