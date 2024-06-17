@@ -38,6 +38,16 @@ std::pair<double, double> App::squareScreen_abs_to_SquareScreen_tiles(std::pair<
 }
 
 
+double App::transform_mouse_pos_tile_to_case_index(std::pair<double, double> pos){
+    double result;
+
+    result = (pos.first*_numberOfTiles/2.) + _numberOfTiles/2. + _numberOfTiles*(((-pos.second)*_numberOfTiles/2.) + _numberOfTiles/2.);
+
+    return result - _numberOfTiles;
+}
+
+
+
 
 
 App::App() : _previousTime(0.0), _viewSize(2.0) {
@@ -111,8 +121,11 @@ void App::setup() {
 
 
     // Les boutons de Tours dans LEVEL :
-    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_1,std::pair<double,double>{1., 0.1}, std::pair<double,double>{0.2, 0.2}, false});
-    listOfButtonTowerLevel.push_back(Button{typeButton::ANNULER_TOWER,std::pair<double,double>{1.05, 1.}, std::pair<double,double>{0.1, 0.1}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_1,std::pair<double,double>{1., 0.5}, std::pair<double,double>{0.2, 0.2}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::ANNULER_TOWER,std::pair<double,double>{1.05, 0.8}, std::pair<double,double>{0.1, 0.1}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_2,std::pair<double,double>{1., 0.1}, std::pair<double,double>{0.2, 0.2}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_3,std::pair<double,double>{1., -0.4}, std::pair<double,double>{0.2, 0.2}, false});
+
     for (auto &&button : listOfButtonTowerLevel) {button.set_stats_from_type();}
 
     // Création des tours
@@ -192,6 +205,7 @@ void App::key_callback(int /*key*/, int /*scancode*/, int /*action*/, int /*mods
 }
 
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
+    // std::cout << transform_mouse_pos_tile_to_case_index(pos_tile_mouse) << std::endl;
     for(Button currentButton : listOfButton){
         // std::cout << "mouseX : " <<pos_mouse_abs.first << " " << "mouseY : " <<pos_mouse_abs.second << std::endl;
         // std::cout << "abscisse entre : [" << currentButton.pos.first << ", " << currentButton.pos.first + currentButton.size.first << "]" << std::endl;
@@ -219,8 +233,6 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                 // A changer
                 // myScreen._state = screen_state::MAIN_MENU;
                 break;
-            case TOWER_1:
-                myScreen.showCaseDispo = true;
             default:
                 break;
             }
@@ -237,13 +249,18 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
             case ANNULER_TOWER:
                 myScreen.showCaseDispo = false;
                 break;
+            case TOWER_2:
+                myScreen.showCaseDispo = true;
+                myScreen.currentTowerToDraw = typeTower::TYPE2;
+                delayForTowerPlacement = currentTime;
+                break;
             default:
                 break;
             }
         }
         
     }
-    if(myScreen.showCaseDispo && currentTime-delayForTowerPlacement > 0.2){
+    if(myScreen.showCaseDispo && currentTime-delayForTowerPlacement > 0.2 && isFreeToBuild()){
         listOfTower.push_back(Tower{typeTower::TYPE1, idTower, pos_tile_mouse});
         idTower++;
         for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(2./_numberOfTiles);}
@@ -292,6 +309,11 @@ void App::removeDeadEnemies() {
         }),
         listOfEnemy.end()
     );
+}
+
+bool App::isFreeToBuild(){
+    return (myScreen.listCase[transform_mouse_pos_tile_to_case_index(pos_tile_mouse)]._type == typeCase::DECOR) 
+    && pos_tile_mouse.first < 1.0 && pos_tile_mouse.first >= -1. && pos_tile_mouse.second < 1. && pos_tile_mouse.second >= -1.;
 }
 
 // void App::remplir_listOfCase(){

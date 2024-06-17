@@ -32,7 +32,9 @@ public:
     std::pair<double, double> screen_px_to_squareScreen_px(std::pair<double, double> pos);
     std::pair<double, double> squareScreen_px_to_squareScreen_abs(std::pair<double, double> pos);
     std::pair<double, double> squareScreen_abs_to_SquareScreen_tiles(std::pair<double, double> pos);
-    
+
+    double transform_mouse_pos_tile_to_case_index(std::pair<double, double> pos);
+    bool isFreeToBuild();
 
     // GLFW callbacks binding
     void key_callback(int key, int scancode, int action, int mods);

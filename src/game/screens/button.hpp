@@ -16,7 +16,7 @@
 #include "utils.hpp"
 #include "GLHelpers.hpp"
 
-enum typeButton { BEGIN, PAUSE, PLAY, RESTART, QUIT, CREDIT, TOWER_1, ANNULER_TOWER};
+enum typeButton { BEGIN, PAUSE, PLAY, RESTART, QUIT, CREDIT, TOWER_1, ANNULER_TOWER, TOWER_2, TOWER_3};
 
 
 

@@ -14,6 +14,8 @@
 #include <iostream>
 #include <vector>
 
+#include "../entities/entity.hpp"
+
 #include "simpletext.h"
 #include "utils.hpp"
 #include "GLHelpers.hpp"
@@ -31,6 +33,8 @@ struct Screen{
     std::vector<Button> listButton {};
 
     bool showCaseDispo {false};
+
+    TowerType currentTowerToDraw
 
     void create_list_of_case(std::vector<Case> listOfNodes);
 };
