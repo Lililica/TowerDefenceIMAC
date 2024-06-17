@@ -51,6 +51,18 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
     listOfBackgroundTextures.push_back({screen_state::PAUSE_MENU,img::load(make_absolute_path("images/pause_background.png", true), 3, false)});
     listOfBackgroundTextures.push_back({screen_state::LEVEL,img::load(make_absolute_path("images/level_background.png", true), 3, false)});
     
+
+    // Load Case Texture
+
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/defaultTile.png", true), 3, false));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile.png", true), 3, false));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/startTile.png", true), 3, false));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/endTile.png", true), 3, false));
+
+    for(auto && pair : listOfCaseImg){
+        listOfCaseTexture.push_back(loadTexture(pair));
+    }
+
     // img::Image playButton {img::load(make_absolute_path("images/playbutton.png", true), 3, true)};
     // _texture = loadTexture(playButton);
     
@@ -74,7 +86,7 @@ void App::setup() {
     // Création des cases
     double tileSize {2/float(_numberOfTiles)};
     std::vector<int> listTypeCase {};
-    for (size_t i = 0; i < 20*20; i++){listTypeCase.push_back(i);}
+    for (size_t i = 0; i < _numberOfTiles*_numberOfTiles; i++){listTypeCase.push_back(0);}
     myScreen.create_list_of_case(listTypeCase);
 
     for (auto &&tile : myScreen.listCase){
@@ -99,6 +111,8 @@ void App::setup() {
     // Création des ennemis
     listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, _enemyTextureTest});
 
+
+    
 }
 
 void App::update() {
@@ -116,6 +130,7 @@ void App::update() {
 
     if(myScreen._state == screen_state::LEVEL){
         if(listOfEnemy.size() != 0) listOfEnemy[0].is_walking();
+        
     }
     
     if(listOfEnemy.size() != 0) {
@@ -132,6 +147,7 @@ void App::update() {
         }
         removeDeadEnemies();
     }
+    
     
     
     
@@ -238,3 +254,13 @@ void App::removeDeadEnemies() {
         listOfEnemy.end()
     );
 }
+
+// void App::remplir_listOfCase(){
+//     for(int i{0}; i < myScreen.nbrTileSide*myScreen.nbrTileSide; ++i){
+//         listOfCase.push_back(Case{i, typeCase::DECOR, false, std::pair<double,double>{(i%myScreen.nbrTileSide)*(2./myScreen.nbrTileSide), (i/myScreen.nbrTileSide)*(2./myScreen.nbrTileSide)}, loadTexture(listOfCaseTexture[0].second)});
+//     }
+//     for(Case myCase : listOfNodes){
+//         listOfCase[myCase.index] = myCase;
+//     }
+// }
+

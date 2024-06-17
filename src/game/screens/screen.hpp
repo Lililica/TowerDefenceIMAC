@@ -1,7 +1,22 @@
 #pragma once
 #include <vector>
-#include "./case.hpp"
-#include "./button.hpp"
+#include "case.hpp"
+#include "button.hpp"
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <img/img.hpp>
+
+#include <utility>
+
+
+#include <sstream>
+#include <iostream>
+#include <vector>
+
+#include "simpletext.h"
+#include "utils.hpp"
+#include "GLHelpers.hpp"
 
 enum screen_state { MAIN_MENU, LEVEL, PAUSE_MENU, LEVEL_SELECTOR };
 

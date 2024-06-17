@@ -69,6 +69,21 @@ private:
     std::vector<Tower> listOfTower;
 
     std::vector<Enemy> listOfEnemy;
+
+    std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{0,1 - (2./myScreen.nbrTileSide)}}, 
+                            Case{9, PATH, false, std::pair<double,double>{1 - 10*(2./myScreen.nbrTileSide),1 - (2./myScreen.nbrTileSide)}},
+                            Case{389, PATH, false, std::pair<double,double>{1 - 10*(2./myScreen.nbrTileSide),- 1}},
+                            Case{399, PATH, false, std::pair<double,double>{1 - (2./myScreen.nbrTileSide), - 1}}
+                            };
+
+    // std::vector<Case> listOfCase;
+
+    std::vector<img::Image> listOfCaseImg;    
+
+    std::vector<GLuint> listOfCaseTexture;  
+
+    // void remplir_listOfCase();
+
     void removeDeadEnemies();
 
 };

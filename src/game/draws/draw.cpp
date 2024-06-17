@@ -97,8 +97,12 @@ void App::draw_all_content(){
 
         draw_background(screen_state::LEVEL);
 
-        glColor3f(1.0f, 0.0f, 0.0f);
-        drawRect(-1,-1,2,2);
+        // for(Case myCase : myScreen.listCase){
+        //     myCase.draw_me(_numberOfTiles, listOfCaseTexture);
+        // }
+
+        // glColor3f(1.0f, 0.0f, 0.0f);
+        // drawRect(-1,-1,2,2);
 
         for(Tower tower : listOfTower){
             tower.draw_range_box();
