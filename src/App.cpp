@@ -173,7 +173,7 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                 break;
             case PAUSE:
                 // A changer
-                myScreen._state = screen_state::MAIN_MENU;
+                myScreen._state = screen_state::PAUSE_MENU;
                 break;
             case RESTART:
                 // A changer
