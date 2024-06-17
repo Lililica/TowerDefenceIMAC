@@ -53,6 +53,7 @@ void Enemy::draw_me(){
 // TOWER
 // --------------------------------------------------------------
 
+// Load tower textures
 img::Image defaultTower {img::load(make_absolute_path("images/towers/towerdefault.png", true), 3, true)};
 img::Image type1Tower {img::load(make_absolute_path("images/towers/tower1.png", true), 3, true)};
 img::Image type2Tower {img::load(make_absolute_path("images/towers/tower2.png", true), 3, true)};

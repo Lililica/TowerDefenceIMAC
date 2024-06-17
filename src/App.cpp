@@ -43,14 +43,16 @@ std::pair<double, double> App::squareScreen_abs_to_SquareScreen_tiles(std::pair<
 App::App() : _previousTime(0.0), _viewSize(2.0) {
    // load what needs to be loaded here (for example textures)
 
-    img::Image test {img::load(make_absolute_path("images/level.png", true), 3, true)};
-
-    img::Image playButton {img::load(make_absolute_path("images/playbutton.png", true), 3, true)};
-    
+    img::Image test {img::load(make_absolute_path("images/level.png", true), 3, true)};    
     img::Image enemyImg {img::load(make_absolute_path("images/enemyTest.png", true), 3, true)};
 
-
-    _texture = loadTexture(playButton);
+    // Load background textures
+    listOfBackgroundTextures.push_back({screen_state::MAIN_MENU,img::load(make_absolute_path("images/menu_background.png", true), 3, false)});
+    listOfBackgroundTextures.push_back({screen_state::PAUSE_MENU,img::load(make_absolute_path("images/pause_background.png", true), 3, false)});
+    listOfBackgroundTextures.push_back({screen_state::LEVEL,img::load(make_absolute_path("images/level_background.png", true), 3, false)});
+    
+    // img::Image playButton {img::load(make_absolute_path("images/playbutton.png", true), 3, true)};
+    // _texture = loadTexture(playButton);
     
     _enemyTextureTest = loadTexture(enemyImg);
     // _texture = loadTexture(test);
@@ -69,40 +71,33 @@ void App::setup() {
     TextRenderer.SetColorf(SimpleText::BACKGROUND_COLOR, 0.f, 0.f, 0.f, 0.f);
     TextRenderer.EnableBlending(true);
 
+    // Création des cases
     double tileSize {2/float(_numberOfTiles)};
-
     std::vector<int> listTypeCase {};
     for (size_t i = 0; i < 20*20; i++){listTypeCase.push_back(i);}
     myScreen.create_list_of_case(listTypeCase);
 
-    for (auto &&tile : myScreen.listCase)
-    {
+    for (auto &&tile : myScreen.listCase){
         std::cout << tile.index << " : " << tile.pos.first << ',' <<   tile.pos.second << std::endl;
     }
     
-    listOfButton.push_back(
-        Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1,}, std::pair<double,double>{0.2, 0.2}, false, _texture}
-    );
+    // Création des boutons
+    listOfButton.push_back(Button{typeButton::BEGIN,std::pair<double,double>{-0.2, 0.3,}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::CREDIT,std::pair<double,double>{-0.2, 0.0,}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::QUIT,std::pair<double,double>{-0.2, -0.3,}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.4, 0.1,}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1,}, std::pair<double,double>{0.2, 0.2}, false});
+    for (auto &&button : listOfButton) {button.set_stats_from_type();}
 
-
-    listOfTower.push_back(
-        Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}}
-    );
-    listOfTower.push_back(
-        Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}}
-    );
-    listOfTower.push_back(
-        Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}}
-    );
-    listOfTower.push_back(
-        Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.8,}}
-    );
+    // Création des tours
+    listOfTower.push_back(Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}});
+    listOfTower.push_back(Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}});
+    listOfTower.push_back(Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}});
+    listOfTower.push_back(Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.8,}});
     for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(tileSize);}
     
-
-    listOfEnemy.push_back(
-        Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, _enemyTextureTest}
-    );
+    // Création des ennemis
+    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, _enemyTextureTest});
 
 }
 
@@ -166,15 +161,41 @@ void App::key_callback(int /*key*/, int /*scancode*/, int /*action*/, int /*mods
 
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
     for(Button currentButton : listOfButton){
-        std::cout << "mouseX : " <<pos_mouse_abs.first << " " << "mouseY : " <<pos_mouse_abs.second << std::endl;
-        std::cout << "abscisse entre : [" << currentButton.pos.first << ", " << currentButton.pos.first + currentButton.size.first << "]" << std::endl;
-        std::cout << "ordonné entre : [" << -currentButton.pos.second << ", " << -(currentButton.pos.second - currentButton.size.second) << "]" << std::endl;
+        // std::cout << "mouseX : " <<pos_mouse_abs.first << " " << "mouseY : " <<pos_mouse_abs.second << std::endl;
+        // std::cout << "abscisse entre : [" << currentButton.pos.first << ", " << currentButton.pos.first + currentButton.size.first << "]" << std::endl;
+        // std::cout << "ordonné entre : [" << -currentButton.pos.second << ", " << -(currentButton.pos.second - currentButton.size.second) << "]" << std::endl;
 
-        if(pos_mouse_abs.first > currentButton.pos.first && pos_mouse_abs.first < currentButton.pos.first + currentButton.size.first
-        && pos_mouse_abs.second > -currentButton.pos.second && pos_mouse_abs.second < -(currentButton.pos.second - currentButton.size.second))
-        {
-            myScreen._state = screen_state::LEVEL;
+        if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
+            switch (currentButton._type){
+            case BEGIN:
+            case PLAY:
+                myScreen._state = screen_state::LEVEL;
+                break;
+            case PAUSE:
+                // A changer
+                myScreen._state = screen_state::MAIN_MENU;
+                break;
+            case RESTART:
+                // A changer
+                myScreen._state = screen_state::MAIN_MENU;
+                break;
+            case QUIT:
+                // Close window
+                myScreen._state = screen_state::MAIN_MENU;
+                break;
+            case CREDIT:
+                // A changer
+                myScreen._state = screen_state::MAIN_MENU;
+                break;
+            default:
+                break;
+            }
         }
+        // if(pos_mouse_abs.first > currentButton.pos.first && pos_mouse_abs.first < currentButton.pos.first + currentButton.size.first
+        // && pos_mouse_abs.second > -currentButton.pos.second && pos_mouse_abs.second < -(currentButton.pos.second - currentButton.size.second))
+        // {
+        //     myScreen._state = screen_state::LEVEL;
+        // }
         
     }
 }
