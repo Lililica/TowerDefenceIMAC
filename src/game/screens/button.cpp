@@ -7,6 +7,9 @@ img::Image buttonPLAY {img::load(make_absolute_path("images/buttons/play_button.
 img::Image buttonRESTART {img::load(make_absolute_path("images/buttons/restart_button.png", true), 3, true)};
 img::Image buttonQUIT {img::load(make_absolute_path("images/buttons/quit_button.png", true), 3, true)};
 img::Image buttonCREDIT {img::load(make_absolute_path("images/buttons/credit_button.png", true), 3, true)};
+img::Image typeTower1 {img::load(make_absolute_path("images/towers/tower1.png", true), 3, true)};
+img::Image AnnuleTower {img::load(make_absolute_path("images/buttons/annule_tower.png", true), 3, true)};
+
 
 void Button::draw_me(){
     glPushMatrix();
@@ -15,6 +18,9 @@ void Button::draw_me(){
         draw_quad_with_texture(_texture);
     glPopMatrix();
 }
+
+
+
 
 void Button::set_stats_from_type() {
     switch (_type) {
@@ -35,6 +41,12 @@ void Button::set_stats_from_type() {
             break;
         case CREDIT:
             _texture = loadTexture(buttonCREDIT);
+            break;
+        case TOWER_1:
+            _texture = loadTexture(typeTower1);
+            break;
+        case ANNULER_TOWER:
+            _texture = loadTexture(AnnuleTower);
             break;
         default:
             _texture = loadTexture(buttonBEGIN);

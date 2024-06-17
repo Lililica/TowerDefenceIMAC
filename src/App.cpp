@@ -54,13 +54,24 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
 
     // Load Case Texture
 
-    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/defaultTile.png", true), 3, false));
-    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile.png", true), 3, false));
-    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/startTile.png", true), 3, false));
-    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/endTile.png", true), 3, false));
+    //Default Cases
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/defaultTile.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile.png", true), 3, true));
+    //Direction Cases
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/TileTopBot.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/TileLefRig.png", true), 3, true));
 
-    for(auto && pair : listOfCaseImg){
-        listOfCaseTexture.push_back(loadTexture(pair));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/TileBotLef.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/TileBotRig.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/TileTopLef.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/TileTopRig.png", true), 3, true));
+
+
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/startTile.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/endTile.png", true), 3, true));
+
+    for(auto && img : listOfCaseImg){
+        listOfCaseTexture.push_back(loadTexture(img));
     }
 
     // img::Image playButton {img::load(make_absolute_path("images/playbutton.png", true), 3, true)};
@@ -85,31 +96,34 @@ void App::setup() {
 
     // Création des cases
     double tileSize {2/float(_numberOfTiles)};
-    std::vector<int> listTypeCase {};
-    for (size_t i = 0; i < _numberOfTiles*_numberOfTiles; i++){listTypeCase.push_back(0);}
-    myScreen.create_list_of_case(listTypeCase);
 
-    for (auto &&tile : myScreen.listCase){
-        std::cout << tile.index << " : " << tile.pos.first << ',' <<   tile.pos.second << std::endl;
-    }
-    
+    myScreen.create_list_of_case(listOfNodes);
+
+
+
     // Création des boutons
-    listOfButton.push_back(Button{typeButton::BEGIN,std::pair<double,double>{-0.2, 0.3,}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButton.push_back(Button{typeButton::CREDIT,std::pair<double,double>{-0.2, 0.0,}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButton.push_back(Button{typeButton::QUIT,std::pair<double,double>{-0.2, -0.3,}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButton.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.4, 0.1,}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButton.push_back(Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1,}, std::pair<double,double>{0.2, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::BEGIN,std::pair<double,double>{-0.2, 0.3}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::CREDIT,std::pair<double,double>{-0.2, 0.0}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::QUIT,std::pair<double,double>{-0.2, -0.3}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.4, 0.1}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButton.push_back(Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1}, std::pair<double,double>{0.2, 0.2}, false});
     for (auto &&button : listOfButton) {button.set_stats_from_type();}
 
+
+    // Les boutons de Tours dans LEVEL :
+    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_1,std::pair<double,double>{1., 0.1}, std::pair<double,double>{0.2, 0.2}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::ANNULER_TOWER,std::pair<double,double>{1.05, 1.}, std::pair<double,double>{0.1, 0.1}, false});
+    for (auto &&button : listOfButtonTowerLevel) {button.set_stats_from_type();}
+
     // Création des tours
-    listOfTower.push_back(Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}});
-    listOfTower.push_back(Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}});
-    listOfTower.push_back(Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}});
-    listOfTower.push_back(Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.8,}});
+    // listOfTower.push_back(Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}});
+    // listOfTower.push_back(Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}});
+    // listOfTower.push_back(Tower{typeTower::TYPE3,int{3}, std::pair<double,double>{0.8, 0.8,}});
+    // listOfTower.push_back(Tower{typeTower::TYPE4,int{4}, std::pair<double,double>{-0.1, -0.8,}});
     for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(tileSize);}
     
     // Création des ennemis
-    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, _enemyTextureTest});
+    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, _enemyTextureTest, listOfNodes, myScreen.nbrTileSide});
 
 
     
@@ -117,7 +131,7 @@ void App::setup() {
 
 void App::update() {
 
-    const double currentTime { glfwGetTime() };
+    currentTime = glfwGetTime() ;
     const double elapsedTime { currentTime - _previousTime};
     _previousTime = currentTime;
 
@@ -131,6 +145,8 @@ void App::update() {
     if(myScreen._state == screen_state::LEVEL){
         if(listOfEnemy.size() != 0) listOfEnemy[0].is_walking();
         
+
+
     }
     
     if(listOfEnemy.size() != 0) {
@@ -163,7 +179,7 @@ void App::render() {
     glLoadIdentity();
 
     glClearColor(0.5,0.5,0.5,1);
-
+    
     glPushMatrix();
         glScalef(size, size, 1);
         draw_all_content();
@@ -205,17 +221,38 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                 // A changer
                 myScreen._state = screen_state::MAIN_MENU;
                 break;
+            case TOWER_1:
+                myScreen.showCaseDispo = true;
             default:
                 break;
             }
         }
+    }
+    for(Button currentButton : listOfButtonTowerLevel){
+
+        if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
+            switch (currentButton._type){
+            case TOWER_1:
+                myScreen.showCaseDispo = true;
+                break;
+            case ANNULER_TOWER:
+                myScreen.showCaseDispo = false;
+                break;
+            default:
+                break;
+            }
+        }
+        
+    }
+    if(myScreen.showCaseDispo){
+        
+    }
+
         // if(pos_mouse_abs.first > currentButton.pos.first && pos_mouse_abs.first < currentButton.pos.first + currentButton.size.first
         // && pos_mouse_abs.second > -currentButton.pos.second && pos_mouse_abs.second < -(currentButton.pos.second - currentButton.size.second))
         // {
         //     myScreen._state = screen_state::LEVEL;
         // }
-        
-    }
 }
 
 void App::scroll_callback(double /*xoffset*/, double /*yoffset*/) {

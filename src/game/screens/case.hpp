@@ -17,7 +17,7 @@
 #include "utils.hpp"
 #include "GLHelpers.hpp"
 
-enum typeCase { DECOR,  PATH, TOWER, START, END };
+enum typeCase { DECOR, PATH, PATH_R_L, PATH_T_B, PATH_T_R, PATH_T_L, PATH_B_R, PATH_B_L, TOWER, START, END };
 
 struct Case{
 
@@ -26,7 +26,7 @@ struct Case{
     bool occupied {false};
     std::pair<double,double> pos {0,0};
 
-    GLuint _texture {};
+    // GLuint _texture {};
 
     void draw_me(int nbrTiles, std::vector<GLuint> listOfCaseTexture);
 };

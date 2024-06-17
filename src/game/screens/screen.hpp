@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+
 #include "case.hpp"
 #include "button.hpp"
 
@@ -20,6 +20,8 @@
 
 enum screen_state { MAIN_MENU, LEVEL, PAUSE_MENU, LEVEL_SELECTOR };
 
+struct Case;
+
 struct Screen{
 
     screen_state _state {MAIN_MENU};
@@ -28,6 +30,8 @@ struct Screen{
     std::vector<Case> listCase {};
     std::vector<Button> listButton {};
 
-    void create_list_of_case(std::vector<int> listTypeCase);
+    bool showCaseDispo {false};
+
+    void create_list_of_case(std::vector<Case> listOfNodes);
 };
 

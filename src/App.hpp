@@ -17,6 +17,7 @@ public:
 
     void setup();
     void update();
+    
 
     std::pair<double, double> mouse_pos;
     
@@ -24,6 +25,7 @@ public:
 
     std::pair<double, double> pos_tile_mouse;
 
+    double currentTime;
     
     // Convert coordonnées
 
@@ -65,15 +67,17 @@ private:
     
     std::vector<Button> listOfButton;
 
+    std::vector<Button> listOfButtonTowerLevel;
+
 
     std::vector<Tower> listOfTower;
 
     std::vector<Enemy> listOfEnemy;
 
-    std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{0,1 - (2./myScreen.nbrTileSide)}}, 
-                            Case{9, PATH, false, std::pair<double,double>{1 - 10*(2./myScreen.nbrTileSide),1 - (2./myScreen.nbrTileSide)}},
-                            Case{389, PATH, false, std::pair<double,double>{1 - 10*(2./myScreen.nbrTileSide),- 1}},
-                            Case{399, PATH, false, std::pair<double,double>{1 - (2./myScreen.nbrTileSide), - 1}}
+    std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{-1.,1.}}, 
+                            Case{10, PATH, false, std::pair<double,double>{0.,1.}},
+                            Case{390, PATH, false, std::pair<double,double>{0.,-1.+ (2./_numberOfTiles)}},
+                            Case{399, END, false, std::pair<double,double>{1. - (2./_numberOfTiles), -1. + (2./_numberOfTiles)}}
                             };
 
     // std::vector<Case> listOfCase;

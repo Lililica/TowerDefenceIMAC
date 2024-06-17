@@ -10,11 +10,15 @@
 #include <sstream>
 #include <iostream>
 
+
+
 #include "simpletext.h"
 #include "utils.hpp"
 #include "GLHelpers.hpp"
 
-enum typeButton { BEGIN, PAUSE, PLAY, RESTART, QUIT, CREDIT };
+enum typeButton { BEGIN, PAUSE, PLAY, RESTART, QUIT, CREDIT, TOWER_1, ANNULER_TOWER};
+
+
 
 struct Button{
 

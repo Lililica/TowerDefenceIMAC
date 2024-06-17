@@ -33,15 +33,11 @@ struct Enemy {
     double height {};
 
     GLuint texture;
-
+    std::vector<Case> listOfNodes;
+   
     int nbrTileSide{20};
 
-    std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{0,1 - (2./nbrTileSide)}}, 
-                                Case{0, PATH, false, std::pair<double,double>{1 - 10*(2./nbrTileSide),1 - (2./nbrTileSide)}},
-                                Case{0, PATH, false, std::pair<double,double>{1 - 10*(2./nbrTileSide),- 1}},
-                                Case{0, PATH, false, std::pair<double,double>{1 - (2./nbrTileSide), - 1}}
-                                };
-
+    
     Direction direction {RIGHT};
 
     int itTKT {0};

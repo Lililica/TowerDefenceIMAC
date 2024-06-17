@@ -30,7 +30,7 @@ void Enemy::is_walking(){
         // std::cout << pos.second << "entre : [" << case2.pos.second << ", " << (case2.pos.second + 2./nbrTileSide) << std::endl;
     
         if(pos.first >= case2.pos.first && pos.first <= case2.pos.first + 2./nbrTileSide &&
-            pos.second >= case2.pos.second && pos.second <= (case2.pos.second + 2./nbrTileSide)){   //A MODIFIER
+            pos.second >= case2.pos.second - 2./nbrTileSide && pos.second <= case2.pos.second){   //A MODIFIER
             itTKT = itTKT+1;
             // std::cout << "J'y suis !" << std::endl;
         }else if(pos.first < 1.5 && pos.second < 1.5){

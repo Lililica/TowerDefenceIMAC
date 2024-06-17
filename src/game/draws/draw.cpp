@@ -97,9 +97,9 @@ void App::draw_all_content(){
 
         draw_background(screen_state::LEVEL);
 
-        // for(Case myCase : myScreen.listCase){
-        //     myCase.draw_me(_numberOfTiles, listOfCaseTexture);
-        // }
+        for(Case myCase : myScreen.listCase){
+            myCase.draw_me(_numberOfTiles, listOfCaseTexture);
+        }
 
         // glColor3f(1.0f, 0.0f, 0.0f);
         // drawRect(-1,-1,2,2);
@@ -121,6 +121,30 @@ void App::draw_all_content(){
         for(Button button : listOfButton){
             if( button._type == typeButton::PAUSE
             )button.draw_me();
+        }
+
+        for(Button button : listOfButtonTowerLevel){
+            if(button._type != typeButton::ANNULER_TOWER){
+                button.draw_me();
+            }   
+        }
+
+        if(myScreen.showCaseDispo){
+            for(Case myCase : myScreen.listCase){
+                if(myCase._type == typeCase::DECOR){
+                    glPushMatrix();
+                        glColor4f(1,0,0,0.9*abs(sin(currentTime*3)));
+                        // glScalef(0.95,0.95,1);
+                        drawRect(myCase.pos.first, myCase.pos.second, 2./myScreen.nbrTileSide, -2./myScreen.nbrTileSide);
+                    glPopMatrix();    
+                }
+            }
+            for(Button button : listOfButtonTowerLevel){
+                if(button._type == typeButton::ANNULER_TOWER){
+                    button.draw_me();
+                }   
+            }
+
         }
         
         // ---------------------------------------------------
@@ -150,15 +174,15 @@ void App::draw_all_content(){
         // Draw Lines
         // ---------------------------------------------------
 
-            glColor3f(1.0f, 1.0f, 1.0f);
-            glBegin(GL_LINES);
-            for(int i{0}; i < _numberOfTiles + 1; i++){
-                glVertex2f((2*i/float(_numberOfTiles)-1.), -1.f);
-                glVertex2f((2*i/float(_numberOfTiles)-1.), 1.f);
-                glVertex2f(-1.f, (2*i/float(_numberOfTiles)-1.));
-                glVertex2f(1.f, (2*i/float(_numberOfTiles)-1.));
-            }
-            glEnd();
+            // glColor3f(1.0f, 1.0f, 1.0f);
+            // glBegin(GL_LINES);
+            // for(int i{0}; i < _numberOfTiles + 1; i++){
+            //     glVertex2f((2*i/float(_numberOfTiles)-1.), -1.f);
+            //     glVertex2f((2*i/float(_numberOfTiles)-1.), 1.f);
+            //     glVertex2f(-1.f, (2*i/float(_numberOfTiles)-1.));
+            //     glVertex2f(1.f, (2*i/float(_numberOfTiles)-1.));
+            // }
+            // glEnd();
     }
 
     TextRenderer.Label(print_screen_state.c_str(), 100, 100, SimpleText::CENTER);
