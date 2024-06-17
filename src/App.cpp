@@ -95,7 +95,7 @@ void App::setup() {
     TextRenderer.EnableBlending(true);
 
     // Création des cases
-    double tileSize {2/float(_numberOfTiles)};
+    double tileSize {2./float(_numberOfTiles)};
 
     myScreen.create_list_of_case(listOfNodes);
 
@@ -150,12 +150,13 @@ void App::update() {
     }
     
     if(listOfEnemy.size() != 0) {
-        for (auto &&tower : listOfTower){
-            if(collision_box_box(listOfEnemy[0].pos, {listOfEnemy[0].width, listOfEnemy[0].height}, tower.rangeBox.first, tower.rangeBox.second)) {
-                listOfEnemy[0].lifePoint -= 2;
-            }
-        }
         for (auto &&enemy : listOfEnemy){
+            for (auto &&tower : listOfTower){
+                if(collision_box_box(enemy.pos, {enemy.width, enemy.height}, tower.rangeBox.first, tower.rangeBox.second)) {
+                    tower.listOfBullet.push_back(Bullet{std::pair<double,double>{tower.pos.first + 2./_numberOfTiles, tower.pos.first - 2./_numberOfTiles}});
+                    // enemy.lifePoint -= tower.power;
+                }
+            }
             if(enemy.lifePoint <= 0) {
                 std::cout << "Enemy died" << std::endl;
                 //quand un enemy meurt
@@ -219,7 +220,7 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                 break;
             case CREDIT:
                 // A changer
-                myScreen._state = screen_state::MAIN_MENU;
+                // myScreen._state = screen_state::MAIN_MENU;
                 break;
             case TOWER_1:
                 myScreen.showCaseDispo = true;
@@ -234,6 +235,7 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
             switch (currentButton._type){
             case TOWER_1:
                 myScreen.showCaseDispo = true;
+                delayForTowerPlacement = currentTime;
                 break;
             case ANNULER_TOWER:
                 myScreen.showCaseDispo = false;
@@ -244,8 +246,11 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
         }
         
     }
-    if(myScreen.showCaseDispo){
-        
+    if(myScreen.showCaseDispo && currentTime-delayForTowerPlacement > 0.2){
+        listOfTower.push_back(Tower{typeTower::TYPE1, idTower, pos_tile_mouse});
+        idTower++;
+        for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(2./_numberOfTiles);}
+        myScreen.showCaseDispo = false;
     }
 
         // if(pos_mouse_abs.first > currentButton.pos.first && pos_mouse_abs.first < currentButton.pos.first + currentButton.size.first

@@ -45,8 +45,8 @@ struct Enemy {
     void is_walking();
     void draw_my_lp();
 
-    int initLP {100};
-    int lifePoint {100};
+    int initLP {300};
+    int lifePoint {initLP};
     double speed {0.05/15};
 
     int reward {0}; //combien rapporte l'ennemi a sa mort
@@ -80,10 +80,10 @@ struct Tower {
 
     GLuint _texture;
     int lifePoint {0};
-    int power {0};
+    int power {2};
     int range {0};
     std::pair<std::pair<double,double>,std::pair<double,double>> rangeBox {pos, {0,0}};
-    double attackSpeed {0.1}; //intervalle entre 2 tirs
+    double attackSpeed {0.05}; //intervalle entre 2 tirs
 
     void set_stats_from_type();
     void set_range_box(double tileSize);
@@ -93,4 +93,6 @@ struct Tower {
     std::vector<Bullet> listOfBullet {};
 
     // void remove_bullet(Bullet bullet);
+
+    void lance_bullet(int nbrTiles);
 };

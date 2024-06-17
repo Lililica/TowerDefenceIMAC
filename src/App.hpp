@@ -69,7 +69,8 @@ private:
 
     std::vector<Button> listOfButtonTowerLevel;
 
-
+    double delayForTowerPlacement;
+    int idTower {0};
     std::vector<Tower> listOfTower;
 
     std::vector<Enemy> listOfEnemy;

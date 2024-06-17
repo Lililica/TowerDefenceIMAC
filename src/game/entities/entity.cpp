@@ -150,6 +150,11 @@ void Tower::draw_range_box(){
     glPopMatrix();
 }
 
+void Tower::lance_bullet(int nbrTiles){
+    
+    // std::pair<double,double> posBtwEnemyTower {abs(pos.first)};
+}
+
 // void Tower::remove_bullet(Bullet bullet){
 //     std::remove(listOfBullet.begin(), listOfBullet.end(), bullet);
 // }
