@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #include <vector>
 #include <unordered_map>
 #include <utility>
@@ -28,7 +26,6 @@ namespace Graph {
         void add_vertex(int const id);
 
         void add_directed_edge(int const from, int const to, float const weight = 1.0f);
-        void add_undirected_edge(int const from, int const to, float const weight = 1.0f);
         
         // Même fonctionnement que pour WeightedGraphEdge
         bool operator==(WeightedGraph const& other);
@@ -39,6 +36,8 @@ namespace Graph {
         void print_BFS(int const start);
         std::vector<int> list_BFS(int const start);
     };
+
+    WeightedGraph createAdjencyList (std::vector<std::vector<std::string>> splitItdWord, float numberofCase);
 
 } // namespace
 

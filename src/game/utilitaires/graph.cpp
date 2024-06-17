@@ -1,6 +1,5 @@
 #include "graph.hpp"
-#include "../screens/case.hpp"
-
+#include "../screens/case.hpp" 
 
 #define INFINITY ((float)(1e+300 * 1e+300))
 
@@ -35,12 +34,6 @@ void Graph::WeightedGraph::add_directed_edge(int const from, int const to, float
         add_directed_edge(from, to, weight);
     }
 }
-
-void Graph::WeightedGraph::add_undirected_edge(int const from, int const to, float const weight){
-    add_directed_edge(from,to,weight);
-    add_directed_edge(to,from,weight);
-}
-
 
 std::vector<int> Graph::WeightedGraph::list_DFS(int const start){
     std::vector<int> order_visit {};
@@ -94,38 +87,6 @@ void Graph::WeightedGraph::print_BFS(int const start){
     std::cout << "]" << std::endl;
 }
 
-std::vector<int> dijkstra_search(Graph::WeightedGraph & graph){
-    std::vector<int> weightList(graph.adjacency_list.size(),1000000);
-    weightList[0] = 0;
-
-    auto itFirstElement = graph.adjacency_list.begin();
-
-    auto compare_function = [weightList](const int l, const int r){return weightList[l] > weightList[r];};
-    std::priority_queue<int, std::vector<int>, decltype(compare_function)>  nodeToVisit{compare_function} ;
-
-    std::vector<int> nodeAlreadyVisited {};
-
-    nodeToVisit.push(itFirstElement->first);
-
-    while(!nodeToVisit.empty()){
-        int actualNode = nodeToVisit.top();
-        nodeToVisit.pop();
-        nodeAlreadyVisited.push_back(actualNode);
-
-        for(Graph::WeightedGraphEdge element : graph.adjacency_list[actualNode]){
-            if(std::find(nodeAlreadyVisited.begin(), nodeAlreadyVisited.end(), element.to) == nodeAlreadyVisited.end()){
-                nodeToVisit.push(element.to);
-                if(weightList[element.to] > weightList[actualNode] + element.weight){
-                    weightList[element.to] = weightList[actualNode] + element.weight;
-                }
-            }
-            
-        }
-    }
-
-    return weightList;
-}
-
 std::vector<std::string> split_string(std::string const& str){
 
     // Permet de savoir si un element est un espace
@@ -170,16 +131,54 @@ std::vector<std::vector<std::string>> splitItd (){
 }
 
 //permet en fonction du premier mot de la ligne d'associer le type de la case
-std::vector<Case> associateRGBToTypeCase(std::vector<std::vector<std::string>> splitItdWord){
+Graph::WeightedGraph createAdjencyList (std::vector<std::vector<std::string>> splitItdWord, float numberofCase){
     // for(std::vector<std::string> splitItdLine : splitItdWord){
+   Graph::WeightedGraph graphFinal {};
     for(int i{0}; i<splitItdWord.size(); i++){
-        if(splitItdWord[i][0]== "path"){
-            Case node {i, typeCase::PATH, false, {std::stof(splitItdWord[i][2]),std::stof(splitItdWord[i][3])}};
-        }else if(splitItdWord[i][0]== "in"){
-            Case node {i, typeCase::START, false, {std::stof(splitItdWord[i][2]),std::stof(splitItdWord[i][3])}};
-        }else if(splitItdWord[i][0]== "out"){
-            Case node {i, typeCase::END, false, {std::stof(splitItdWord[i][2]),std::stof(splitItdWord[i][3])}};
+        if(splitItdWord[i][0]== "node"){
+            graphFinal.add_directed_edge(stof(splitItdWord[i][1]),stof(splitItdWord[i][4]),(2.f/numberofCase)-1.f);
         }
     }
 }
 
+std::vector<int> dijkstra_search(Graph::WeightedGraph & graph){
+    std::vector<int> weightList(graph.adjacency_list.size(),1000000);
+    weightList[0] = 0;
+
+    auto itFirstElement = graph.adjacency_list.begin();
+
+    auto compare_function = [weightList](const int l, const int r){return weightList[l] > weightList[r];};
+    std::priority_queue<int, std::vector<int>, decltype(compare_function)>  nodeToVisit{compare_function} ;
+
+    std::vector<int> nodeAlreadyVisited {};
+
+    nodeToVisit.push(itFirstElement->first);
+
+    while(!nodeToVisit.empty()){
+        int actualNode = nodeToVisit.top();
+        nodeToVisit.pop();
+        nodeAlreadyVisited.push_back(actualNode);
+
+        for(Graph::WeightedGraphEdge element : graph.adjacency_list[actualNode]){
+            if(std::find(nodeAlreadyVisited.begin(), nodeAlreadyVisited.end(), element.to) == nodeAlreadyVisited.end()){
+                nodeToVisit.push(element.to);
+                if(weightList[element.to] > weightList[actualNode] + element.weight){
+                    weightList[element.to] = weightList[actualNode] + element.weight;
+                }
+            }
+            
+        }
+    }
+
+    return weightList;
+}
+
+// std::vector<Case> createListOfNodes(std::vector<int> dijkstraList) {
+//     std::vector<Case> listOfNodes {};
+//     listOfNodes.push_back({0,typeCase::START,false,{1,2}});
+//     for(int i{1}; i<dijkstraList.size()-1;i++){
+//         listOfNodes.push_back({i,typeCase::PATH,false,{1,2}});
+//     }
+//     listOfNodes.push_back({dijkstraList.size()-1,typeCase::END,false,{1,2}});
+//     return listOfNodes;
+// }
