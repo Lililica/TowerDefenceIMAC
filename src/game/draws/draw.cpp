@@ -113,20 +113,22 @@ void App::draw_all_content(){
                 tower.draw_me(tileSize);
             }
             for (Tower& tower : listOfTower) {
-                for (auto& shoot : tower.listOfBullet) {
-                    Enemy* enemy {findEnemyFromList(shoot.second)};
-                    if (enemy != nullptr) {
-                        if(currentTime-shoot.first.lastTimeMoved >= shoot.first.speed) move_bullet(shoot.first, enemy->pos);
-                        // std::cout << shoot.first.pos.first << " " << shoot.first.pos.second << std::endl;
-                        // if(abs(enemy->pos.first-shoot.first.pos.first) < 0.009 && abs(enemy->pos.second-shoot.first.pos.second) < 0.009) {
-                        if(collision_box_box(enemy->pos, {enemy->height,enemy->width}, shoot.first.pos, {shoot.first.width, shoot.first.height})) {
-                            tower.remove_bullet(shoot.first);
-                            enemy->lifePoint -= tower.power;
+                if(tower.listOfBullet.size() >= 0) {
+                    for (auto& shoot : tower.listOfBullet) {
+                        Enemy* enemy {findEnemyFromList(shoot.second)};
+                        if (enemy != nullptr) {
+                            if(currentTime-shoot.first.lastTimeMoved >= shoot.first.speed) move_bullet(shoot.first, enemy->pos);
+                            // std::cout << shoot.first.pos.first << " " << shoot.first.pos.second << std::endl;
+                            // if(abs(enemy->pos.first-shoot.first.pos.first) < 0.009 && abs(enemy->pos.second-shoot.first.pos.second) < 0.009) {
+                            if(collision_box_box(enemy->pos, {enemy->height,enemy->width}, shoot.first.pos, {shoot.first.width, shoot.first.height})) {
+                                tower.remove_bullet(shoot.first);
+                                enemy->lifePoint -= tower.power;
+                            } else {
+                                shoot.first.draw_me(tower._bulletTexture, enemy->pos);
+                            }
                         } else {
-                            shoot.first.draw_me(tower._bulletTexture, enemy->pos);
+                            std::cout << "No target found" << std::endl;
                         }
-                    } else {
-                        std::cout << "No target found" << std::endl;
                     }
                 }
             }

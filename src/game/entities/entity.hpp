@@ -75,16 +75,6 @@ struct Bullet {
 
     void draw_me(GLuint texture, std::pair<double, double> posTarget);
 };
-// bool operator==(Bullet const& bullet1, Bullet const& bullet2) {
-//     return (
-//         bullet1.pos.first == bullet2.pos.first &&
-//         bullet1.pos.second == bullet2.pos.second &&
-//         bullet1.width == bullet2.width &&
-//         bullet1.height == bullet2.height &&
-//         bullet1.speed == bullet2.speed &&
-//         bullet1.lastTimeMoved == bullet2.lastTimeMoved
-//     ) ? true : false;
-// }
 
 struct Tower {
 
@@ -111,8 +101,7 @@ struct Tower {
     std::vector<std::pair<Bullet, int>> listOfBullet {};
 
     void remove_bullet(const Bullet& bullet);
-
-    // void lance_bullet(int nbrTiles);
+    
 };
 
 void move_bullet(Bullet& bullet, std::pair<double,double> const& target);

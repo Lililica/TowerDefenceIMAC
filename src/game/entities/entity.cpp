@@ -86,7 +86,7 @@ void Tower::set_stats_from_type() {
         case TYPE1:
             _texture = loadTexture(type1Tower);
             _bulletTexture = loadTexture(defaultBullet);
-            power = 2;
+            power = 5;
             range = 1;
             lifePoint = 5;
             attackSpeed = 0.1;
@@ -94,7 +94,7 @@ void Tower::set_stats_from_type() {
         case TYPE2:
             _texture = loadTexture(type2Tower);
             _bulletTexture = loadTexture(defaultBullet);
-            power = 4;
+            power = 10;
             range = 2;
             lifePoint = 5;
             attackSpeed = 0.2;
@@ -102,7 +102,7 @@ void Tower::set_stats_from_type() {
         case TYPE3:
             _texture = loadTexture(type3Tower);
             _bulletTexture = loadTexture(defaultBullet);
-            power = 6;
+            power = 20;
             range = 3;
             lifePoint = 5;
             attackSpeed = 0.3;
@@ -110,7 +110,7 @@ void Tower::set_stats_from_type() {
         case TYPE4:
             _texture = loadTexture(type4Tower);
             _bulletTexture = loadTexture(defaultBullet);
-            power = 8;
+            power = 30;
             range = 4;
             lifePoint = 5;
             attackSpeed = 0.4;
@@ -157,10 +157,6 @@ void Tower::draw_range_box(){
         );
     glPopMatrix();
 }
-
-// void Tower::lance_bullet(int nbrTiles){
-    // std::pair<double,double> posBtwEnemyTower {abs(pos.first)};
-// }
 
 void Tower::remove_bullet(const Bullet& bullet) {
     listOfBullet.erase(

@@ -160,13 +160,11 @@ void App::update() {
     }
     
     if(listOfEnemy.size() != 0) {
-        for (auto &&enemy : listOfEnemy){
-            for (auto &&tower : listOfTower){
+        for (auto&enemy : listOfEnemy){
+            for (auto&tower : listOfTower){
                 if(collision_box_box(enemy.pos, {enemy.width, enemy.height}, tower.rangeBox.first, tower.rangeBox.second) && currentTime-tower.lastTimeShoot >= tower.attackSpeed) {
                     tower.listOfBullet.push_back({Bullet{std::pair<double,double>{tower.pos.first + (2./_numberOfTiles)/2., tower.pos.second + (2./_numberOfTiles)/2.}}, enemy.id});
                     tower.lastTimeShoot = currentTime;
-                    // std::cout << tower.pos.first + 2./_numberOfTiles << " " << tower.pos.first - 2./_numberOfTiles << std::endl;
-                    // std::cout << tower.pos.first << " " << tower.pos.second << std::endl;
                 }
             }
             if(enemy.lifePoint <= 0) {
@@ -175,6 +173,8 @@ void App::update() {
             }
         }
         removeDeadEnemies();
+    } else {
+        for (auto&tower : listOfTower) {tower.listOfBullet.clear();}
     }
     
     
