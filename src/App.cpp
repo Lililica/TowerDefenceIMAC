@@ -69,6 +69,9 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
     listOfBackgroundTextures.push_back({screen_state::MAIN_MENU,img::load(make_absolute_path("images/menu_background.png", true), 3, false)});
     listOfBackgroundTextures.push_back({screen_state::PAUSE_MENU,img::load(make_absolute_path("images/pause_background.png", true), 3, false)});
     listOfBackgroundTextures.push_back({screen_state::LEVEL,img::load(make_absolute_path("images/level_background.png", true), 3, false)});
+    listOfBackgroundTextures.push_back({screen_state::LOSE,img::load(make_absolute_path("images/lose_background.jpg", true), 3, false)});
+    listOfBackgroundTextures.push_back({screen_state::WIN,img::load(make_absolute_path("images/win_background.jpg", true), 3, false)});
+    listOfBackgroundTextures.push_back({screen_state::INFO,img::load(make_absolute_path("images/credit_background.jpg", true), 3, false)});
     
 
     // Load Case Texture
@@ -151,6 +154,11 @@ void App::setup() {
     listOfButtonPause.push_back(Button{typeButton::CONTINU,std::pair<double,double>{-0.2, 0.3}, std::pair<double,double>{0.4, 0.4}, false});
     for (auto &&button : listOfButtonPause) {button.set_stats_from_type();}
 
+    listOfButtonEnd.push_back(Button{typeButton::QUIT,std::pair<double,double>{-0.2, -0.6}, std::pair<double,double>{0.4, 0.4}, false});
+    listOfButtonCredit.push_back(Button{typeButton::EXIT_TO_MENU,std::pair<double,double>{-0.2, -0.6}, std::pair<double,double>{0.4, 0.4}, false});
+    for (auto &&button : listOfButtonEnd) {button.set_stats_from_type();}
+    for (auto &&button : listOfButtonCredit) {button.set_stats_from_type();}
+
     // Création des tours
     // listOfTower.push_back(Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}});
     // listOfTower.push_back(Tower{typeTower::TYPE2,int{2}, std::pair<double,double>{0.5, -0.2,}});
@@ -185,49 +193,106 @@ void App::update() {
 
     if(myScreen._state == screen_state::LEVEL){
         if(listOfEnemy.size() != 0){
-            for(Enemy & currentEnnemy : listOfEnemy){
-                currentEnnemy.is_walking();
+            for(auto it = listOfEnemy.begin(); it != listOfEnemy.end();){
+                Enemy& currentEnemy = *it;
+                currentEnemy.is_walking();
+                if(collision_box_box(currentEnemy.pos, {currentEnemy.width, currentEnemy.height}, listOfNodes.back().pos, {tileSize, tileSize})) {
+                    it = listOfEnemy.erase(it);
+                    globalLife -= 1;
+                }else {
+                    ++it; // Passe à l'élément suivant seulement si aucun élément n'est supprimé
+                }
             }
         }
-    }
-    
-    for (auto&tower : listOfTower){
-        // std::cout << tower.attackSpeed << std::endl;
-        if(listOfEnemy.size() != 0) {
-            for (auto&enemy : listOfEnemy){
-                if(collision_box_box(enemy.pos, {enemy.width, enemy.height}, tower.rangeBox.first, tower.rangeBox.second) && currentTime-tower.lastTimeShoot > tower.attackSpeed) {
+        for (auto& tower : listOfTower) {
+            if (!listOfEnemy.empty()) {
+                for (auto it = listOfEnemy.begin(); it != listOfEnemy.end(); ) {
+                    Enemy& enemy = *it;
 
-                    double distanceCurrentEnemy {dist_two_pos(tower.pos, enemy.pos)};
+                    if (collision_box_box(enemy.pos, {enemy.width, enemy.height}, tower.rangeBox.first, tower.rangeBox.second) 
+                        && currentTime - tower.lastTimeShoot > tower.attackSpeed) {
 
-                    // Si cet enemy est plus proche que le dernier ciblé
-                    if (distanceCurrentEnemy < tower.distLastEnemyTargeted) {
-                        tower.idLastEnemyTargeted = enemy.id;
-                        tower.distLastEnemyTargeted = distanceCurrentEnemy;
-                        tower.shoot(tower.idLastEnemyTargeted, currentTime, tileSize); // On tire que si c'est l'enemy plus proche
-                    } else if (enemy.id == tower.idLastEnemyTargeted) { // Sinon si cet enemy est le même que le dernier ciblé
-                        tower.distLastEnemyTargeted = distanceCurrentEnemy;
-                        tower.shoot(tower.idLastEnemyTargeted, currentTime, tileSize); // On tire que si c'est l'enemy plus proche ou le seul présent
+                        double distanceCurrentEnemy = dist_two_pos(tower.pos, enemy.pos);
+
+                        // Si cet ennemi est plus proche que le dernier ciblé
+                        if (distanceCurrentEnemy < tower.distLastEnemyTargeted) {
+                            tower.idLastEnemyTargeted = enemy.id;
+                            tower.distLastEnemyTargeted = distanceCurrentEnemy;
+                            tower.shoot(tower.idLastEnemyTargeted, currentTime, tileSize); // On tire que si c'est l'ennemi plus proche
+                        } else if (enemy.id == tower.idLastEnemyTargeted) { // Sinon si cet ennemi est le même que le dernier ciblé
+                            tower.distLastEnemyTargeted = distanceCurrentEnemy;
+                            tower.shoot(tower.idLastEnemyTargeted, currentTime, tileSize); // On tire que si c'est l'ennemi plus proche ou le seul présent
+                        }
                     }
 
+                    if (enemy.lifePoint <= 0) {
+                        std::cout << "Enemy died" << std::endl;
+                        myScreen.currency += enemy.reward;
+                        it = listOfEnemy.erase(it); // Supprime l'ennemi mort et récupère un nouvel itérateur valide
+                    } else {
+                        ++it; // Passe à l'élément suivant seulement si aucun élément n'est supprimé
+                    }
                 }
-                if(enemy.lifePoint <= 0) {
-                    std::cout << "Enemy died" << std::endl;
-                    myScreen.currency += enemy.reward;
-                    //quand un enemy meurt
+            } else {
+                for (auto& tower : listOfTower) {
+                    tower.listOfBullet.clear();
                 }
             }
-            removeDeadEnemies();
-        } else {
-            for (auto&tower : listOfTower) {tower.listOfBullet.clear();}
         }
-    }
-    
-    
-    
-    
+
+    }   
    
     // UwU 
     render();
+
+    if(currentTime < 5 && currentTime > 0 && !vague1) {
+        for (size_t i = 0; i < 2; i++){
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+        }
+        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
+        vague1 = true;
+    } else if (currentTime < 10 && currentTime > 5 && !vague2) {
+        for (size_t i = 0; i < 3; i++){
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+        }
+        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
+        vague2 = true;
+    } else if (currentTime < 15 && currentTime > 10 && !vague3) {
+        for (size_t i = 0; i < 4; i++){
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+        }
+        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
+        vague3 = true;
+    } else if (currentTime < 20 && currentTime > 15 && !vague4) {
+        for (size_t i = 0; i < 6; i++){
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+        }
+        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
+        vague4 = true;
+    } else if (currentTime < 25 && currentTime > 20 && !vague5) {
+        for (size_t i = 0; i < 8; i++){
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+        }
+        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
+        vague5 = true;
+    } else if (currentTime > 25 && currentTime-lastInfiniteVague > 5) {
+        for (size_t i = 0; i < (rand() % 20 + 1 + 1); i++){
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+        }
+        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
+        lastInfiniteVague = currentTime;
+    }
+
+    // std::cout << globalLife << std::endl;
+    if(globalLife <= 0)myScreen._state = screen_state::LOSE;
+    // std::cout << currentTime << std::endl;
+    if(listOfEnemy.size() <= 0 && currentTime > 22)myScreen._state = screen_state::WIN;
 }
 
 void App::render() {
@@ -273,7 +338,7 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                         break;
                     case CREDIT:
                         // A changer
-                        // myScreen._state = screen_state::MAIN_MENU;
+                        myScreen._state = screen_state::INFO;
                         break;
                     default:
                         break;
@@ -334,7 +399,6 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                         }
                         break;
                     case PAUSE:
-                        // A changer
                         myScreen._state = screen_state::PAUSE_MENU;
                         break;
                     default:
@@ -364,6 +428,36 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                 idTower++;
                 for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(tileSize);}
                 myScreen.showCaseDispo = false;
+            }
+            delayForAllButton = currentTime;
+        }
+        else if(myScreen._state == screen_state::INFO){
+            for(Button currentButton : listOfButtonCredit){
+
+                if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
+                    switch (currentButton._type){
+                    case EXIT_TO_MENU:
+                        myScreen._state = screen_state::MAIN_MENU;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+            }
+            delayForAllButton = currentTime;
+        }
+        else if(myScreen._state == screen_state::WIN || myScreen._state == screen_state::LOSE){
+            for(Button currentButton : listOfButtonEnd){
+
+                if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
+                    switch (currentButton._type){
+                    case QUIT:
+                        windowsShouldClose = true;
+                        break;
+                    default:
+                        break;
+                    }
+                }
             }
             delayForAllButton = currentTime;
         }
@@ -421,6 +515,14 @@ Enemy* App::findEnemyFromList(int wantedId) {
     } else {
         return nullptr;
     }
+}
+
+void App::remove_enemy(int id) {
+    auto newEnd = std::remove_if(listOfEnemy.begin(), listOfEnemy.end(), [&id](const auto& enemy) {
+        return enemy.id == id;
+    });
+    listOfEnemy.erase(newEnd, listOfEnemy.end());
+    std::cout << "worked" << std::endl;
 }
 
 bool App::isFreeToBuild(){

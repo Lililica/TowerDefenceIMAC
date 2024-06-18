@@ -19,7 +19,7 @@
 #include "utils.hpp"
 #include "GLHelpers.hpp"
 
-enum screen_state { MAIN_MENU, LEVEL, PAUSE_MENU, LEVEL_SELECTOR };
+enum screen_state { MAIN_MENU, LEVEL, PAUSE_MENU, LEVEL_SELECTOR, LOSE, WIN, INFO };
 
 struct Case;
 

@@ -53,6 +53,8 @@ private:
 
     Screen myScreen {};
 
+    int globalLife {3};
+
     int _width {};
     int _height {};
     double _previousTime {};
@@ -61,6 +63,13 @@ private:
     double tileSize {};
     
     float size {0.9};
+
+    bool vague1 {false};
+    bool vague2 {false};
+    bool vague3 {false};
+    bool vague4 {false};
+    bool vague5 {false};
+    double lastInfiniteVague {};
 
     // Add your variables here
     GLuint _texture {};
@@ -77,6 +86,9 @@ private:
 
     std::vector<Button> listOfButtonTowerLevel;
 
+    std::vector<Button> listOfButtonEnd;
+    std::vector<Button> listOfButtonCredit;
+
     double delayForTowerPlacement;
     int idTower {0};
     std::vector<Tower> listOfTower;
@@ -86,6 +98,7 @@ private:
     std::vector<std::vector<GLuint>> listOfEnnemyTexture;
     int itAnimation {0};
     double intervalForAnim {0};
+  void remove_enemy(int id);
 
     std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{-1.,1.}}, 
                             Case{200, PATH, false, std::pair<double,double>{-1,0}},

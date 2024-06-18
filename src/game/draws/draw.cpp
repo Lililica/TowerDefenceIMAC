@@ -94,9 +94,12 @@ void App::draw_all_content(){
         for(Case myCase : myScreen.listCase){
             myCase.draw_me(_numberOfTiles);
         }
+        
 
-        // glColor3f(1.0f, 0.0f, 0.0f);
-        // drawRect(-1,-1,2,2);
+        glColor3f(0.0f, 1.0f, 0.0f);
+        drawRect(myScreen.listCase.back().pos.first, myScreen.listCase.back().pos.second+0.0125,tileSize/3,0.0125);
+        glColor3f(1.0f, 0.0f, 0.0f);
+        drawRect(myScreen.listCase.back().pos.first, myScreen.listCase.back().pos.second+0.0125,globalLife*tileSize/3,0.0125);
 
 
         if(listOfTower.size() != 0) {
@@ -193,7 +196,7 @@ void App::draw_all_content(){
         currencyText = streamForCurrency.str();
         TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::RED);
         TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_32);
-        TextRenderer.Label(currencyText.c_str(), (0.75)*_width, 100, SimpleText::CENTER);
+        TextRenderer.Label(currencyText.c_str(), (0.85)*_width, 100, SimpleText::CENTER);
 
         
         // ---------------------------------------------------
@@ -232,6 +235,67 @@ void App::draw_all_content(){
             //     glVertex2f(1.f, (2*i/float(_numberOfTiles)-1.));
             // }
             // glEnd();
+    }
+
+    // ---------------------------------------------------
+    // END
+    // ---------------------------------------------------
+    if(myScreen._state == screen_state::LOSE){
+        print_screen_state = "LOSE";
+
+        draw_background(screen_state::LOSE);
+
+        for(Button button : listOfButtonEnd){
+            button.draw_me();
+        }
+
+        std::string currencyText {};
+        std::stringstream streamForCurrency {};
+        streamForCurrency << std::fixed << "YOU LOSE" << myScreen.currency;
+        currencyText = streamForCurrency.str();
+        TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::RED);
+        TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_48);
+        TextRenderer.Label(currencyText.c_str(), (0.5)*_width, 300, SimpleText::CENTER);
+    }
+    // ---------------------------------------------------
+    // WIN
+    // ---------------------------------------------------
+    if(myScreen._state == screen_state::WIN){
+        print_screen_state = "WIN";
+
+        draw_background(screen_state::WIN);
+
+        for(Button button : listOfButtonEnd){
+            button.draw_me();
+        }
+
+        std::string currencyText {};
+        std::stringstream streamForCurrency {};
+        streamForCurrency << std::fixed << "YOU WIN" << myScreen.currency;
+        currencyText = streamForCurrency.str();
+        TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::WHITE);
+        TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_48);
+        TextRenderer.Label(currencyText.c_str(), (0.5)*_width, 300, SimpleText::CENTER);
+    }
+    // ---------------------------------------------------
+    // CREDIT
+    // ---------------------------------------------------
+    if(myScreen._state == screen_state::INFO){
+        print_screen_state = "INFO";
+
+        draw_background(screen_state::INFO);
+
+        for(Button button : listOfButtonCredit){
+            button.draw_me();
+        }
+
+        std::string currencyText {};
+        std::stringstream streamForCurrency {};
+        streamForCurrency << std::fixed << "Lucas Terrasson - Elvin Kauffmann - Fanny Ruiz" << myScreen.currency;
+        currencyText = streamForCurrency.str();
+        TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::YELLOW);
+        TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_32);
+        TextRenderer.Label(currencyText.c_str(), (0.5)*_width, 300, SimpleText::CENTER);
     }
 
     TextRenderer.Label(print_screen_state.c_str(), 100, 100, SimpleText::CENTER);
