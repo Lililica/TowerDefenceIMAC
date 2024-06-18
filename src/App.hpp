@@ -44,6 +44,8 @@ public:
     void cursor_position_callback(double xpos, double ypos);
     void size_callback(int width, int height);
 
+    bool windowsShouldClose {false};
+
 private:
     void render();
     void draw_all_content();
@@ -68,7 +70,9 @@ private:
 
     std::vector<std::pair<screen_state,img::Image>> listOfBackgroundTextures;
     
-    std::vector<Button> listOfButton;
+    std::vector<Button> listOfButtonMenu;
+
+    std::vector<Button> listOfButtonPause;
 
     std::vector<Button> listOfButtonTowerLevel;
 
@@ -80,8 +84,12 @@ private:
     std::vector<Enemy> listOfEnemy;
 
     std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{-1.,1.}}, 
-                            Case{10, PATH, false, std::pair<double,double>{0.,1.}},
-                            Case{390, PATH, false, std::pair<double,double>{0.,-1.+ (2./_numberOfTiles)}},
+                            Case{200, PATH, false, std::pair<double,double>{-1,0}},
+                            Case{210, PATH, false, std::pair<double,double>{0,0}},
+                            Case{110, PATH, false, std::pair<double,double>{0,0.5}},
+                            Case{115, PATH, false, std::pair<double,double>{0.5,0.5}},
+                            Case{315, PATH, false, std::pair<double,double>{0.5,-0.5}},
+                            Case{319, PATH, false, std::pair<double,double>{1. - (2./_numberOfTiles),-0.5}},
                             Case{399, END, false, std::pair<double,double>{1. - (2./_numberOfTiles), -1. + (2./_numberOfTiles)}}
                             };
 
@@ -92,6 +100,8 @@ private:
     std::vector<GLuint> listOfCaseTexture;  
 
     // void remplir_listOfCase();
+
+    double delayForAllButton {};
 
     void removeDeadEnemies();
     Enemy* findEnemyFromList(int wantedId);

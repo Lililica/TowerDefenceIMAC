@@ -29,6 +29,9 @@ void Button::set_stats_from_type() {
         case BEGIN:
             _texture = loadTexture(buttonBEGIN);
             break;
+        case CONTINU:
+            _texture = loadTexture(buttonBEGIN);
+            break;
         case PAUSE:
             _texture = loadTexture(buttonPAUSE);
             break;
@@ -38,7 +41,10 @@ void Button::set_stats_from_type() {
         case RESTART:
             _texture = loadTexture(buttonRESTART);
             break;
-        case QUIT:
+        case QUIT :
+            _texture = loadTexture(buttonQUIT);
+            break;
+        case EXIT_TO_MENU :
             _texture = loadTexture(buttonQUIT);
             break;
         case CREDIT:

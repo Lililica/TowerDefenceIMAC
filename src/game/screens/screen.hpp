@@ -37,6 +37,6 @@ struct Screen{
 
     int currency {1000};
 
-    void create_list_of_case(std::vector<Case> listOfNodes);
+    void create_list_of_case(std::vector<Case> listOfNodes, std::vector<GLuint> listOfCaseTexture);
 };
 

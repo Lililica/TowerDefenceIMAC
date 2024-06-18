@@ -65,11 +65,8 @@ void App::draw_all_content(){
 
         draw_background(screen_state::MAIN_MENU);
 
-        for(Button button : listOfButton){
-            if( button._type == typeButton::BEGIN || 
-                button._type == typeButton::CREDIT ||
-                button._type == typeButton::QUIT
-            )button.draw_me();
+        for(Button button : listOfButtonMenu){
+            button.draw_me();
         }
     }
 
@@ -81,11 +78,8 @@ void App::draw_all_content(){
 
         draw_background(screen_state::PAUSE_MENU);
 
-        for(Button button : listOfButton){
-            if( button._type == typeButton::PLAY || 
-                button._type == typeButton::RESTART ||
-                button._type == typeButton::QUIT
-            )button.draw_me();
+        for(Button button : listOfButtonPause){
+            button.draw_me();
         }
     }
 
@@ -98,7 +92,7 @@ void App::draw_all_content(){
         draw_background(screen_state::LEVEL);
 
         for(Case myCase : myScreen.listCase){
-            myCase.draw_me(_numberOfTiles, listOfCaseTexture);
+            myCase.draw_me(_numberOfTiles);
         }
 
         // glColor3f(1.0f, 0.0f, 0.0f);
@@ -143,10 +137,6 @@ void App::draw_all_content(){
 
 
 
-        for(Button button : listOfButton){
-            if( button._type == typeButton::PAUSE
-            )button.draw_me();
-        }
 
         for(Button button : listOfButtonTowerLevel){
             if(button._type != typeButton::ANNULER_TOWER){

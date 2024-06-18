@@ -80,6 +80,15 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
     listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/startTile.png", true), 3, true));
     listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/endTile.png", true), 3, true));
 
+    // Random Decor
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile1.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile2.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile3.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile4.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile5.png", true), 3, true));
+    listOfCaseImg.push_back(img::load(make_absolute_path("images/Cases/offRoadTile6.png", true), 3, true));
+
+
     for(auto && img : listOfCaseImg){
         listOfCaseTexture.push_back(loadTexture(img));
     }
@@ -107,17 +116,17 @@ void App::setup() {
     // Création des cases
     double tileSize {2./float(_numberOfTiles)};
 
-    myScreen.create_list_of_case(listOfNodes);
+    myScreen.create_list_of_case(listOfNodes,listOfCaseTexture);
 
 
 
     // Création des boutons
-    listOfButton.push_back(Button{typeButton::BEGIN,std::pair<double,double>{-0.2, 0.3}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButton.push_back(Button{typeButton::CREDIT,std::pair<double,double>{-0.2, 0.0}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButton.push_back(Button{typeButton::QUIT,std::pair<double,double>{-0.2, -0.3}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButton.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.4, 0.1}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButton.push_back(Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1}, std::pair<double,double>{0.2, 0.2}, false});
-    for (auto &&button : listOfButton) {button.set_stats_from_type();}
+    listOfButtonMenu.push_back(Button{typeButton::BEGIN,std::pair<double,double>{-0.2, 0.3}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButtonMenu.push_back(Button{typeButton::CREDIT,std::pair<double,double>{-0.2, 0.0}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButtonMenu.push_back(Button{typeButton::QUIT,std::pair<double,double>{-0.2, -0.3}, std::pair<double,double>{0.4, 0.2}, false});
+    // listOfButtonTowerLevel.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.4, 0.1}, std::pair<double,double>{0.4, 0.2}, false});
+    // listOfButtonTowerLevel.push_back(Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1}, std::pair<double,double>{0.2, 0.2}, false});
+    for (auto &&button : listOfButtonMenu) {button.set_stats_from_type();}
 
 
     // Les boutons de Tours dans LEVEL :
@@ -125,8 +134,13 @@ void App::setup() {
     listOfButtonTowerLevel.push_back(Button{typeButton::ANNULER_TOWER,std::pair<double,double>{1.05, 0.8}, std::pair<double,double>{0.1, 0.1}, false});
     listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_2,std::pair<double,double>{1., 0.1}, std::pair<double,double>{0.2, 0.2}, false});
     listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_3,std::pair<double,double>{1., -0.4}, std::pair<double,double>{0.2, 0.2}, false});
-
+    listOfButtonTowerLevel.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.4, 0.1}, std::pair<double,double>{0.4, 0.2}, false});
     for (auto &&button : listOfButtonTowerLevel) {button.set_stats_from_type();}
+
+    // Buttons de Pause :
+    listOfButtonPause.push_back(Button{typeButton::EXIT_TO_MENU,std::pair<double,double>{-0.2, -0.3}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButtonPause.push_back(Button{typeButton::CONTINU,std::pair<double,double>{-0.2, 0.3}, std::pair<double,double>{0.4, 0.2}, false});
+    for (auto &&button : listOfButtonPause) {button.set_stats_from_type();}
 
     // Création des tours
     // listOfTower.push_back(Tower{typeTower::TYPE1,int{1}, std::pair<double,double>{-1, 0.5,}});
@@ -208,93 +222,120 @@ void App::key_callback(int /*key*/, int /*scancode*/, int /*action*/, int /*mods
 }
 
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
-    // std::cout << transform_mouse_pos_tile_to_case_index(pos_tile_mouse) << std::endl;
-    for(Button currentButton : listOfButton){
-        // std::cout << "mouseX : " <<pos_mouse_abs.first << " " << "mouseY : " <<pos_mouse_abs.second << std::endl;
-        // std::cout << "abscisse entre : [" << currentButton.pos.first << ", " << currentButton.pos.first + currentButton.size.first << "]" << std::endl;
-        // std::cout << "ordonné entre : [" << -currentButton.pos.second << ", " << -(currentButton.pos.second - currentButton.size.second) << "]" << std::endl;
+    if(currentTime - delayForAllButton > 0.2){
 
-        if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
-            switch (currentButton._type){
-            case BEGIN:
-            case PLAY:
-                myScreen._state = screen_state::LEVEL;
-                break;
-            case PAUSE:
-                // A changer
-                myScreen._state = screen_state::PAUSE_MENU;
-                break;
-            case RESTART:
-                // A changer
-                myScreen._state = screen_state::MAIN_MENU;
-                break;
-            case QUIT:
-                // Close window
-                myScreen._state = screen_state::MAIN_MENU;
-                break;
-            case CREDIT:
-                // A changer
-                // myScreen._state = screen_state::MAIN_MENU;
-                break;
-            default:
-                break;
+    std::cout << myScreen.listCase[transform_mouse_pos_tile_to_case_index(pos_tile_mouse)]._type << std::endl;
+    std::cout << transform_mouse_pos_tile_to_case_index(pos_tile_mouse) << std::endl;
+        if(myScreen._state == screen_state::MAIN_MENU){
+            for(Button currentButton : listOfButtonMenu){
+                // std::cout << "mouseX : " <<pos_mouse_abs.first << " " << "mouseY : " <<pos_mouse_abs.second << std::endl;
+                // std::cout << "abscisse entre : [" << currentButton.pos.first << ", " << currentButton.pos.first + currentButton.size.first << "]" << std::endl;
+                // std::cout << "ordonné entre : [" << -currentButton.pos.second << ", " << -(currentButton.pos.second - currentButton.size.second) << "]" << std::endl;
+
+                if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
+                    switch (currentButton._type){
+                    case BEGIN:
+                        myScreen._state = screen_state::LEVEL;
+                        break;
+                    case QUIT:
+                        // Close window
+                        windowsShouldClose = true;
+                        break;
+                    case CREDIT:
+                        // A changer
+                        // myScreen._state = screen_state::MAIN_MENU;
+                        break;
+                    default:
+                        break;
+                    }
+                }
             }
+            delayForAllButton = currentTime;
         }
-    }
-    for(Button currentButton : listOfButtonTowerLevel){
+        else if(myScreen._state == screen_state::PAUSE_MENU){
+            for(Button currentButton : listOfButtonPause){
 
-        if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
-            switch (currentButton._type){
-            case TOWER_1:
-                if(myScreen.currency >= price.tower_1){
-                    myScreen.showCaseDispo = true;
-                    myScreen.currentTowerToDraw = typeTower::TYPE1;
-                    delayForTowerPlacement = currentTime;
+                if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
+                    switch (currentButton._type){
+                    case EXIT_TO_MENU:
+                        myScreen._state = screen_state::MAIN_MENU;
+                        break;
+                    case CONTINU:
+                        myScreen._state = screen_state::LEVEL;
+                    default:
+                        break;
+                    }
+                }
+            }
+            delayForAllButton = currentTime;
+        }
+        else if(myScreen._state == screen_state::LEVEL){
+            for(Button currentButton : listOfButtonTowerLevel){
+
+                if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
+                    switch (currentButton._type){
+                    case TOWER_1:
+                        if(myScreen.currency >= price.tower_1){
+                            myScreen.showCaseDispo = true;
+                            myScreen.currentTowerToDraw = typeTower::TYPE1;
+                            delayForTowerPlacement = currentTime;
+                            
+                            
+                        }
+                        break;
                     
-                    break;
+                    case ANNULER_TOWER:
+                        myScreen.showCaseDispo = false;
+                        break;
+                    case TOWER_2:
+                        if(myScreen.currency >= price.tower_2){
+                            myScreen.showCaseDispo = true;
+                            myScreen.currentTowerToDraw = typeTower::TYPE2;
+                            delayForTowerPlacement = currentTime;
+                            
+                        }
+                        break;
+                    case TOWER_3:
+                        if(myScreen.currency >= price.tower_3){
+                            myScreen.showCaseDispo = true;
+                            myScreen.currentTowerToDraw = typeTower::TYPE3;
+                            delayForTowerPlacement = currentTime;
+                            
+                        }
+                        break;
+                    case PAUSE:
+                        // A changer
+                        myScreen._state = screen_state::PAUSE_MENU;
+                        break;
+                    default:
+                        break;
+                    }
                 }
-               
-            case ANNULER_TOWER:
-                myScreen.showCaseDispo = false;
-                break;
-            case TOWER_2:
-                if(myScreen.currency >= price.tower_2){
-                    myScreen.showCaseDispo = true;
-                    myScreen.currentTowerToDraw = typeTower::TYPE2;
-                    delayForTowerPlacement = currentTime;
-                    break;
-                }
-            case TOWER_3:
-                if(myScreen.currency >= price.tower_3){
-                    myScreen.showCaseDispo = true;
-                    myScreen.currentTowerToDraw = typeTower::TYPE3;
-                    delayForTowerPlacement = currentTime;
-                    break;
-                }
-            default:
-                break;
+                
             }
+            
+            if(myScreen.showCaseDispo && currentTime-delayForTowerPlacement > 0.2 && isFreeToBuild()){
+                std::cout << transform_mouse_pos_tile_to_case_index(pos_tile_mouse) << std::endl;
+                switch (myScreen.currentTowerToDraw){
+                    case 1:
+                        myScreen.currency -= price.tower_1;
+                        listOfTower.push_back(Tower{typeTower::TYPE1, idTower, pos_tile_mouse, 1});
+                        break;
+                    case 2:
+                        myScreen.currency -= price.tower_2;
+                        listOfTower.push_back(Tower{typeTower::TYPE2, idTower, pos_tile_mouse, 1});
+                        break;
+                    case 3:
+                        myScreen.currency -= price.tower_3;
+                        listOfTower.push_back(Tower{typeTower::TYPE3, idTower, pos_tile_mouse, 1});
+                        break;
+                }
+                idTower++;
+                for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(2./_numberOfTiles);}
+                myScreen.showCaseDispo = false;
+            }
+            delayForAllButton = currentTime;
         }
-        
-    }
-    if(myScreen.showCaseDispo && currentTime-delayForTowerPlacement > 0.2 && isFreeToBuild()){
-        switch (myScreen.currentTowerToDraw){
-            case 1:
-                myScreen.currency -= price.tower_1;
-                listOfTower.push_back(Tower{typeTower::TYPE1, idTower, pos_tile_mouse, 1});
-                break;
-            case 2:
-                myScreen.currency -= price.tower_2;
-                listOfTower.push_back(Tower{typeTower::TYPE2, idTower, pos_tile_mouse, 1});
-                break;
-            case 3:
-                myScreen.currency -= price.tower_3;
-                listOfTower.push_back(Tower{typeTower::TYPE3, idTower, pos_tile_mouse, 1});
-                break;
-        }
-        idTower++;
-        for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(2./_numberOfTiles);}
-        myScreen.showCaseDispo = false;
     }
 
         // if(pos_mouse_abs.first > currentButton.pos.first && pos_mouse_abs.first < currentButton.pos.first + currentButton.size.first
