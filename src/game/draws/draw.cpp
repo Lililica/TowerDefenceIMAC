@@ -170,11 +170,11 @@ void App::draw_all_content(){
 
         if(myScreen.showCaseDispo){
             for(Case myCase : myScreen.listCase){
-                if(myCase._type == typeCase::DECOR){
+                if(myCase._type == typeCase::DECOR || myCase.occupied){
                     glPushMatrix();
                         glColor4f(1,0,0,0.9*abs(sin(currentTime*3)));
                         // glScalef(0.95,0.95,1);
-                        drawRect(  (myCase.pos.first), (myCase.pos.second), 2./myScreen.nbrTileSide, -2./myScreen.nbrTileSide);
+                        drawRect((myCase.pos.first), (myCase.pos.second), 2./myScreen.nbrTileSide, -2./myScreen.nbrTileSide);
                     glPopMatrix();    
                 }
             }
