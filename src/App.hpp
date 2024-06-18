@@ -8,8 +8,9 @@
 #include <utility>
 #include "game/entities/entity.hpp"
 #include "game/draws/draw.hpp"
-#include <img/img.hpp>
-
+#include "img/img.hpp"
+#include <string>
+#include <map>
 
 class App {
 public:
@@ -90,5 +91,5 @@ private:
     // void remplir_listOfCase();
 
     void removeDeadEnemies();
-
+    Enemy* findEnemyFromList(int wantedId);
 };

@@ -5,6 +5,10 @@
 #include <queue>
 #include "../draws/shape.hpp"
 
+#include <math.h>
+#define _USE_MATH_DEFINES
+# define M_PI           3.14159265358979323846
+
 // --------------------------------------------------------------
 // Enemy
 // --------------------------------------------------------------
@@ -75,42 +79,49 @@ img::Image type2Tower {img::load(make_absolute_path("images/towers/tower2.png", 
 img::Image type3Tower {img::load(make_absolute_path("images/towers/tower3.png", true), 3, true)};
 img::Image type4Tower {img::load(make_absolute_path("images/towers/tower4.png", true), 3, true)};
 
+img::Image defaultBullet {img::load(make_absolute_path("images/towers/bullettest.png", true), 3, true)};
+
 void Tower::set_stats_from_type() {
     switch (_type) {
         case TYPE1:
             _texture = loadTexture(type1Tower);
-            power = 1;
+            _bulletTexture = loadTexture(defaultBullet);
+            power = 2;
             range = 1;
             lifePoint = 5;
-            attackSpeed = 1;
+            attackSpeed = 0.1;
             break;
         case TYPE2:
             _texture = loadTexture(type2Tower);
-            power = 2;
+            _bulletTexture = loadTexture(defaultBullet);
+            power = 4;
             range = 2;
             lifePoint = 5;
-            attackSpeed = 2;
+            attackSpeed = 0.2;
             break;
         case TYPE3:
             _texture = loadTexture(type3Tower);
-            power = 3;
+            _bulletTexture = loadTexture(defaultBullet);
+            power = 6;
             range = 3;
             lifePoint = 5;
-            attackSpeed = 3;
+            attackSpeed = 0.3;
             break;
         case TYPE4:
             _texture = loadTexture(type4Tower);
-            power = 4;
+            _bulletTexture = loadTexture(defaultBullet);
+            power = 8;
             range = 4;
             lifePoint = 5;
-            attackSpeed = 4;
+            attackSpeed = 0.4;
             break;
         default:
             _texture = loadTexture(defaultTower);
+            _bulletTexture = loadTexture(defaultBullet);
             power = 1;
             range = 1;
             lifePoint = 1;
-            attackSpeed = 1;
+            attackSpeed = 0.1;
     }
 }
 
@@ -139,9 +150,6 @@ void Tower::set_range_box(double tileSize) {
 void Tower::draw_range_box(){
     glPushMatrix();
         glColor3f(1.0,1.0,0.5);
-        // glTranslatef(pos.first, -pos.second, 0);
-        // glScalef(0.1*range,0.1*range,1);
-
         drawRect(
             rangeBox.first.first, rangeBox.first.second,
             rangeBox.second.first,
@@ -150,11 +158,41 @@ void Tower::draw_range_box(){
     glPopMatrix();
 }
 
-void Tower::lance_bullet(int nbrTiles){
-    
+// void Tower::lance_bullet(int nbrTiles){
     // std::pair<double,double> posBtwEnemyTower {abs(pos.first)};
+// }
+
+void Tower::remove_bullet(const Bullet& bullet) {
+    listOfBullet.erase(
+        std::remove_if(listOfBullet.begin(), listOfBullet.end(), [&bullet](const auto& shoot) {
+            return shoot.first == bullet;
+        }),
+        listOfBullet.end()
+    );
 }
 
-// void Tower::remove_bullet(Bullet bullet){
-//     std::remove(listOfBullet.begin(), listOfBullet.end(), bullet);
-// }
+// --------------------------------------------------------------
+// Bullet
+// --------------------------------------------------------------
+
+void Bullet::draw_me(GLuint texture, std::pair<double, double> posTarget){
+    // Calculer l'angle en radians entre la position actuelle et la position de la cible
+    double deltaX = posTarget.first - pos.first;
+    double deltaY = posTarget.second - pos.second;
+    double angle = std::atan2(deltaY, deltaX) * 180.0 / M_PI; // Convertir de radians à degrés
+
+    glPushMatrix();
+        glTranslatef(pos.first, pos.second, 0);
+        glRotatef(90, 0, 0, 1);
+        glRotatef(angle, 0, 0, 1);
+        glScalef(0.025,0.075,1);
+        draw_quad_with_texture(texture);
+    glPopMatrix();
+}
+
+void move_bullet(Bullet& bullet, std::pair<double,double> const& target) {
+    if(bullet.pos.first > target.first) bullet.pos.first -= 0.01;
+    if(bullet.pos.first < target.first) bullet.pos.first += 0.01;
+    if(bullet.pos.second > target.second) bullet.pos.second -= 0.01;
+    if(bullet.pos.second < target.second) bullet.pos.second += 0.01;
+}
