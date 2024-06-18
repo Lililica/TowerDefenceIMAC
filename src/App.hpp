@@ -58,6 +58,7 @@ private:
     double _previousTime {};
     float _viewSize {};
     int _numberOfTiles {myScreen.nbrTileSide};
+    double tileSize {};
     
     float size {0.9};
 

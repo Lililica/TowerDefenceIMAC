@@ -210,6 +210,11 @@ void Tower::remove_bullet(const Bullet& bullet) {
     );
 }
 
+void Tower::shoot(int idTarget, double time, double tileSize) {
+    listOfBullet.push_back({Bullet{std::pair<double,double>{pos.first + (tileSize)/2., pos.second + (tileSize)/2.}}, idTarget});
+    lastTimeShoot = time;
+}
+
 // --------------------------------------------------------------
 // Bullet
 // --------------------------------------------------------------

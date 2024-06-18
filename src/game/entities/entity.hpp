@@ -101,6 +101,8 @@ struct Tower {
     std::pair<std::pair<double,double>,std::pair<double,double>> rangeBox {pos, {0,0}};
      //intervalle entre 2 tirs
     double lastTimeShoot {0};
+    int idLastEnemyTargeted {0};
+    double distLastEnemyTargeted {1000};
     double cost{0};
 
     
@@ -114,6 +116,7 @@ struct Tower {
     std::vector<std::pair<Bullet, int>> listOfBullet {};
 
     void remove_bullet(const Bullet& bullet);
+    void shoot(int idTarget, double time, double tileSize);
     
 };
 

@@ -123,7 +123,7 @@ void App::setup() {
     TextRenderer.EnableBlending(true);
 
     // Création des cases
-    double tileSize {2./float(_numberOfTiles)};
+    tileSize = 2./float(_numberOfTiles);
 
     myScreen.create_list_of_case(listOfNodes,listOfCaseTexture);
 
@@ -191,24 +191,35 @@ void App::update() {
         }
     }
     
-    if(listOfEnemy.size() != 0) {
-        for (auto&enemy : listOfEnemy){
-            for (auto&tower : listOfTower){
-                // std::cout << tower.attackSpeed << std::endl;
+    for (auto&tower : listOfTower){
+        // std::cout << tower.attackSpeed << std::endl;
+        if(listOfEnemy.size() != 0) {
+            for (auto&enemy : listOfEnemy){
                 if(collision_box_box(enemy.pos, {enemy.width, enemy.height}, tower.rangeBox.first, tower.rangeBox.second) && currentTime-tower.lastTimeShoot > tower.attackSpeed) {
-                    tower.listOfBullet.push_back({Bullet{std::pair<double,double>{tower.pos.first + (2./_numberOfTiles)/2., tower.pos.second + (2./_numberOfTiles)/2.}}, enemy.id});
-                    tower.lastTimeShoot = currentTime;
+
+                    double distanceCurrentEnemy {dist_two_pos(tower.pos, enemy.pos)};
+
+                    // Si cet enemy est plus proche que le dernier ciblé
+                    if (distanceCurrentEnemy < tower.distLastEnemyTargeted) {
+                        tower.idLastEnemyTargeted = enemy.id;
+                        tower.distLastEnemyTargeted = distanceCurrentEnemy;
+                        tower.shoot(tower.idLastEnemyTargeted, currentTime, tileSize); // On tire que si c'est l'enemy plus proche
+                    } else if (enemy.id == tower.idLastEnemyTargeted) { // Sinon si cet enemy est le même que le dernier ciblé
+                        tower.distLastEnemyTargeted = distanceCurrentEnemy;
+                        tower.shoot(tower.idLastEnemyTargeted, currentTime, tileSize); // On tire que si c'est l'enemy plus proche ou le seul présent
+                    }
+
+                }
+                if(enemy.lifePoint <= 0) {
+                    std::cout << "Enemy died" << std::endl;
+                    myScreen.currency += enemy.reward;
+                    //quand un enemy meurt
                 }
             }
-            if(enemy.lifePoint <= 0) {
-                std::cout << "Enemy died" << std::endl;
-                myScreen.currency += enemy.reward;
-                //quand un enemy meurt
-            }
+            removeDeadEnemies();
+        } else {
+            for (auto&tower : listOfTower) {tower.listOfBullet.clear();}
         }
-        removeDeadEnemies();
-    } else {
-        for (auto&tower : listOfTower) {tower.listOfBullet.clear();}
     }
     
     
@@ -351,7 +362,7 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                         break;
                 }
                 idTower++;
-                for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(2./_numberOfTiles);}
+                for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(tileSize);}
                 myScreen.showCaseDispo = false;
             }
             delayForAllButton = currentTime;
