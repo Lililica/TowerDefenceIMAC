@@ -35,6 +35,8 @@ struct Screen{
 
     int currentTowerToDraw;
 
+    int currency {1000};
+
     void create_list_of_case(std::vector<Case> listOfNodes);
 };
 

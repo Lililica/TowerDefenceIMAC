@@ -162,7 +162,8 @@ void App::update() {
     if(listOfEnemy.size() != 0) {
         for (auto&enemy : listOfEnemy){
             for (auto&tower : listOfTower){
-                if(collision_box_box(enemy.pos, {enemy.width, enemy.height}, tower.rangeBox.first, tower.rangeBox.second) && currentTime-tower.lastTimeShoot >= tower.attackSpeed) {
+                // std::cout << tower.attackSpeed << std::endl;
+                if(collision_box_box(enemy.pos, {enemy.width, enemy.height}, tower.rangeBox.first, tower.rangeBox.second) && currentTime-tower.lastTimeShoot > tower.attackSpeed) {
                     tower.listOfBullet.push_back({Bullet{std::pair<double,double>{tower.pos.first + (2./_numberOfTiles)/2., tower.pos.second + (2./_numberOfTiles)/2.}}, enemy.id});
                     tower.lastTimeShoot = currentTime;
                 }
@@ -245,23 +246,31 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
         if(collision_pos_box(pos_mouse_abs, currentButton.pos, currentButton.size)) {
             switch (currentButton._type){
             case TOWER_1:
-                myScreen.showCaseDispo = true;
-                myScreen.currentTowerToDraw = typeTower::TYPE1;
-                delayForTowerPlacement = currentTime;
-                break;
+                if(myScreen.currency >= price.tower_1){
+                    myScreen.showCaseDispo = true;
+                    myScreen.currentTowerToDraw = typeTower::TYPE1;
+                    delayForTowerPlacement = currentTime;
+                    
+                    break;
+                }
+               
             case ANNULER_TOWER:
                 myScreen.showCaseDispo = false;
                 break;
             case TOWER_2:
-                myScreen.showCaseDispo = true;
-                myScreen.currentTowerToDraw = typeTower::TYPE2;
-                delayForTowerPlacement = currentTime;
-                break;
+                if(myScreen.currency >= price.tower_2){
+                    myScreen.showCaseDispo = true;
+                    myScreen.currentTowerToDraw = typeTower::TYPE2;
+                    delayForTowerPlacement = currentTime;
+                    break;
+                }
             case TOWER_3:
-                myScreen.showCaseDispo = true;
-                myScreen.currentTowerToDraw = typeTower::TYPE3;
-                delayForTowerPlacement = currentTime;
-                break;
+                if(myScreen.currency >= price.tower_3){
+                    myScreen.showCaseDispo = true;
+                    myScreen.currentTowerToDraw = typeTower::TYPE3;
+                    delayForTowerPlacement = currentTime;
+                    break;
+                }
             default:
                 break;
             }
@@ -271,13 +280,16 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
     if(myScreen.showCaseDispo && currentTime-delayForTowerPlacement > 0.2 && isFreeToBuild()){
         switch (myScreen.currentTowerToDraw){
             case 1:
-                listOfTower.push_back(Tower{typeTower::TYPE1, idTower, pos_tile_mouse});
+                myScreen.currency -= price.tower_1;
+                listOfTower.push_back(Tower{typeTower::TYPE1, idTower, pos_tile_mouse, 1});
                 break;
             case 2:
-                listOfTower.push_back(Tower{typeTower::TYPE2, idTower, pos_tile_mouse});
+                myScreen.currency -= price.tower_2;
+                listOfTower.push_back(Tower{typeTower::TYPE2, idTower, pos_tile_mouse, 1});
                 break;
             case 3:
-                listOfTower.push_back(Tower{typeTower::TYPE3, idTower, pos_tile_mouse});
+                myScreen.currency -= price.tower_3;
+                listOfTower.push_back(Tower{typeTower::TYPE3, idTower, pos_tile_mouse, 1});
                 break;
         }
         idTower++;

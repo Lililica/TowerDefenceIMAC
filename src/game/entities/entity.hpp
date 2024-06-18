@@ -76,21 +76,30 @@ struct Bullet {
     void draw_me(GLuint texture, std::pair<double, double> posTarget);
 };
 
+struct Price {
+    double tower_1 = 150;
+    double tower_2 = 300;
+    double tower_3 = 200;
+};
+
 struct Tower {
 
     typeTower _type {TYPE1};
     int id {0};
 
     std::pair<double,double> pos {0,0};
-
+    double attackSpeed {1.};
     GLuint _texture;
     GLuint _bulletTexture;
     int lifePoint {0};
     int power {2};
     int range {0};
     std::pair<std::pair<double,double>,std::pair<double,double>> rangeBox {pos, {0,0}};
-    double attackSpeed {0.2}; //intervalle entre 2 tirs
+     //intervalle entre 2 tirs
     double lastTimeShoot {0};
+    double cost{0};
+
+    
 
     void set_stats_from_type();
     void set_range_box(double tileSize);

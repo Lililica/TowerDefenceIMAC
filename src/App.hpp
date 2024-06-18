@@ -75,6 +75,7 @@ private:
     double delayForTowerPlacement;
     int idTower {0};
     std::vector<Tower> listOfTower;
+    Price price;
 
     std::vector<Enemy> listOfEnemy;
 

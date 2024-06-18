@@ -171,6 +171,14 @@ void App::draw_all_content(){
             }
 
         }
+
+        std::string currencyText {};
+        std::stringstream streamForCurrency {};
+        streamForCurrency << std::fixed << "Money : " << std::setprecision(2) << myScreen.currency;
+        currencyText = streamForCurrency.str();
+        TextRenderer.SetColor(SimpleText::ForegroundBackground::BACKGROUND_COLOR,SimpleText::Color::WHITE);
+        TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::RED);
+        TextRenderer.Label(currencyText.c_str(), 1000, 100, SimpleText::CENTER);
         
         // ---------------------------------------------------
         // Draw debug

@@ -81,6 +81,8 @@ img::Image type4Tower {img::load(make_absolute_path("images/towers/tower4.png", 
 
 img::Image defaultBullet {img::load(make_absolute_path("images/towers/bullettest.png", true), 3, true)};
 
+Price price;
+
 void Tower::set_stats_from_type() {
     switch (_type) {
         case TYPE1:
@@ -90,14 +92,16 @@ void Tower::set_stats_from_type() {
             range = 1;
             lifePoint = 5;
             attackSpeed = 0.1;
+            cost = price.tower_1;
             break;
         case TYPE2:
             _texture = loadTexture(type2Tower);
             _bulletTexture = loadTexture(defaultBullet);
-            power = 10;
+            power = 120;
             range = 2;
             lifePoint = 5;
-            attackSpeed = 0.2;
+            attackSpeed = 2;
+            cost = price.tower_2;
             break;
         case TYPE3:
             _texture = loadTexture(type3Tower);
@@ -105,7 +109,8 @@ void Tower::set_stats_from_type() {
             power = 20;
             range = 3;
             lifePoint = 5;
-            attackSpeed = 0.3;
+            attackSpeed = 1.2;
+            cost = price.tower_3;
             break;
         case TYPE4:
             _texture = loadTexture(type4Tower);
