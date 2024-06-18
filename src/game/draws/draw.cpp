@@ -104,11 +104,32 @@ void App::draw_all_content(){
         // glColor3f(1.0f, 0.0f, 0.0f);
         // drawRect(-1,-1,2,2);
 
-        for(Tower tower : listOfTower){
-            tower.draw_range_box();
-        }
-        for(Tower tower : listOfTower){
-            tower.draw_me(tileSize);
+
+        if(listOfTower.size() != 0) {
+            for(Tower tower : listOfTower){
+                tower.draw_range_box();
+            }
+            for(Tower tower : listOfTower){
+                tower.draw_me(tileSize);
+            }
+            for (Tower& tower : listOfTower) {
+                for (auto& shoot : tower.listOfBullet) {
+                    Enemy* enemy {findEnemyFromList(shoot.second)};
+                    if (enemy != nullptr) {
+                        if(currentTime-shoot.first.lastTimeMoved >= shoot.first.speed) move_bullet(shoot.first, enemy->pos);
+                        // std::cout << shoot.first.pos.first << " " << shoot.first.pos.second << std::endl;
+                        // if(abs(enemy->pos.first-shoot.first.pos.first) < 0.009 && abs(enemy->pos.second-shoot.first.pos.second) < 0.009) {
+                        if(collision_box_box(enemy->pos, {enemy->height,enemy->width}, shoot.first.pos, {shoot.first.width, shoot.first.height})) {
+                            tower.remove_bullet(shoot.first);
+                            enemy->lifePoint -= tower.power;
+                        } else {
+                            shoot.first.draw_me(tower._bulletTexture, enemy->pos);
+                        }
+                    } else {
+                        std::cout << "No target found" << std::endl;
+                    }
+                }
+            }
         }
 
         if(listOfEnemy.size() != 0) {
@@ -117,6 +138,8 @@ void App::draw_all_content(){
                 enemy.draw_my_lp();
             }
         }
+
+
 
         for(Button button : listOfButton){
             if( button._type == typeButton::PAUSE
