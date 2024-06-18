@@ -139,10 +139,10 @@ void App::setup() {
 
 
     // Les boutons de Tours dans LEVEL :
-    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_1,std::pair<double,double>{1., 0.5}, std::pair<double,double>{0.2, 0.2}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_1,std::pair<double,double>{1.1, 0.5}, std::pair<double,double>{0.2, 0.2}, false});
     listOfButtonTowerLevel.push_back(Button{typeButton::ANNULER_TOWER,std::pair<double,double>{1.05, 0.8}, std::pair<double,double>{0.1, 0.1}, false});
-    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_2,std::pair<double,double>{1., 0.1}, std::pair<double,double>{0.2, 0.2}, false});
-    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_3,std::pair<double,double>{1., -0.4}, std::pair<double,double>{0.2, 0.2}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_2,std::pair<double,double>{1.1, 0.1}, std::pair<double,double>{0.2, 0.2}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_3,std::pair<double,double>{1.1, -0.4}, std::pair<double,double>{0.2, 0.2}, false});
     listOfButtonTowerLevel.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.5, 0.2}, std::pair<double,double>{0.3, 0.3}, false});
     for (auto &&button : listOfButtonTowerLevel) {button.set_stats_from_type();}
 

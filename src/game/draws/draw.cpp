@@ -140,6 +140,30 @@ void App::draw_all_content(){
 
         for(Button button : listOfButtonTowerLevel){
             if(button._type != typeButton::ANNULER_TOWER){
+                std::string currencyText {};
+                std::stringstream streamForCurrency {};
+                SimpleText::Color color {SimpleText::Color::BLACK};
+                switch (button._type)
+                {
+                case typeButton::TOWER_1:
+                    if(myScreen.currency < price.tower_1) color = SimpleText::Color::RED;
+                    streamForCurrency << std::fixed << std::setprecision(0) << price.tower_1 << "$";
+                    break;
+                case typeButton::TOWER_2:
+                    if(myScreen.currency < price.tower_2) color = SimpleText::Color::RED;
+                    streamForCurrency << std::fixed << std::setprecision(0) << price.tower_2 << "$";
+                    break;
+                case typeButton::TOWER_3:
+                    if(myScreen.currency < price.tower_3) color = SimpleText::Color::RED;
+                    streamForCurrency << std::fixed << std::setprecision(0) << price.tower_3 << "$";
+                    break;
+                default:
+                    break;
+                }
+                currencyText = streamForCurrency.str();
+                TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR, color);
+                TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_32);
+                TextRenderer.Label(currencyText.c_str(), (_width/2.) + (button.pos.first - button.size.first - 0.3)*(_width/2.) , (-button.pos.second + 0.1 )*(_height/2.)*0.9 + (_height/2.), SimpleText::CENTER);
                 button.draw_me();
             }   
         }
@@ -150,13 +174,14 @@ void App::draw_all_content(){
                     glPushMatrix();
                         glColor4f(1,0,0,0.9*abs(sin(currentTime*3)));
                         // glScalef(0.95,0.95,1);
-                        drawRect(myCase.pos.first, myCase.pos.second, 2./myScreen.nbrTileSide, -2./myScreen.nbrTileSide);
+                        drawRect(  (myCase.pos.first), (myCase.pos.second), 2./myScreen.nbrTileSide, -2./myScreen.nbrTileSide);
                     glPopMatrix();    
                 }
             }
             for(Button button : listOfButtonTowerLevel){
                 if(button._type == typeButton::ANNULER_TOWER){
                     button.draw_me();
+                    
                 }   
             }
 
@@ -166,19 +191,20 @@ void App::draw_all_content(){
         std::stringstream streamForCurrency {};
         streamForCurrency << std::fixed << "Money : " << std::setprecision(2) << myScreen.currency;
         currencyText = streamForCurrency.str();
-        TextRenderer.SetColor(SimpleText::ForegroundBackground::BACKGROUND_COLOR,SimpleText::Color::WHITE);
         TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::RED);
-        TextRenderer.Label(currencyText.c_str(), 1000, 100, SimpleText::CENTER);
+        TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_32);
+        TextRenderer.Label(currencyText.c_str(), (0.75)*_width, 100, SimpleText::CENTER);
+
         
         // ---------------------------------------------------
         // Draw debug
         // ---------------------------------------------------
 
-            std::string debug_tiles_pos_text {};
-            std::stringstream stream {};
-            stream << std::fixed << "Tile MouseX: " << std::setprecision(2) << pos_tile_mouse.first << " et Tile MouseY: " << std::setprecision(2) << pos_tile_mouse.second;
-            debug_tiles_pos_text = stream.str();
-            TextRenderer.Label(debug_tiles_pos_text.c_str(), _width / 2, _height - 4, SimpleText::CENTER);
+            // std::string debug_tiles_pos_text {};
+            // std::stringstream stream {};
+            // stream << std::fixed << "Tile MouseX: " << std::setprecision(2) << pos_tile_mouse.first << " et Tile MouseY: " << std::setprecision(2) << pos_tile_mouse.second;
+            // debug_tiles_pos_text = stream.str();
+            // TextRenderer.Label(debug_tiles_pos_text.c_str(), _width / 2, _height - 4, SimpleText::CENTER);
 
             // if(pos_tile_mouse.first > -1. && pos_tile_mouse.first <= 1.01 && pos_tile_mouse.second >= -1.01 && pos_tile_mouse.second < 1.){
             //     glPushMatrix();
