@@ -61,7 +61,7 @@ void App::draw_all_content(){
     // MAIN MENU
     // ---------------------------------------------------
     if(myScreen._state == screen_state::MAIN_MENU){
-        print_screen_state = "MAIN MENU";
+        // print_screen_state = "MAIN MENU";
 
         draw_background(screen_state::MAIN_MENU);
 
@@ -74,7 +74,7 @@ void App::draw_all_content(){
     // PAUSE MENU
     // ---------------------------------------------------
     if(myScreen._state == screen_state::PAUSE_MENU){
-        print_screen_state = "PAUSE MENU";
+        // print_screen_state = "PAUSE MENU";
 
         draw_background(screen_state::PAUSE_MENU);
 
@@ -87,7 +87,7 @@ void App::draw_all_content(){
     // LEVELS
     // ---------------------------------------------------
     if(myScreen._state == screen_state::LEVEL){
-        print_screen_state = "LEVEL";
+        // print_screen_state = "LEVEL";
 
         draw_background(screen_state::LEVEL);
 
@@ -96,9 +96,9 @@ void App::draw_all_content(){
         }
         
 
-        glColor3f(0.0f, 1.0f, 0.0f);
-        drawRect(myScreen.listCase.back().pos.first, myScreen.listCase.back().pos.second+0.0125,tileSize/3,0.0125);
         glColor3f(1.0f, 0.0f, 0.0f);
+        drawRect(myScreen.listCase.back().pos.first, myScreen.listCase.back().pos.second+0.0125,tileSize,0.0125);
+        glColor3f(0.0f, 1.0f, 0.0f);
         drawRect(myScreen.listCase.back().pos.first, myScreen.listCase.back().pos.second+0.0125,globalLife*tileSize/3,0.0125);
 
 
@@ -241,7 +241,7 @@ void App::draw_all_content(){
     // END
     // ---------------------------------------------------
     if(myScreen._state == screen_state::LOSE){
-        print_screen_state = "LOSE";
+        // print_screen_state = "LOSE";
 
         draw_background(screen_state::LOSE);
 
@@ -251,7 +251,7 @@ void App::draw_all_content(){
 
         std::string currencyText {};
         std::stringstream streamForCurrency {};
-        streamForCurrency << std::fixed << "YOU LOSE" << myScreen.currency;
+        streamForCurrency << std::fixed << "YOU LOSE";
         currencyText = streamForCurrency.str();
         TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::RED);
         TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_48);
@@ -261,7 +261,7 @@ void App::draw_all_content(){
     // WIN
     // ---------------------------------------------------
     if(myScreen._state == screen_state::WIN){
-        print_screen_state = "WIN";
+        // print_screen_state = "WIN";
 
         draw_background(screen_state::WIN);
 
@@ -271,7 +271,7 @@ void App::draw_all_content(){
 
         std::string currencyText {};
         std::stringstream streamForCurrency {};
-        streamForCurrency << std::fixed << "YOU WIN" << myScreen.currency;
+        streamForCurrency << std::fixed << "YOU WIN";
         currencyText = streamForCurrency.str();
         TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::WHITE);
         TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_48);
@@ -281,7 +281,7 @@ void App::draw_all_content(){
     // CREDIT
     // ---------------------------------------------------
     if(myScreen._state == screen_state::INFO){
-        print_screen_state = "INFO";
+        // print_screen_state = "INFO";
 
         draw_background(screen_state::INFO);
 
@@ -291,9 +291,9 @@ void App::draw_all_content(){
 
         std::string currencyText {};
         std::stringstream streamForCurrency {};
-        streamForCurrency << std::fixed << "Lucas Terrasson - Elvin Kauffmann - Fanny Ruiz" << myScreen.currency;
+        streamForCurrency << std::fixed << "Lucas Terrasson - Elvin Kauffmann - Fanny Ruiz";
         currencyText = streamForCurrency.str();
-        TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::YELLOW);
+        TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::BLACK);
         TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_32);
         TextRenderer.Label(currencyText.c_str(), (0.5)*_width, 300, SimpleText::CENTER);
     }

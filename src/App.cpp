@@ -64,6 +64,11 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
                                                     loadTexture(img::load(make_absolute_path("images/Enemy/Golem3.png", true), 4, true)),
                                                     loadTexture(img::load(make_absolute_path("images/Enemy/Golem4.png", true), 4, true)),
                                                     loadTexture(img::load(make_absolute_path("images/Enemy/Golem5.png", true), 4, true))});
+    listOfEnnemyTexture.push_back(std::vector<GLuint>{loadTexture(img::load(make_absolute_path("images/Enemy/Grub1.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/Grub2.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/Grub3.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/Grub4.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/Grub5.png", true), 4, true))});
 
     // Load background textures
     listOfBackgroundTextures.push_back({screen_state::MAIN_MENU,img::load(make_absolute_path("images/menu_background.png", true), 3, false)});
@@ -191,6 +196,10 @@ void App::update() {
     
     pos_tile_mouse = squareScreen_abs_to_SquareScreen_tiles(pos_mouse_abs);
 
+    // if(myScreen._state == screen_state::PAUSE_MENU){
+        
+    // }
+
     if(myScreen._state == screen_state::LEVEL){
         if(listOfEnemy.size() != 0){
             for(auto it = listOfEnemy.begin(); it != listOfEnemy.end();){
@@ -240,59 +249,51 @@ void App::update() {
             }
         }
 
-    }   
+        if(timeSinceStart < 5 && timeSinceStart > 4.9 && !vague1) {
+            auto it {listOfEnemy.size()};
+            for (size_t i = 0; i < 2; i++){
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+            }
+            for(auto i {it-1}; i < listOfEnemy.size(); i++){listOfEnemy[i].init_enemy();}
+            vague1 = true;
+        } else if (timeSinceStart < 15 && timeSinceStart > 14.9 && !vague2) {
+            auto it {listOfEnemy.size()};
+            for (size_t i = 0; i < 3; i++){
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+            }
+            for(auto i {it-1}; i < listOfEnemy.size(); i++){listOfEnemy[i].init_enemy();}
+            vague2 = true;
+        } else if (timeSinceStart < 25 && timeSinceStart > 24.9 && !vague3) {
+            auto it {listOfEnemy.size()};
+            for (size_t i = 0; i < 4; i++){
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+            }
+            for(auto i {it-1}; i < listOfEnemy.size(); i++){listOfEnemy[i].init_enemy();}
+            vague3 = true;
+        } else if (timeSinceStart < 35 && timeSinceStart > 34.9 && !vague4) {
+            auto it {listOfEnemy.size()};
+            for (size_t i = 0; i < 6; i++){
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY3, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.1, listOfNodes, myScreen.nbrTileSide});
+            }
+            for(auto i {it-1}; i < listOfEnemy.size(); i++){listOfEnemy[i].init_enemy();}
+            vague4 = true;
+        }
+
+        // std::cout << globalLife << std::endl;
+        if(globalLife <= 0)myScreen._state = screen_state::LOSE;
+        if(listOfEnemy.size() <= 0 && timeSinceStart > 22)myScreen._state = screen_state::WIN;
+
+        timeSinceStart += currentTime-timeSinceStart - pausedTime;
+    }
+    // std::cout << "Timer : " << timeSinceStart << std::endl;
    
     // UwU 
     render();
-
-    if(currentTime < 5 && currentTime > 0 && !vague1) {
-        for (size_t i = 0; i < 2; i++){
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
-        }
-        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
-        vague1 = true;
-    } else if (currentTime < 10 && currentTime > 5 && !vague2) {
-        for (size_t i = 0; i < 3; i++){
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
-        }
-        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
-        vague2 = true;
-    } else if (currentTime < 15 && currentTime > 10 && !vague3) {
-        for (size_t i = 0; i < 4; i++){
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
-        }
-        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
-        vague3 = true;
-    } else if (currentTime < 20 && currentTime > 15 && !vague4) {
-        for (size_t i = 0; i < 6; i++){
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
-        }
-        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
-        vague4 = true;
-    } else if (currentTime < 25 && currentTime > 20 && !vague5) {
-        for (size_t i = 0; i < 8; i++){
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
-        }
-        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
-        vague5 = true;
-    } else if (currentTime > 25 && currentTime-lastInfiniteVague > 5) {
-        for (size_t i = 0; i < (rand() % 20 + 1 + 1); i++){
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-            listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
-        }
-        for(Enemy & currentEnnemy : listOfEnemy){currentEnnemy.init_enemy();}
-        lastInfiniteVague = currentTime;
-    }
-
-    // std::cout << globalLife << std::endl;
-    if(globalLife <= 0)myScreen._state = screen_state::LOSE;
-    // std::cout << currentTime << std::endl;
-    if(listOfEnemy.size() <= 0 && currentTime > 22)myScreen._state = screen_state::WIN;
 }
 
 void App::render() {
@@ -319,8 +320,8 @@ void App::key_callback(int /*key*/, int /*scancode*/, int /*action*/, int /*mods
 void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
     if(currentTime - delayForAllButton > 0.2){
 
-    std::cout << myScreen.listCase[transform_mouse_pos_tile_to_case_index(pos_tile_mouse)]._type << std::endl;
-    std::cout << transform_mouse_pos_tile_to_case_index(pos_tile_mouse) << std::endl;
+    // std::cout << myScreen.listCase[transform_mouse_pos_tile_to_case_index(pos_tile_mouse)]._type << std::endl;
+    // std::cout << transform_mouse_pos_tile_to_case_index(pos_tile_mouse) << std::endl;
         if(myScreen._state == screen_state::MAIN_MENU){
             for(Button currentButton : listOfButtonMenu){
                 // std::cout << "mouseX : " <<pos_mouse_abs.first << " " << "mouseY : " <<pos_mouse_abs.second << std::endl;
@@ -331,6 +332,8 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                     switch (currentButton._type){
                     case BEGIN:
                         myScreen._state = screen_state::LEVEL;
+                        if(firstStart=false)timeSinceStart = currentTime;
+                        firstStart = true;
                         break;
                     case QUIT:
                         // Close window
@@ -357,6 +360,8 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                         break;
                     case CONTINU:
                         myScreen._state = screen_state::LEVEL;
+                        pausedTime += glfwGetTime() - pauseStartTime;
+                        isPaused = false;
                     default:
                         break;
                     }
@@ -374,8 +379,6 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                             myScreen.showCaseDispo = true;
                             myScreen.currentTowerToDraw = typeTower::TYPE1;
                             delayForTowerPlacement = currentTime;
-                            
-                            
                         }
                         break;
                     
@@ -400,6 +403,8 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
                         break;
                     case PAUSE:
                         myScreen._state = screen_state::PAUSE_MENU;
+                        pauseStartTime = glfwGetTime();
+                        isPaused = true;
                         break;
                     default:
                         break;

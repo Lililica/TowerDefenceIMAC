@@ -68,8 +68,12 @@ private:
     bool vague2 {false};
     bool vague3 {false};
     bool vague4 {false};
-    bool vague5 {false};
-    double lastInfiniteVague {};
+    bool firstStart {false};
+    double timeSinceStart {};
+    
+    bool isPaused = false;
+    double pauseStartTime = 0;
+    double pausedTime = 0;
 
     // Add your variables here
     GLuint _texture {};

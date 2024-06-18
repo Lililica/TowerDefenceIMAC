@@ -72,6 +72,9 @@ void Enemy::draw_me(std::vector<std::vector<GLuint>> & listOfEnnemyTexture, doub
             case typeEnemy::ENEMY2:
                 draw_quad_with_texture(listOfEnnemyTexture[1][itAnimation%5]);
                 break;
+            case typeEnemy::ENEMY3:
+                draw_quad_with_texture(listOfEnnemyTexture[2][itAnimation%5]);
+                break;
             default:
                 break;
         }
@@ -88,16 +91,22 @@ void Enemy::init_enemy(){
     switch (type)
     {
     case typeEnemy::ENEMY1:
-        speed = 0.05/15;
+        speed = 0.05/(rand() % 15 + 1 + 14);
         initLP = 200;
         lifePoint = 200;
         reward = 100;
         break;
     case typeEnemy::ENEMY2:
-        speed = 0.05/25;
+        speed = 0.05/(rand() % 25 + 1 + 23);
         initLP = 600;
         lifePoint = 600;
         reward = 400;
+        break;    
+    case typeEnemy::ENEMY3:
+        speed = 0.05/(rand() % 23 + 1 + 21);
+        initLP = 1200;
+        lifePoint = 1200;
+        reward = 500;
         break;    
     default:
         break;
