@@ -27,7 +27,6 @@ struct Case{
     std::pair<double,double> pos {0,0};
 
     GLuint _texture;
-
     void set_up_draw(std::vector<GLuint> listOfCaseTexture);
     void draw_me(int nbrTiles);
 };

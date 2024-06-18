@@ -82,6 +82,9 @@ private:
     Price price;
 
     std::vector<Enemy> listOfEnemy;
+    std::vector<std::vector<GLuint>> listOfEnnemyTexture;
+    int itAnimation {0};
+    double intervalForAnim {0};
 
     std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{-1.,1.}}, 
                             Case{200, PATH, false, std::pair<double,double>{-1,0}},

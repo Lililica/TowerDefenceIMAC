@@ -32,7 +32,6 @@ struct Enemy {
     double width {};
     double height {};
 
-    GLuint texture;
     std::vector<Case> listOfNodes;
    
     int nbrTileSide{20};
@@ -41,6 +40,10 @@ struct Enemy {
     Direction direction {RIGHT};
 
     int itTKT {0};
+   
+    double animationSpeed {0.2};
+
+    
 
     void is_walking();
     void draw_my_lp();
@@ -51,7 +54,8 @@ struct Enemy {
 
     int reward {0}; //combien rapporte l'ennemi a sa mort
     
-    void draw_me();
+    void draw_me(std::vector<std::vector<GLuint>> & listOfEnnemyTexture, double currentTime, int & itAnimation, double & intervalForAnim);
+    void init_enemy();
 };
 
 

@@ -34,7 +34,7 @@ void Enemy::is_walking(){
         // std::cout << pos.second << "entre : [" << case2.pos.second << ", " << (case2.pos.second + 2./nbrTileSide) << std::endl;
     
         if(pos.first >= case2.pos.first && pos.first <= case2.pos.first + 2./nbrTileSide &&
-            pos.second >= case2.pos.second - 2./nbrTileSide && pos.second <= case2.pos.second){   //A MODIFIER
+            pos.second >= case2.pos.second - 0.1/nbrTileSide && pos.second <= case2.pos.second){   //A MODIFIER
             itTKT = itTKT+1;
             // std::cout << "J'y suis !" << std::endl;
         }else if(pos.first < 1.5 && pos.second < 1.5){
@@ -60,12 +60,48 @@ void Enemy::draw_my_lp(){
     glPopMatrix();
 }
 
-void Enemy::draw_me(){
+void Enemy::draw_me(std::vector<std::vector<GLuint>> & listOfEnnemyTexture, double currentTime,  int & itAnimation, double & intervalForAnim){
+    // std::cout << itAnimation << std::endl;
     glPushMatrix();
         glTranslatef(pos.first, pos.second - height,0);
         glScalef(width,-height,1);
-        draw_quad_with_texture(texture);
+        switch (type){
+            case typeEnemy::ENEMY1:
+                draw_quad_with_texture(listOfEnnemyTexture[0][itAnimation%5]);
+                break;
+            case typeEnemy::ENEMY2:
+                draw_quad_with_texture(listOfEnnemyTexture[1][itAnimation%5]);
+                break;
+            default:
+                break;
+        }
+        if(currentTime - intervalForAnim > animationSpeed){
+            // std::cout << itAnimation << std::endl;
+            itAnimation = itAnimation + 1;
+            intervalForAnim = currentTime;
+        }        
     glPopMatrix();
+    
+}
+
+void Enemy::init_enemy(){
+    switch (type)
+    {
+    case typeEnemy::ENEMY1:
+        speed = 0.05/15;
+        initLP = 200;
+        lifePoint = 200;
+        reward = 100;
+        break;
+    case typeEnemy::ENEMY2:
+        speed = 0.05/25;
+        initLP = 600;
+        lifePoint = 600;
+        reward = 400;
+        break;    
+    default:
+        break;
+    }
 }
 
 // --------------------------------------------------------------
@@ -73,13 +109,15 @@ void Enemy::draw_me(){
 // --------------------------------------------------------------
 
 // Load tower textures
-img::Image defaultTower {img::load(make_absolute_path("images/towers/towerdefault.png", true), 3, true)};
-img::Image type1Tower {img::load(make_absolute_path("images/towers/tower1.png", true), 3, true)};
-img::Image type2Tower {img::load(make_absolute_path("images/towers/tower2.png", true), 3, true)};
-img::Image type3Tower {img::load(make_absolute_path("images/towers/tower3.png", true), 3, true)};
-img::Image type4Tower {img::load(make_absolute_path("images/towers/tower4.png", true), 3, true)};
+img::Image defaultTower {img::load(make_absolute_path("images/towers/towerdefault.png", true), 4, true)};
+img::Image type1Tower {img::load(make_absolute_path("images/towers/tower1.png", true), 4, true)};
+img::Image type2Tower {img::load(make_absolute_path("images/towers/tower2.png", true), 4, true)};
+img::Image type3Tower {img::load(make_absolute_path("images/towers/tower3.png", true), 4, true)};
+img::Image type4Tower {img::load(make_absolute_path("images/towers/tower4.png", true), 4, true)};
 
-img::Image defaultBullet {img::load(make_absolute_path("images/towers/bullettest.png", true), 3, true)};
+img::Image defaultBullet {img::load(make_absolute_path("images/towers/bullettest.png", true), 4, true)};
+img::Image magieBullet {img::load(make_absolute_path("images/towers/bulletMagie.png", true), 4, true)};
+img::Image bombeBullet {img::load(make_absolute_path("images/towers/bulletBombe.png", true), 4, true)};
 
 Price price;
 
@@ -96,7 +134,7 @@ void Tower::set_stats_from_type() {
             break;
         case TYPE2:
             _texture = loadTexture(type2Tower);
-            _bulletTexture = loadTexture(defaultBullet);
+            _bulletTexture = loadTexture(magieBullet);
             power = 120;
             range = 2;
             lifePoint = 5;
@@ -105,7 +143,7 @@ void Tower::set_stats_from_type() {
             break;
         case TYPE3:
             _texture = loadTexture(type3Tower);
-            _bulletTexture = loadTexture(defaultBullet);
+            _bulletTexture = loadTexture(bombeBullet);
             power = 20;
             range = 3;
             lifePoint = 5;
@@ -154,7 +192,7 @@ void Tower::set_range_box(double tileSize) {
 }
 void Tower::draw_range_box(){
     glPushMatrix();
-        glColor3f(1.0,1.0,0.5);
+        glColor4f(1.0,1.0,0.5,0.5);
         drawRect(
             rangeBox.first.first, rangeBox.first.second,
             rangeBox.second.first,
@@ -186,7 +224,7 @@ void Bullet::draw_me(GLuint texture, std::pair<double, double> posTarget){
         glTranslatef(pos.first, pos.second, 0);
         glRotatef(90, 0, 0, 1);
         glRotatef(angle, 0, 0, 1);
-        glScalef(0.025,0.075,1);
+        glScalef(0.075,0.075,1);
         draw_quad_with_texture(texture);
     glPopMatrix();
 }

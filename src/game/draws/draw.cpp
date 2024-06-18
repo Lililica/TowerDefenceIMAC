@@ -130,7 +130,7 @@ void App::draw_all_content(){
 
         if(listOfEnemy.size() != 0) {
             for(Enemy enemy : listOfEnemy){
-                enemy.draw_me();
+                enemy.draw_me(listOfEnnemyTexture, currentTime, itAnimation, intervalForAnim);
                 enemy.draw_my_lp();
             }
         }
@@ -188,7 +188,7 @@ void App::draw_all_content(){
             // }
             if (collision_pos_box({pos_tile_mouse.first,pos_tile_mouse.second},{-1,-1},{1.999,1.999})) {
                 glPushMatrix();
-                    glColor3f(0.0f, 0.0f, 1.0f);
+                    glColor4f(0.0f, 0.0f, 1.0f, 0.4);
                     drawRect(pos_tile_mouse.first, pos_tile_mouse.second, tileSize, tileSize);
                 glPopMatrix();
             }

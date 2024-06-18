@@ -54,7 +54,16 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
    // load what needs to be loaded here (for example textures)
 
     img::Image test {img::load(make_absolute_path("images/level.png", true), 3, true)};    
-    img::Image enemyImg {img::load(make_absolute_path("images/enemyTest.png", true), 3, true)};
+    listOfEnnemyTexture.push_back(std::vector<GLuint>{loadTexture(img::load(make_absolute_path("images/Enemy/enemyTest.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/enemyTest2.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/enemyTest3.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/enemyTest4.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/enemyTest5.png", true), 4, true))});
+    listOfEnnemyTexture.push_back(std::vector<GLuint>{loadTexture(img::load(make_absolute_path("images/Enemy/Golem1.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/Golem2.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/Golem3.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/Golem4.png", true), 4, true)),
+                                                    loadTexture(img::load(make_absolute_path("images/Enemy/Golem5.png", true), 4, true))});
 
     // Load background textures
     listOfBackgroundTextures.push_back({screen_state::MAIN_MENU,img::load(make_absolute_path("images/menu_background.png", true), 3, false)});
@@ -96,7 +105,7 @@ App::App() : _previousTime(0.0), _viewSize(2.0) {
     // img::Image playButton {img::load(make_absolute_path("images/playbutton.png", true), 3, true)};
     // _texture = loadTexture(playButton);
     
-    _enemyTextureTest = loadTexture(enemyImg);
+    ;
     // _texture = loadTexture(test);
 }
 
@@ -121,9 +130,9 @@ void App::setup() {
 
 
     // Création des boutons
-    listOfButtonMenu.push_back(Button{typeButton::BEGIN,std::pair<double,double>{-0.2, 0.3}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButtonMenu.push_back(Button{typeButton::CREDIT,std::pair<double,double>{-0.2, 0.0}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButtonMenu.push_back(Button{typeButton::QUIT,std::pair<double,double>{-0.2, -0.3}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButtonMenu.push_back(Button{typeButton::BEGIN,std::pair<double,double>{-0.2, 0.4}, std::pair<double,double>{0.4, 0.4}, false});
+    listOfButtonMenu.push_back(Button{typeButton::CREDIT,std::pair<double,double>{-0.2, -0.1}, std::pair<double,double>{0.4, 0.4}, false});
+    listOfButtonMenu.push_back(Button{typeButton::QUIT,std::pair<double,double>{-0.2, -0.6}, std::pair<double,double>{0.4, 0.4}, false});
     // listOfButtonTowerLevel.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.4, 0.1}, std::pair<double,double>{0.4, 0.2}, false});
     // listOfButtonTowerLevel.push_back(Button{typeButton::PLAY,std::pair<double,double>{-0.1, 0.1}, std::pair<double,double>{0.2, 0.2}, false});
     for (auto &&button : listOfButtonMenu) {button.set_stats_from_type();}
@@ -134,12 +143,12 @@ void App::setup() {
     listOfButtonTowerLevel.push_back(Button{typeButton::ANNULER_TOWER,std::pair<double,double>{1.05, 0.8}, std::pair<double,double>{0.1, 0.1}, false});
     listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_2,std::pair<double,double>{1., 0.1}, std::pair<double,double>{0.2, 0.2}, false});
     listOfButtonTowerLevel.push_back(Button{typeButton::TOWER_3,std::pair<double,double>{1., -0.4}, std::pair<double,double>{0.2, 0.2}, false});
-    listOfButtonTowerLevel.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.4, 0.1}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButtonTowerLevel.push_back(Button{typeButton::PAUSE,std::pair<double,double>{-1.5, 0.2}, std::pair<double,double>{0.3, 0.3}, false});
     for (auto &&button : listOfButtonTowerLevel) {button.set_stats_from_type();}
 
     // Buttons de Pause :
-    listOfButtonPause.push_back(Button{typeButton::EXIT_TO_MENU,std::pair<double,double>{-0.2, -0.3}, std::pair<double,double>{0.4, 0.2}, false});
-    listOfButtonPause.push_back(Button{typeButton::CONTINU,std::pair<double,double>{-0.2, 0.3}, std::pair<double,double>{0.4, 0.2}, false});
+    listOfButtonPause.push_back(Button{typeButton::EXIT_TO_MENU,std::pair<double,double>{-0.2, -0.2}, std::pair<double,double>{0.4, 0.4}, false});
+    listOfButtonPause.push_back(Button{typeButton::CONTINU,std::pair<double,double>{-0.2, 0.3}, std::pair<double,double>{0.4, 0.4}, false});
     for (auto &&button : listOfButtonPause) {button.set_stats_from_type();}
 
     // Création des tours
@@ -150,8 +159,13 @@ void App::setup() {
     for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(tileSize);}
     
     // Création des ennemis
-    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, _enemyTextureTest, listOfNodes, myScreen.nbrTileSide});
+    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, 1, false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
 
+
+    for(Enemy & currentEnnemy : listOfEnemy){
+        currentEnnemy.init_enemy();
+    }
 
     
 }
@@ -170,7 +184,11 @@ void App::update() {
     pos_tile_mouse = squareScreen_abs_to_SquareScreen_tiles(pos_mouse_abs);
 
     if(myScreen._state == screen_state::LEVEL){
-        if(listOfEnemy.size() != 0) listOfEnemy[0].is_walking();
+        if(listOfEnemy.size() != 0){
+            for(Enemy & currentEnnemy : listOfEnemy){
+                currentEnnemy.is_walking();
+            }
+        }
     }
     
     if(listOfEnemy.size() != 0) {
@@ -184,6 +202,7 @@ void App::update() {
             }
             if(enemy.lifePoint <= 0) {
                 std::cout << "Enemy died" << std::endl;
+                myScreen.currency += enemy.reward;
                 //quand un enemy meurt
             }
         }
@@ -316,6 +335,7 @@ void App::mouse_button_callback(int /*button*/, int /*action*/, int /*mods*/) {
             
             if(myScreen.showCaseDispo && currentTime-delayForTowerPlacement > 0.2 && isFreeToBuild()){
                 std::cout << transform_mouse_pos_tile_to_case_index(pos_tile_mouse) << std::endl;
+                myScreen.listCase[transform_mouse_pos_tile_to_case_index(pos_tile_mouse)].occupied = true;
                 switch (myScreen.currentTowerToDraw){
                     case 1:
                         myScreen.currency -= price.tower_1;
@@ -394,7 +414,8 @@ Enemy* App::findEnemyFromList(int wantedId) {
 
 bool App::isFreeToBuild(){
     return (myScreen.listCase[transform_mouse_pos_tile_to_case_index(pos_tile_mouse)]._type == typeCase::DECOR) 
-    && pos_tile_mouse.first < 1.0 && pos_tile_mouse.first >= -1. && pos_tile_mouse.second < 1. && pos_tile_mouse.second >= -1.;
+    && pos_tile_mouse.first < 1.0 && pos_tile_mouse.first >= -1. && pos_tile_mouse.second < 1. && pos_tile_mouse.second >= -1. 
+    && !(myScreen.listCase[transform_mouse_pos_tile_to_case_index(pos_tile_mouse)].occupied);
 }
 
 // void App::remplir_listOfCase(){
