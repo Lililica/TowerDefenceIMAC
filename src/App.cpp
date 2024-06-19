@@ -1,6 +1,7 @@
 #include "App.hpp"
 #include "game/draws/draw.hpp"
 
+#include <random>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <img/img.hpp>
@@ -208,7 +209,10 @@ void App::setup() {
 
 
 
+
     listOfNodes = Give_Me_Chemin("../../itd/map4.itd");
+
+    
 
     // Setup the text renderer with blending enabled and white text color
     TextRenderer.ResetFont();
@@ -259,8 +263,8 @@ void App::setup() {
     for (auto &&tower : listOfTower) {tower.set_stats_from_type();tower.set_range_box(tileSize);}
     
     // Création des ennemis
-    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+    listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
 
 
     for(Enemy & currentEnnemy : listOfEnemy){
@@ -342,33 +346,33 @@ void App::update() {
         if(timeSinceStart < 5 && timeSinceStart > 4.9 && !vague1) {
             auto it {listOfEnemy.size()};
             for (int i = 0; i < 2; i++){
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
             }
             for(auto i {it-1}; i < listOfEnemy.size(); i++){listOfEnemy[i].init_enemy();}
             vague1 = true;
         } else if (timeSinceStart < 15 && timeSinceStart > 14.9 && !vague2) {
             auto it {listOfEnemy.size()};
             for (int i = 0; i < 3; i++){
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
             }
             for(auto i {it-1}; i < listOfEnemy.size(); i++){listOfEnemy[i].init_enemy();}
             vague2 = true;
         } else if (timeSinceStart < 25 && timeSinceStart > 24.9 && !vague3) {
             auto it {listOfEnemy.size()};
             for (int i = 0; i < 4; i++){
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
             }
             for(auto i {it-1}; i < listOfEnemy.size(); i++){listOfEnemy[i].init_enemy();}
             vague3 = true;
         } else if (timeSinceStart < 35 && timeSinceStart > 34.9 && !vague4) {
             auto it {listOfEnemy.size()};
             for (int i = 0; i < 6; i++){
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
-                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY3, int(listOfEnemy.size()+1), false, std::pair<double,double>{-0.99, 0.99}, 0.05, 0.1, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY1, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.05, 0.05, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY2, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.1, 0.1, listOfNodes, myScreen.nbrTileSide});
+                listOfEnemy.push_back(Enemy{typeEnemy::ENEMY3, int(listOfEnemy.size()+1), false, std::pair<double,double>{listOfNodes[0].pos.first,listOfNodes[0].pos.second}, 0.05, 0.1, listOfNodes, myScreen.nbrTileSide});
             }
             for(auto i {it-1}; i < listOfEnemy.size(); i++){listOfEnemy[i].init_enemy();}
             vague4 = true;

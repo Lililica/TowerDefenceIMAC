@@ -161,10 +161,10 @@ std::vector<std::vector<std::string>> splitItd(std::string path){
     if(fichierItd){  //si on peut acceder au fichier
         std::string line; // pour stocker les lignes lues
 
-        // while(getline(fichierItd, line)){ // tant qu'on est pas a la fin du fichier 
-        //     std::vector<std::string> splitItdLine {split_string(line)};  
-        //     splitItdWord.push_back(splitItdLine);      
-        // }
+        while(getline(fichierItd, line)){ // tant qu'on est pas a la fin du fichier 
+            std::vector<std::string> splitItdLine {split_string(line)};  
+            splitItdWord.push_back(splitItdLine);      
+        }
 
     }else{
         std::cout << "Impossible d'ouvirer le fichier .itd" << std::endl;
