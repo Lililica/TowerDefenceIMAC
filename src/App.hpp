@@ -116,9 +116,9 @@ private:
 
     // std::vector<Case> listOfCase;
 
-    std::vector<img::Image> listOfCaseImg;    
+    std::vector<img::Image> listOfCaseImg;
 
-    std::vector<GLuint> listOfCaseTexture;  
+    std::vector<GLuint> listOfCaseTexture;
 
     // void remplir_listOfCase();
 

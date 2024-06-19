@@ -110,21 +110,27 @@ void App::draw_all_content(){
                 tower.draw_me(tileSize);
             }
             for (Tower& tower : listOfTower) {
-                if(tower.listOfBullet.size() != 0) {
-                    for (auto& shoot : tower.listOfBullet) {
-                        Enemy* enemy {findEnemyFromList(shoot.second)};
+                if (!tower.listOfBullet.empty()) {
+                    auto it = tower.listOfBullet.begin();
+                    while (it != tower.listOfBullet.end()) {
+                        auto& shoot = *it;
+                        Enemy* enemy = findEnemyFromList(shoot.second);
+
                         if (enemy != nullptr) {
-                            
-                            if(currentTime-shoot.first.lastTimeMoved >= shoot.first.speed) move_bullet(shoot.first, enemy->pos);
-                            
-                            if(collision_box_box(enemy->pos, {enemy->height,enemy->width}, shoot.first.pos, {shoot.first.width, shoot.first.height})) {
-                                tower.remove_bullet(shoot.first);
+                            if (currentTime - shoot.first.lastTimeMoved >= shoot.first.speed) {
+                                move_bullet(shoot.first, enemy->pos);
+                            }
+
+                            if (collision_box_box(enemy->pos, {enemy->height, enemy->width}, shoot.first.pos, {shoot.first.width, shoot.first.height})) {
                                 enemy->lifePoint -= tower.power;
+                                it = tower.listOfBullet.erase(it); // Supprime la balle et passe à l'élément suivant
                             } else {
                                 shoot.first.draw_me(tower._bulletTexture, enemy->pos);
+                                ++it; // Passe à l'élément suivant dans le vecteur de balles
                             }
                         } else {
                             std::cout << "No target found" << std::endl;
+                            it = tower.listOfBullet.erase(it); // Supprime la balle et passe à l'élément suivant
                         }
                     }
                 }
