@@ -64,8 +64,9 @@ void Screen::create_list_of_case(std::vector<Case> & listOfNodes, std::vector<GL
                     }
                 }
     }
-    for(Case myCase : listOfNodes){
+    for(Case & myCase : listOfNodes){
         listCase[myCase.index] = myCase;
+        (listCase[myCase.index].pos.second>0)?(listCase[myCase.index].pos.second+=0.1):(listCase[myCase.index].pos.second+=0.1);
     }
     for(int i{0}; i < listOfNodes.size()-1; ++i){
         // std::string debug;

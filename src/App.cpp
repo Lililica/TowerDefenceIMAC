@@ -57,7 +57,7 @@ std::vector<Case> App::Give_Me_Chemin(std::string path){
 
     for(std::pair<int,int> & posTile : listClean){
         // std::cout << (float(posTile.first) - _numberOfTiles/2.)*(2./_numberOfTiles) << " et " << -(float(posTile.second) - _numberOfTiles/2.)/(_numberOfTiles/2.) << std::endl;
-        listCleanTrue.push_back(std::pair<double,double>{((posTile.first) - _numberOfTiles/2.)*(2./_numberOfTiles),-((posTile.second) - _numberOfTiles/2.)/(_numberOfTiles/2.) });
+        listCleanTrue.push_back(std::pair<double,double>{((posTile.first) - _numberOfTiles/2.)*(2./_numberOfTiles),-((posTile.second) - _numberOfTiles/2.)/(_numberOfTiles/2.)});
     }
 
     // for(std::pair<float,float> & posTrueTile : listCleanTrue){
@@ -212,6 +212,7 @@ void App::setup() {
     double tileSize {2./float(_numberOfTiles)};
 
     myScreen.create_list_of_case(listOfNodes,listOfCaseTexture);
+
 
 
 
