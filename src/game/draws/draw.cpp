@@ -97,9 +97,9 @@ void App::draw_all_content(){
         
 
         glColor3f(1.0f, 0.0f, 0.0f);
-        drawRect(myScreen.listCase.back().pos.first, myScreen.listCase.back().pos.second+0.0125,tileSize,0.0125);
+        drawRect(listOfNodes.back().pos.first, listOfNodes.back().pos.second+0.0125,tileSize,0.0125);
         glColor3f(0.0f, 1.0f, 0.0f);
-        drawRect(myScreen.listCase.back().pos.first, myScreen.listCase.back().pos.second+0.0125,globalLife*tileSize/3,0.0125);
+        drawRect(listOfNodes.back().pos.first, listOfNodes.back().pos.second+0.0125,globalLife*tileSize/3,0.0125);
 
 
         if(listOfTower.size() != 0) {
