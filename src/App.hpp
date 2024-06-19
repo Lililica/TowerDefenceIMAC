@@ -113,6 +113,9 @@ private:
     Enemy* findEnemyFromList(int wantedId);
 
     std::vector<Case> Give_Me_Chemin(std::string path);
+
+
 };
 
 void display_vec_int(std::vector<int> v);
+

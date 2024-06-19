@@ -86,12 +86,12 @@ std::vector<Case> App::Give_Me_Chemin(std::string path){
         listOfNodes.push_back(newCase);
     }
 
-        Case newCase2;
-        newCase2.pos = listCleanTrue[listToParcour.top()];
-        listToParcour.pop();
-        newCase2.index = transform_mouse_pos_tile_to_case_index(newCase2.pos);
-        newCase2._type = typeCase::END;
-        listOfNodes.push_back(newCase2);
+    Case newCase2;
+    newCase2.pos = listCleanTrue[listToParcour.top()];
+    listToParcour.pop();
+    newCase2.index = transform_mouse_pos_tile_to_case_index(newCase2.pos);
+    newCase2._type = typeCase::END;
+    listOfNodes.push_back(newCase2);
 
     return listOfNodes;
 }
@@ -200,7 +200,7 @@ void App::setup() {
 
 
 
-    listOfNodes = Give_Me_Chemin("../../itd/map2.itd");
+    listOfNodes = Give_Me_Chemin("../../itd/map4.itd");
 
     // Setup the text renderer with blending enabled and white text color
     TextRenderer.ResetFont();

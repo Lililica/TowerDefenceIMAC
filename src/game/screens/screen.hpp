@@ -40,3 +40,4 @@ struct Screen{
     void create_list_of_case(std::vector<Case> & listOfNodes, std::vector<GLuint> listOfCaseTexture);
 };
 
+bool AreSame(double a, double b);

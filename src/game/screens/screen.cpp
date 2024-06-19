@@ -2,6 +2,10 @@
 #include <vector>
 #include "screen.hpp"
 
+bool AreSame(double a, double b) {
+    return std::fabs(a - b) < 0.0001;
+}
+
 void Screen::create_list_of_case(std::vector<Case> & listOfNodes, std::vector<GLuint> listOfCaseTexture)  {
     for (size_t i = 0; i < nbrTileSide*nbrTileSide; ++i) {
         Case newCase {};
@@ -67,28 +71,32 @@ void Screen::create_list_of_case(std::vector<Case> & listOfNodes, std::vector<GL
     for(Case & myCase : listOfNodes){
         listCase[myCase.index] = myCase;
         (listCase[myCase.index].pos.second>0)?(listCase[myCase.index].pos.second+=0.1):(listCase[myCase.index].pos.second+=0.1);
+        myCase.pos.second += 0.1; 
     }
     for(int i{0}; i < listOfNodes.size()-1; ++i){
         // std::string debug;
         for(Case & myCase : listCase){
             if(myCase._type == typeCase::DECOR ){ //&& myCase._type != typeCase::PATH_B_L && myCase._type != typeCase::PATH_B_R  && myCase._type != typeCase::PATH_B_L  && myCase._type != typeCase::PATH_T_R  && myCase._type != typeCase::PATH_T_L
-                if((listOfNodes[i].pos.first) == (listOfNodes[i+1].pos.first) &&  (listOfNodes[i].pos.second) > ((listOfNodes[i+1].pos.second))){
+                if(AreSame((listOfNodes[i].pos.first), (listOfNodes[i+1].pos.first)) &&  (listOfNodes[i].pos.second) > ((listOfNodes[i+1].pos.second))){
                     // debug = ((myCase.pos.first) == listOfNodes[i].pos.first) ? " oui" : " non";
                     // std::cout << "Case : " << (myCase.pos.first) << debug << " C ca a la base : " << listOfNodes[i].pos.first <<std::endl;
                     // // std::cout << "caseX : " << (myCase.pos.first) << " =? " << listOfNodes[i].pos.first <<" et " << "caseX : " << myCase.pos.second << " >=? " << (listOfNodes[i+1].pos.second) << std::endl;
-                    if((myCase.pos.first) == (listOfNodes[i].pos.first) && (myCase.pos.second) >= (listOfNodes[i+1].pos.second) && (myCase.pos.second) < (listOfNodes[i].pos.second) && myCase._type != typeCase::START){
+                    if(AreSame((myCase.pos.first), (listOfNodes[i].pos.first)) && (myCase.pos.second) >= (listOfNodes[i+1].pos.second) && (myCase.pos.second) < (listOfNodes[i].pos.second) && myCase._type != typeCase::START){
                         myCase._type = typeCase::PATH_T_B;
                     }
-                }else if(listOfNodes[i].pos.first == listOfNodes[i+1].pos.first && listOfNodes[i].pos.second < (listOfNodes[i+1].pos.second)){
-                    if((myCase.pos.first) == (listOfNodes[i].pos.first) && (myCase.pos.second) < (listOfNodes[i+1].pos.second) && (myCase.pos.second) >= (listOfNodes[i].pos.second) && myCase._type != typeCase::START){
+                }else if(AreSame(listOfNodes[i].pos.first , listOfNodes[i+1].pos.first) && listOfNodes[i].pos.second < (listOfNodes[i+1].pos.second)){
+                    if(myCase.index == 81) {
+                        std::cout << std::endl;
+                    }
+                    if(AreSame((myCase.pos.first), (listOfNodes[i].pos.first)) && (myCase.pos.second) < (listOfNodes[i+1].pos.second) && (myCase.pos.second) >= (listOfNodes[i].pos.second) && myCase._type != typeCase::START){
                         myCase._type = typeCase::PATH_T_B;
                     }
-                }else if(listOfNodes[i].pos.second == (listOfNodes[i+1].pos.second) && (listOfNodes[i].pos.first) < listOfNodes[i+1].pos.first){
-                    if((myCase.pos.second) == (listOfNodes[i].pos.second) && (myCase.pos.first) < (listOfNodes[i+1].pos.first) && (myCase.pos.first) > (listOfNodes[i].pos.first) && myCase._type != typeCase::START){
+                }else if(AreSame(listOfNodes[i].pos.second , (listOfNodes[i+1].pos.second)) && (listOfNodes[i].pos.first) < listOfNodes[i+1].pos.first){
+                    if(AreSame((myCase.pos.second) , (listOfNodes[i].pos.second)) && (myCase.pos.first) < (listOfNodes[i+1].pos.first) && (myCase.pos.first) > (listOfNodes[i].pos.first) && myCase._type != typeCase::START){
                         myCase._type = typeCase::PATH_R_L;
                     }
-                }else if((listOfNodes[i].pos.second) == (listOfNodes[i+1].pos.second) && (listOfNodes[i].pos.first) > (listOfNodes[i+1].pos.first)){
-                    if((myCase.pos.second) == (listOfNodes[i].pos.second) && (myCase.pos.first) > (listOfNodes[i+1].pos.first) && (myCase.pos.first) < (listOfNodes[i].pos.first) && myCase._type != typeCase::START){
+                }else if(AreSame((listOfNodes[i].pos.second) , (listOfNodes[i+1].pos.second)) && (listOfNodes[i].pos.first) > (listOfNodes[i+1].pos.first)){
+                    if(AreSame((myCase.pos.second) , (listOfNodes[i].pos.second)) && (myCase.pos.first) > (listOfNodes[i+1].pos.first) && (myCase.pos.first) < (listOfNodes[i].pos.first) && myCase._type != typeCase::START){
                         myCase._type = typeCase::PATH_R_L;
                     }
                 }
