@@ -279,7 +279,7 @@ void App::draw_all_content(){
         std::stringstream streamForCurrency {};
         streamForCurrency << std::fixed << "YOU WIN";
         currencyText = streamForCurrency.str();
-        TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::WHITE);
+        TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::BLACK);
         TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_48);
         TextRenderer.Label(currencyText.c_str(), (0.5)*_width, 300, SimpleText::CENTER);
     }
