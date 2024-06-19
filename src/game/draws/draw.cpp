@@ -257,7 +257,7 @@ void App::draw_all_content(){
 
         std::string currencyText {};
         std::stringstream streamForCurrency {};
-        streamForCurrency << std::fixed << "YOU LOSE";
+        streamForCurrency << std::fixed << "YOU LOST";
         currencyText = streamForCurrency.str();
         TextRenderer.SetColor(SimpleText::ForegroundBackground::TEXT_COLOR,SimpleText::Color::RED);
         TextRenderer.SetTextSize(SimpleText::FontSize::SIZE_48);
