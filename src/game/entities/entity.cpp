@@ -94,19 +94,19 @@ void Enemy::init_enemy(){
         speed = 0.05/(rand() % 15 + 1 + 14);
         initLP = 200;
         lifePoint = 200;
-        reward = 100;
+        reward = 50;
         break;
     case typeEnemy::ENEMY2:
         speed = 0.05/(rand() % 25 + 1 + 23);
         initLP = 600;
         lifePoint = 600;
-        reward = 400;
+        reward = 150;
         break;    
     case typeEnemy::ENEMY3:
         speed = 0.05/(rand() % 23 + 1 + 21);
         initLP = 1200;
         lifePoint = 1200;
-        reward = 500;
+        reward = 200;
         break;    
     default:
         break;

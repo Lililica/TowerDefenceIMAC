@@ -1,10 +1,12 @@
 #pragma once
 #include <vector>
 #include <iostream>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <stack>
 #include <queue>
+#include <sstream>
 
 
 
