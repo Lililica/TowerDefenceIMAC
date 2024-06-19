@@ -1,10 +1,12 @@
 #pragma once
-
-#pragma once
-
 #include <vector>
+#include <iostream>
 #include <unordered_map>
 #include <utility>
+#include <stack>
+#include <queue>
+
+#include <fstream>
 
 namespace Graph {
     struct WeightedGraphEdge {
@@ -41,3 +43,7 @@ namespace Graph {
 } // namespace
 
 std::vector<int> dijkstra_search(Graph::WeightedGraph & graph);
+std::vector<std::string> split_string(std::string const& str);
+std::vector<std::vector<std::string>> splitItd(std::string path);
+
+Graph::WeightedGraph from_itd_to_graph(std::string path);

@@ -1,67 +1,48 @@
 #include "case.hpp"
 
+#include <iostream>
+#include <random>
 
-void Case::draw_me(int nbrTiles, std::vector<GLuint> listOfCaseTexture){
+
+
+void Case::set_up_draw(std::vector<GLuint> listOfCaseTexture){
+
+    // Création d'un générateur de nombres aléatoires à partir d'une source d'entropie
+    std::random_device rd; 
+    // Initialisation du moteur de génération de nombres aléatoires
+    std::mt19937 gen(rd());
+    // Définir la distribution, par exemple pour un entier entre 1 et 100
+    std::uniform_int_distribution<> dis(10, 15);
+    // Générer un nombre aléatoire
+    int randomNumber = dis(gen);
     if(this->_type == typeCase::DECOR){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[1]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[randomNumber];
     }else if(this->_type == typeCase::PATH){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[0]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[0];
     }else if(this->_type == typeCase::PATH_T_B){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[2]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[2];
     }else if(this->_type == typeCase::PATH_R_L){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[3]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[3];
     }else if(this->_type == typeCase::PATH_B_L){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[4]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[4];
     }else if(this->_type == typeCase::PATH_B_R){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[5]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[5];
     }else if(this->_type == typeCase::PATH_T_L){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[6]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[6];
     }else if(this->_type == typeCase::PATH_T_R){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[7]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[7];
     }else if(this->_type == typeCase::START){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[8]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[8];
     }else if(this->_type == typeCase::END){
-        glPushMatrix();
-            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
-            glScalef(2./nbrTiles,-2./nbrTiles,1);
-            draw_quad_with_texture(listOfCaseTexture[9]);
-        glPopMatrix();
+            _texture = listOfCaseTexture[9];
     }
 
+}
+
+void Case::draw_me(int nbrTiles){
+        glPushMatrix();
+            glTranslatef(pos.first, pos.second - 2./nbrTiles,0);
+            glScalef(2./nbrTiles,-2./nbrTiles,1);
+            draw_quad_with_texture(_texture);
+        glPopMatrix();
 }

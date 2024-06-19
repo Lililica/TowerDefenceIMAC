@@ -103,6 +103,7 @@ int main() {
 
         app.update();
 
+
         // Swap front and back buffers
         glfwSwapBuffers(window);
 
@@ -116,6 +117,9 @@ int main() {
 		{
 			glfwWaitEventsTimeout(TARGET_TIME_FOR_FRAME-elapsedTime);
 		}
+        if(app.windowsShouldClose){
+            break;
+        }
     }
 
     glfwTerminate();

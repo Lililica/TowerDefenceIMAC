@@ -1,5 +1,14 @@
 #include "./outil.hpp"
 
+
+
+double dist_two_pos(std::pair<double, double> pos1, std::pair<double, double> pos2) {
+    return sqrt(
+        ((pos2.first-pos1.first)*(pos2.first-pos1.first)) +
+        ((pos2.second-pos1.second)*(pos2.second-pos1.second))
+    );
+}
+
 bool collision_pos_box(std::pair<double, double> pos, std::pair<double, double> pos_box, std::pair<double, double> size_box) {
     if(pos.first >= pos_box.first 
         && pos.first <= pos_box.first+size_box.first

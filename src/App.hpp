@@ -44,6 +44,8 @@ public:
     void cursor_position_callback(double xpos, double ypos);
     void size_callback(int width, int height);
 
+    bool windowsShouldClose {false};
+
 private:
     void render();
     void draw_all_content();
@@ -51,13 +53,27 @@ private:
 
     Screen myScreen {};
 
+    int globalLife {3};
+
     int _width {};
     int _height {};
     double _previousTime {};
     float _viewSize {};
     int _numberOfTiles {myScreen.nbrTileSide};
+    double tileSize {};
     
     float size {0.9};
+
+    bool vague1 {false};
+    bool vague2 {false};
+    bool vague3 {false};
+    bool vague4 {false};
+    bool firstStart {false};
+    double timeSinceStart {};
+    
+    bool isPaused = false;
+    double pauseStartTime = 0;
+    double pausedTime = 0;
 
     // Add your variables here
     GLuint _texture {};
@@ -68,9 +84,14 @@ private:
 
     std::vector<std::pair<screen_state,img::Image>> listOfBackgroundTextures;
     
-    std::vector<Button> listOfButton;
+    std::vector<Button> listOfButtonMenu;
+
+    std::vector<Button> listOfButtonPause;
 
     std::vector<Button> listOfButtonTowerLevel;
+
+    std::vector<Button> listOfButtonEnd;
+    std::vector<Button> listOfButtonCredit;
 
     double delayForTowerPlacement;
     int idTower {0};
@@ -78,20 +99,30 @@ private:
     Price price;
 
     std::vector<Enemy> listOfEnemy;
+    std::vector<std::vector<GLuint>> listOfEnnemyTexture;
+    int itAnimation {0};
+    double intervalForAnim {0};
+  void remove_enemy(int id);
 
     std::vector<Case> listOfNodes {Case{0, START, false, std::pair<double,double>{-1.,1.}}, 
-                            Case{10, PATH, false, std::pair<double,double>{0.,1.}},
-                            Case{390, PATH, false, std::pair<double,double>{0.,-1.+ (2./_numberOfTiles)}},
+                            Case{200, PATH, false, std::pair<double,double>{-1,0}},
+                            Case{210, PATH, false, std::pair<double,double>{0,0}},
+                            Case{110, PATH, false, std::pair<double,double>{0,0.5}},
+                            Case{115, PATH, false, std::pair<double,double>{0.5,0.5}},
+                            Case{315, PATH, false, std::pair<double,double>{0.5,-0.5}},
+                            Case{319, PATH, false, std::pair<double,double>{1. - (2./_numberOfTiles),-0.5}},
                             Case{399, END, false, std::pair<double,double>{1. - (2./_numberOfTiles), -1. + (2./_numberOfTiles)}}
                             };
 
     // std::vector<Case> listOfCase;
 
-    std::vector<img::Image> listOfCaseImg;    
+    std::vector<img::Image> listOfCaseImg;
 
-    std::vector<GLuint> listOfCaseTexture;  
+    std::vector<GLuint> listOfCaseTexture;
 
     // void remplir_listOfCase();
+
+    double delayForAllButton {};
 
     void removeDeadEnemies();
     Enemy* findEnemyFromList(int wantedId);

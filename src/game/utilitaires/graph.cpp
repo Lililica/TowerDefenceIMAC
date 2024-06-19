@@ -2,14 +2,7 @@
 
 #define INFINITY ((float)(1e+300 * 1e+300))
 
-#include <vector>
-#include <iostream>
-#include <unordered_map>
-#include <utility>
-#include <stack>
-#include <queue>
 
-#include <fstream>
 
 void Graph::WeightedGraph::add_vertex(int const id){
     auto it = adjacency_list.find(id);
@@ -123,3 +116,59 @@ std::vector<int> dijkstra_search(Graph::WeightedGraph & graph){
     return weightList;
 }
 
+std::vector<std::string> split_string(std::string const& str){
+
+    // Permet de savoir si un element est un espace
+    auto const is_space = [](char letter){ return letter == ' '; };
+
+    std::vector<std::string> tab {};
+    auto it_begin {str.begin()};
+    auto it_end {std::find_if(str.begin(),str.end(), is_space)};
+    while(it_begin != str.end()){
+        std::string mot {};
+        std::copy(it_begin, it_end, std::back_inserter(mot));
+        tab.push_back(mot);
+        if(it_end == str.end()){
+            break;
+        }
+        it_begin = it_end + 1;
+        it_end = std::find_if(it_begin,str.end(), is_space);
+    }
+    return tab;
+}
+
+//permet de découper le fichier .itd en ligne puis chaque ligne en mot
+std::vector<std::vector<std::string>> splitItd(std::string path){
+    std::vector<std::vector<std::string>> splitItdWord {};
+
+    std::ifstream fichierItd(path); //on ouvre le fichier
+
+    if(fichierItd.is_open()){  //si on peut acceder au fichier
+        std::string line; // pour stocker les lignes lues
+
+        // while(getline(fichierItd, line)){ // tant qu'on est pas a la fin du fichier 
+        //     std::vector<std::string> splitItdLine {split_string(line)};  
+        //     splitItdWord.push_back(splitItdLine);      
+        // }
+
+    }else{
+        std::cout << "Impossible d'ouvirer le fichier .itd" << std::endl;
+    }
+    fichierItd.close(); // ferme le fichier
+    return splitItdWord;
+    
+}
+
+// Graph::WeightedGraph from_itd_to_graph(std::string path){
+//     std::vector<std::vector<std::string>> wordByWord {splitItd("../../itd/test.itd")};
+
+//     Graph::WeightedGraph finalGraph;
+
+//     for(std::vector<std::string> line : wordByWord){
+//         for(int i{0}; i < line.size(); i++){
+//             if(line[i] == "node"){
+//                 finalGraph.add_vertex
+//             }
+//         }
+//     }
+// }

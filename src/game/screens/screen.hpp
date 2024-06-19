@@ -19,7 +19,7 @@
 #include "utils.hpp"
 #include "GLHelpers.hpp"
 
-enum screen_state { MAIN_MENU, LEVEL, PAUSE_MENU, LEVEL_SELECTOR };
+enum screen_state { MAIN_MENU, LEVEL, PAUSE_MENU, LEVEL_SELECTOR, LOSE, WIN, INFO };
 
 struct Case;
 
@@ -37,6 +37,6 @@ struct Screen{
 
     int currency {1000};
 
-    void create_list_of_case(std::vector<Case> listOfNodes);
+    void create_list_of_case(std::vector<Case> listOfNodes, std::vector<GLuint> listOfCaseTexture);
 };
 
