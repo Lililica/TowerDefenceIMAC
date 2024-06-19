@@ -9,6 +9,7 @@
 #include "game/entities/entity.hpp"
 #include "game/draws/draw.hpp"
 #include "img/img.hpp"
+#include "game/utilitaires/graph.hpp"
 #include <string>
 #include <map>
 
@@ -34,7 +35,7 @@ public:
     std::pair<double, double> squareScreen_px_to_squareScreen_abs(std::pair<double, double> pos);
     std::pair<double, double> squareScreen_abs_to_SquareScreen_tiles(std::pair<double, double> pos);
 
-    double transform_mouse_pos_tile_to_case_index(std::pair<double, double> pos);
+    size_t transform_mouse_pos_tile_to_case_index(std::pair<double, double> pos);
     bool isFreeToBuild();
 
     // GLFW callbacks binding
@@ -102,10 +103,16 @@ private:
 
     std::vector<GLuint> listOfCaseTexture;  
 
+    Graph::WeightedGraph levelGraph;
+
     // void remplir_listOfCase();
 
     double delayForAllButton {};
 
     void removeDeadEnemies();
     Enemy* findEnemyFromList(int wantedId);
+
+    std::vector<Case> Give_Me_Chemin(std::string path);
 };
+
+void display_vec_int(std::vector<int> v);

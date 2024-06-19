@@ -1,0 +1,24 @@
+ITD 
+# ligne de commentaire 
+map fichier.png 
+# Blanc 
+path 255 255 255 
+# Bleu 
+in 0 0 255 
+# Rouge 
+out 255 0 0 
+graph 8 
+node 0 1 6 1 
+node 1 2 6 2 
+node 2 2 3 3 
+node 3 16 3 4 
+node 4 16 8 5 
+node 5 15 8 6 
+node 6 15 11 7 
+node 7 6 11 8
+node 8 6 16 9 
+node 9 12 16 10 
+node 10 12 20 11 
+node 11 17 20 12 
+node 12 17 15 13 
+node 13 20 15 
