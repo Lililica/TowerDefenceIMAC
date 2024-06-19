@@ -9,10 +9,92 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include <stack>
 
 #include "simpletext.h"
 #include "utils.hpp"
 #include "GLHelpers.hpp"
+
+void display_vec_int(std::vector<int> v){
+    std::cout << "[";
+    for(int i{0}; i < v.size(); i++){
+        std::cout << v[i];
+        if(i != v.size()-1){
+            std::cout << ", ";
+        }
+    }
+    std::cout << "]" << std::endl;
+}
+
+std::vector<Case> App::Give_Me_Chemin(std::string path){
+    Graph::WeightedGraph graph = from_itd_to_graph(path);
+
+    // displayAdjencyList(graph);
+
+    std::vector<std::pair<int,int>> result_dijkstra {dijkstra_search(graph, 0)};
+
+    std::stack<int> listToParcour;
+    listToParcour.push(graph.adjacency_list.size()-1);
+
+
+    for(int i{0}; i < result_dijkstra.size()-1; ++i){
+        std::pair<int,int> finalWg = result_dijkstra[result_dijkstra.size()-i-1];
+        listToParcour.push(finalWg.first);
+    }
+
+    std::vector<std::vector<std::string>> wordByWord {splitItd(path)};
+    std::vector<std::pair<int,int>> listClean;
+
+    for(std::vector<std::string> line : wordByWord){
+        if(line[0] == "node"){
+            // finalGraph.add_vertex(std::stoi(line[1]));
+            listClean.push_back(std::pair<int,int>{std::stoi(line[2]) - 1,std::stoi(line[3])});
+        }
+    }
+
+
+    std::vector<std::pair<double,double>> listCleanTrue;
+
+    for(std::pair<int,int> & posTile : listClean){
+        // std::cout << (float(posTile.first) - _numberOfTiles/2.)*(2./_numberOfTiles) << " et " << -(float(posTile.second) - _numberOfTiles/2.)/(_numberOfTiles/2.) << std::endl;
+        listCleanTrue.push_back(std::pair<double,double>{((posTile.first) - _numberOfTiles/2.)*(2./_numberOfTiles),-((posTile.second) - _numberOfTiles/2.)/(_numberOfTiles/2.)});
+    }
+
+    // for(std::pair<float,float> & posTrueTile : listCleanTrue){
+    //     std::cout << posTrueTile.first*10 << " et " << posTrueTile.second*10 << std::endl;
+    //     posTrueTile.first = (posTrueTile.first<0)?(posTrueTile.first<0 - 0.);
+    //     posTrueTile.second = ;
+    // }
+   
+    
+
+    std::vector<Case> listOfNodes;
+
+    Case newCase;
+    newCase.pos = listCleanTrue[listToParcour.top()];
+    listToParcour.pop();
+    newCase.index = transform_mouse_pos_tile_to_case_index(newCase.pos);
+    newCase._type = typeCase::START;
+    listOfNodes.push_back(newCase);
+
+    for(int i{1}; i < result_dijkstra.size()-1; ++i){
+        Case newCase;
+        newCase.pos = listCleanTrue[listToParcour.top()];
+        listToParcour.pop();
+        newCase.index = transform_mouse_pos_tile_to_case_index(newCase.pos);
+        newCase._type = typeCase::PATH;
+        listOfNodes.push_back(newCase);
+    }
+
+    Case newCase2;
+    newCase2.pos = listCleanTrue[listToParcour.top()];
+    listToParcour.pop();
+    newCase2.index = transform_mouse_pos_tile_to_case_index(newCase2.pos);
+    newCase2._type = typeCase::END;
+    listOfNodes.push_back(newCase2);
+
+    return listOfNodes;
+}
 
 
 std::pair<double, double> App::screen_px_to_squareScreen_px(std::pair<double, double> pos){
@@ -38,8 +120,8 @@ std::pair<double, double> App::squareScreen_abs_to_SquareScreen_tiles(std::pair<
 }
 
 
-double App::transform_mouse_pos_tile_to_case_index(std::pair<double, double> pos){
-    double result;
+size_t App::transform_mouse_pos_tile_to_case_index(std::pair<double, double> pos){
+    size_t result;
 
     result = (pos.first*_numberOfTiles/2.) + _numberOfTiles/2. + _numberOfTiles*(((-pos.second)*_numberOfTiles/2.) + _numberOfTiles/2.);
 
@@ -124,6 +206,10 @@ void App::setup() {
 
     setup_drawing();
 
+
+
+    listOfNodes = Give_Me_Chemin("../../itd/map4.itd");
+
     // Setup the text renderer with blending enabled and white text color
     TextRenderer.ResetFont();
     TextRenderer.SetColor(SimpleText::TEXT_COLOR, SimpleText::Color::WHITE);
@@ -134,6 +220,7 @@ void App::setup() {
     tileSize = 2./float(_numberOfTiles);
 
     myScreen.create_list_of_case(listOfNodes,listOfCaseTexture);
+
 
 
 
@@ -179,6 +266,9 @@ void App::setup() {
     for(Enemy & currentEnnemy : listOfEnemy){
         currentEnnemy.init_enemy();
     }
+
+    
+
 
     
 }

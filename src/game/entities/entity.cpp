@@ -26,7 +26,7 @@ void Enemy::is_walking(){
             direction = Direction::TOP;
         }else if(case1.pos.second == case2.pos.second && case1.pos.first < case2.pos.first){
             direction = Direction::RIGHT;
-        }else if(case1.pos.second == case2.pos.second && case1.pos.first < case2.pos.first){
+        }else if(case1.pos.second == case2.pos.second && case1.pos.first > case2.pos.first){
             direction = Direction::LEFT;
         }
 
@@ -34,7 +34,7 @@ void Enemy::is_walking(){
         // std::cout << pos.second << "entre : [" << case2.pos.second << ", " << (case2.pos.second + 2./nbrTileSide) << std::endl;
     
         if(pos.first >= case2.pos.first && pos.first <= case2.pos.first + 2./nbrTileSide &&
-            pos.second >= case2.pos.second - 0.1/nbrTileSide && pos.second <= case2.pos.second){   //A MODIFIER
+            pos.second >= case2.pos.second - 2./nbrTileSide && pos.second <= case2.pos.second){   //A MODIFIER
             itTKT = itTKT+1;
             // std::cout << "J'y suis !" << std::endl;
         }else if(pos.first < 1.5 && pos.second < 1.5){
